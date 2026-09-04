@@ -1,0 +1,279 @@
+{
+  "schema_version": 1,
+  "diagram_type": "lifecycle",
+  "meta": {
+    "title": "Tool Call Retry Lifecycle",
+    "quality_profile": "showcase",
+    "viewBox": [
+      980,
+      660
+    ],
+    "views": [
+      {
+        "id": "main-path",
+        "label": "Main path",
+        "focus": [
+          "requested",
+          "validating",
+          "executing",
+          "checking",
+          "succeeded"
+        ],
+        "note": "Follow a tool call from request through validation and execution to success."
+      },
+      {
+        "id": "waits",
+        "label": "Waits",
+        "focus": [
+          "executing",
+          "awaiting_approval",
+          "checking",
+          "rate_limited"
+        ],
+        "note": "See the two pauses that hold a call without ending it."
+      },
+      {
+        "id": "recovery",
+        "label": "Recovery and exits",
+        "focus": [
+          "executing",
+          "failed",
+          "exhausted",
+          "denied"
+        ],
+        "note": "Separate retryable failure from the terminal exits."
+      }
+    ]
+  },
+  "lanes": [
+    {
+      "id": "main",
+      "label": "Call phases"
+    },
+    {
+      "id": "waiting",
+      "label": "Pauses"
+    },
+    {
+      "id": "exceptions",
+      "label": "Retry loop"
+    },
+    {
+      "id": "terminal",
+      "label": "Terminal exits"
+    }
+  ],
+  "states": [
+    {
+      "id": "requested",
+      "type": "start",
+      "label": "Requested",
+      "sublabel": "tool_use received",
+      "lane": "main",
+      "col": 0,
+      "step": "01",
+      "tag": "entry"
+    },
+    {
+      "id": "validating",
+      "type": "active",
+      "label": "Validating",
+      "sublabel": "schema + policy",
+      "lane": "main",
+      "col": 1,
+      "step": "02",
+      "tag": "check"
+    },
+    {
+      "id": "executing",
+      "type": "active",
+      "label": "Executing",
+      "sublabel": "run tool",
+      "lane": "main",
+      "col": 2,
+      "step": "03",
+      "tag": "work"
+    },
+    {
+      "id": "checking",
+      "type": "decision",
+      "label": "Checking",
+      "sublabel": "output valid?",
+      "lane": "main",
+      "col": 3,
+      "step": "04",
+      "tag": "check"
+    },
+    {
+      "id": "succeeded",
+      "type": "success",
+      "label": "Succeeded",
+      "sublabel": "tool_result sent",
+      "lane": "main",
+      "col": 4,
+      "step": "05",
+      "tag": "done"
+    },
+    {
+      "id": "awaiting_approval",
+      "type": "waiting",
+      "label": "Awaiting Approval",
+      "sublabel": "consent prompt",
+      "lane": "waiting",
+      "col": 0,
+      "tag": "pause"
+    },
+    {
+      "id": "rate_limited",
+      "type": "waiting",
+      "label": "Rate Limited",
+      "sublabel": "backoff timer",
+      "lane": "waiting",
+      "col": 1,
+      "tag": "wait"
+    },
+    {
+      "id": "failed",
+      "type": "failure",
+      "label": "Failed",
+      "sublabel": "transient error",
+      "lane": "exceptions",
+      "col": 0,
+      "yOffset": 78,
+      "tag": "retryable"
+    },
+    {
+      "id": "denied",
+      "type": "failure",
+      "label": "Denied",
+      "sublabel": "policy rejected",
+      "lane": "terminal",
+      "col": 0,
+      "tag": "terminal"
+    },
+    {
+      "id": "exhausted",
+      "type": "failure",
+      "label": "Exhausted",
+      "sublabel": "retry budget spent",
+      "lane": "terminal",
+      "col": 1,
+      "tag": "terminal"
+    }
+  ],
+  "transitions": [
+    {
+      "id": "needs-approval",
+      "from": "executing",
+      "to": "awaiting_approval",
+      "variant": "security",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "straight"
+    },
+    {
+      "id": "backoff",
+      "from": "checking",
+      "to": "rate_limited",
+      "variant": "default",
+      "route": "drop"
+    },
+    {
+      "id": "transient-failure",
+      "from": "executing",
+      "to": "failed",
+      "variant": "security",
+      "fromSide": "left",
+      "toSide": "left",
+      "via": [
+        [
+          320,
+          157
+        ],
+        [
+          320,
+          385
+        ]
+      ]
+    },
+    {
+      "id": "retry",
+      "from": "failed",
+      "to": "executing",
+      "variant": "emphasis",
+      "fromSide": "left",
+      "toSide": "top",
+      "via": [
+        [
+          20,
+          385
+        ],
+        [
+          20,
+          80
+        ],
+        [
+          402,
+          80
+        ]
+      ]
+    },
+    {
+      "id": "budget-spent",
+      "from": "rate_limited",
+      "to": "exhausted",
+      "variant": "security",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "straight"
+    },
+    {
+      "id": "approval-denied",
+      "from": "awaiting_approval",
+      "to": "denied",
+      "variant": "security",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "via": [
+        [
+          480,
+          336
+        ],
+        [
+          480,
+          432
+        ],
+        [
+          402,
+          432
+        ]
+      ]
+    }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Main path",
+      "items": [
+        "Validation runs before any side effect",
+        "Success means a tool_result was returned to the model"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "Pauses",
+      "items": [
+        "A consent prompt pauses execution without failing the call",
+        "Rate limiting waits on a backoff timer"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Exits",
+      "items": [
+        "Transient failures retry while budget remains",
+        "Denied and Exhausted are terminal and reported to the model"
+      ]
+    }
+  ]
+}

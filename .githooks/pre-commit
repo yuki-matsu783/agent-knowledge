@@ -1,0 +1,7 @@
+#!/bin/sh
+# lint を通し、INDEX.md を再生成してステージする。
+# 有効化: git config core.hooksPath .githooks
+set -e
+pnpm exec tsx scripts/lint-frontmatter.ts
+pnpm exec tsx scripts/build-index.ts --quiet
+git add INDEX.md

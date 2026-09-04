@@ -1,0 +1,266 @@
+{
+  "schema_version": 1,
+  "diagram_type": "sequence",
+  "meta": {
+    "title": "MCP Client and Server Handshake",
+    "quality_profile": "showcase",
+    "viewBox": [
+      820,
+      760
+    ],
+    "views": [
+      {
+        "id": "handshake",
+        "label": "Initialize and discover",
+        "focus": [
+          "host",
+          "client",
+          "server"
+        ],
+        "note": "Follow the initialize handshake and the tools/list discovery that seeds the model's tool schema."
+      },
+      {
+        "id": "tool-call",
+        "label": "Tool call",
+        "focus": [
+          "model",
+          "host",
+          "client",
+          "server",
+          "upstream"
+        ],
+        "note": "See a single tools/call travel from the model to the upstream service and back."
+      },
+      {
+        "id": "result-path",
+        "label": "Result to model",
+        "focus": [
+          "server",
+          "client",
+          "host",
+          "model"
+        ],
+        "note": "Separate the structured result from the model's next turn."
+      }
+    ]
+  },
+  "participants": [
+    {
+      "id": "model",
+      "type": "cloud",
+      "label": "Model",
+      "sublabel": "Claude"
+    },
+    {
+      "id": "host",
+      "type": "frontend",
+      "label": "Host",
+      "sublabel": "agent app"
+    },
+    {
+      "id": "client",
+      "type": "backend",
+      "label": "MCP Client",
+      "sublabel": "per server"
+    },
+    {
+      "id": "server",
+      "type": "backend",
+      "label": "MCP Server",
+      "sublabel": "stdio / http"
+    },
+    {
+      "id": "upstream",
+      "type": "external",
+      "label": "Upstream",
+      "sublabel": "API / DB"
+    }
+  ],
+  "segments": [
+    {
+      "from": 150,
+      "to": 340,
+      "label": "Handshake"
+    },
+    {
+      "from": 360,
+      "to": 560,
+      "label": "tools/call"
+    },
+    {
+      "from": 580,
+      "to": 676,
+      "label": "Result"
+    }
+  ],
+  "messages": [
+    {
+      "id": "initialize",
+      "from": "client",
+      "to": "server",
+      "y": 185,
+      "label": "initialize",
+      "variant": "emphasis"
+    },
+    {
+      "id": "capabilities",
+      "from": "server",
+      "to": "client",
+      "y": 225,
+      "label": "capabilities",
+      "variant": "return"
+    },
+    {
+      "id": "tools-list",
+      "from": "client",
+      "to": "server",
+      "y": 270,
+      "label": "tools/list",
+      "variant": "default"
+    },
+    {
+      "id": "tool-schemas",
+      "from": "server",
+      "to": "client",
+      "y": 310,
+      "label": "tool schemas",
+      "variant": "return"
+    },
+    {
+      "id": "register-tools",
+      "from": "client",
+      "to": "host",
+      "y": 335,
+      "label": "register tools",
+      "variant": "dashed"
+    },
+    {
+      "id": "tool-use",
+      "from": "model",
+      "to": "host",
+      "y": 395,
+      "label": "tool_use",
+      "variant": "emphasis"
+    },
+    {
+      "id": "dispatch",
+      "from": "host",
+      "to": "client",
+      "y": 435,
+      "label": "dispatch by name",
+      "variant": "default"
+    },
+    {
+      "id": "tools-call",
+      "from": "client",
+      "to": "server",
+      "y": 475,
+      "label": "tools/call",
+      "variant": "emphasis"
+    },
+    {
+      "id": "upstream-request",
+      "from": "server",
+      "to": "upstream",
+      "y": 515,
+      "label": "request",
+      "variant": "security"
+    },
+    {
+      "id": "upstream-response",
+      "from": "upstream",
+      "to": "server",
+      "y": 550,
+      "label": "response",
+      "variant": "return"
+    },
+    {
+      "id": "call-result",
+      "from": "server",
+      "to": "client",
+      "y": 598,
+      "label": "content + isError",
+      "variant": "return"
+    },
+    {
+      "id": "result-to-host",
+      "from": "client",
+      "to": "host",
+      "y": 632,
+      "label": "result",
+      "variant": "return"
+    },
+    {
+      "id": "tool-result",
+      "from": "host",
+      "to": "model",
+      "y": 668,
+      "label": "tool_result",
+      "variant": "return"
+    }
+  ],
+  "activations": [
+    {
+      "participant": "client",
+      "from": 180,
+      "to": 340,
+      "type": "backend"
+    },
+    {
+      "participant": "server",
+      "from": 180,
+      "to": 315,
+      "type": "backend"
+    },
+    {
+      "participant": "host",
+      "from": 390,
+      "to": 674,
+      "type": "frontend"
+    },
+    {
+      "participant": "client",
+      "from": 430,
+      "to": 640,
+      "type": "backend"
+    },
+    {
+      "participant": "server",
+      "from": 470,
+      "to": 606,
+      "type": "backend"
+    },
+    {
+      "participant": "upstream",
+      "from": 510,
+      "to": 556,
+      "type": "external"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Discovery",
+      "items": [
+        "initialize negotiates protocol version and capabilities",
+        "tools/list results become the model's tool definitions"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Boundary",
+      "items": [
+        "Only the MCP server talks to the upstream service",
+        "Credentials stay on the server side of the client"
+      ]
+    },
+    {
+      "dot": "orange",
+      "title": "Errors",
+      "items": [
+        "Tool failures return isError, not a transport error",
+        "Transport errors surface at the client, not the model"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,291 @@
+{
+  "schema_version": 1,
+  "diagram_type": "dataflow",
+  "meta": {
+    "title": "RAG Pipeline Data Flow",
+    "quality_profile": "showcase",
+    "viewBox": [
+      1080,
+      760
+    ],
+    "views": [
+      {
+        "id": "indexing",
+        "label": "Indexing path",
+        "focus": [
+          "docs",
+          "repo",
+          "chunker",
+          "embedder",
+          "vectors"
+        ],
+        "note": "Follow documents and code from source through chunking and embedding into the vector store."
+      },
+      {
+        "id": "query-path",
+        "label": "Query path",
+        "focus": [
+          "question",
+          "retriever",
+          "vectors",
+          "assembler",
+          "model",
+          "answer"
+        ],
+        "note": "See a question retrieve context, build a prompt, and produce an answer."
+      },
+      {
+        "id": "access-control",
+        "label": "Access filter",
+        "focus": [
+          "acl",
+          "retriever",
+          "vectors"
+        ],
+        "note": "Isolate the permission filter that keeps restricted chunks out of the prompt."
+      }
+    ]
+  },
+  "stages": [
+    {
+      "label": "Sources"
+    },
+    {
+      "label": "Prepare"
+    },
+    {
+      "label": "Index"
+    },
+    {
+      "label": "Retrieve"
+    },
+    {
+      "label": "Generate"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "docs",
+      "type": "external",
+      "label": "Documents",
+      "sublabel": "wiki / PDF",
+      "stage": 0,
+      "row": 0,
+      "tag": "raw"
+    },
+    {
+      "id": "repo",
+      "type": "external",
+      "label": "Repository",
+      "sublabel": "code + md",
+      "stage": 0,
+      "row": 2,
+      "tag": "raw"
+    },
+    {
+      "id": "question",
+      "type": "frontend",
+      "label": "Question",
+      "sublabel": "user query",
+      "stage": 0,
+      "row": 4,
+      "tag": "runtime"
+    },
+    {
+      "id": "chunker",
+      "type": "backend",
+      "label": "Chunker",
+      "sublabel": "split + clean",
+      "stage": 1,
+      "row": 1,
+      "tag": "batch"
+    },
+    {
+      "id": "embedder",
+      "type": "backend",
+      "label": "Embedder",
+      "sublabel": "embedding model",
+      "stage": 2,
+      "row": 0,
+      "tag": "vectors"
+    },
+    {
+      "id": "vectors",
+      "type": "database",
+      "label": "Vector Store",
+      "sublabel": "chunks + metadata",
+      "stage": 2,
+      "row": 2,
+      "tag": "index"
+    },
+    {
+      "id": "acl",
+      "type": "security",
+      "label": "Access Filter",
+      "sublabel": "per-user scope",
+      "stage": 3,
+      "row": 0,
+      "tag": "policy"
+    },
+    {
+      "id": "retriever",
+      "type": "backend",
+      "label": "Retriever",
+      "sublabel": "top-k + rerank",
+      "stage": 3,
+      "row": 3,
+      "tag": "runtime"
+    },
+    {
+      "id": "assembler",
+      "type": "backend",
+      "label": "Prompt Assembler",
+      "sublabel": "context window",
+      "stage": 4,
+      "row": 0,
+      "tag": "runtime"
+    },
+    {
+      "id": "model",
+      "type": "cloud",
+      "label": "Model",
+      "sublabel": "Claude",
+      "stage": 4,
+      "row": 2,
+      "tag": "generate"
+    },
+    {
+      "id": "answer",
+      "type": "frontend",
+      "label": "Answer",
+      "sublabel": "with citations",
+      "stage": 4,
+      "row": 4,
+      "tag": "output"
+    }
+  ],
+  "flows": [
+    {
+      "id": "docs-to-chunker",
+      "from": "docs",
+      "to": "chunker",
+      "label": "pages",
+      "classification": "raw text",
+      "variant": "emphasis"
+    },
+    {
+      "id": "repo-to-chunker",
+      "from": "repo",
+      "to": "chunker",
+      "label": "files",
+      "classification": "raw text",
+      "variant": "default"
+    },
+    {
+      "id": "chunker-to-embedder",
+      "from": "chunker",
+      "to": "embedder",
+      "label": "chunks",
+      "classification": "normalized",
+      "variant": "emphasis"
+    },
+    {
+      "id": "embedder-to-vectors",
+      "from": "embedder",
+      "to": "vectors",
+      "label": "vectors + metadata",
+      "classification": "indexed",
+      "variant": "emphasis",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "straight",
+      "labelDy": 24
+    },
+    {
+      "id": "question-to-retriever",
+      "from": "question",
+      "to": "retriever",
+      "label": "query",
+      "classification": "runtime",
+      "variant": "emphasis"
+    },
+    {
+      "id": "vectors-to-retriever",
+      "from": "vectors",
+      "to": "retriever",
+      "label": "similar chunks",
+      "classification": "candidates",
+      "variant": "default"
+    },
+    {
+      "id": "acl-to-retriever",
+      "from": "acl",
+      "to": "retriever",
+      "label": "allowed scope",
+      "classification": "policy",
+      "variant": "security",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "straight",
+      "labelDy": 24
+    },
+    {
+      "id": "retriever-to-assembler",
+      "from": "retriever",
+      "to": "assembler",
+      "label": "top-k context",
+      "classification": "filtered",
+      "variant": "emphasis"
+    },
+    {
+      "id": "assembler-to-model",
+      "from": "assembler",
+      "to": "model",
+      "label": "prompt",
+      "classification": "runtime",
+      "variant": "emphasis",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "straight",
+      "labelDy": 24
+    },
+    {
+      "id": "model-to-answer",
+      "from": "model",
+      "to": "answer",
+      "label": "completion",
+      "classification": "output",
+      "variant": "default",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "straight",
+      "labelDy": 24
+    }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Indexing",
+      "items": [
+        "Batch path runs offline from sources to the vector store",
+        "Chunk metadata carries source path and permissions"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Access control",
+      "items": [
+        "Retrieval is filtered by the caller's scope before ranking",
+        "Restricted chunks never reach the prompt assembler"
+      ]
+    },
+    {
+      "dot": "orange",
+      "title": "Generation",
+      "items": [
+        "Prompt assembler enforces the context window budget",
+        "Answers cite the chunk sources they used"
+      ]
+    }
+  ]
+}

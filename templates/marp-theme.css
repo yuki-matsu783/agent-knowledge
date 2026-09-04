@@ -1,0 +1,99 @@
+/* @theme agent-knowledge */
+/* PowerPoint 風の 16:9 テーマ。Marp の default テーマを継承する */
+@import 'default';
+
+:root {
+  --ak-navy: #0f3d5e;
+  --ak-teal: #2a9d8f;
+  --ak-ink: #1f2937;
+  --ak-muted: #6b7280;
+  --ak-bg: #ffffff;
+}
+
+section {
+  font-family: 'Segoe UI', 'Yu Gothic UI', 'Meiryo', 'Noto Sans JP', sans-serif;
+  font-size: 26px;
+  line-height: 1.5;
+  color: var(--ak-ink);
+  background: var(--ak-bg);
+  padding: 56px 64px;
+}
+
+section h1 {
+  color: var(--ak-navy);
+  font-size: 44px;
+  border-bottom: 4px solid var(--ak-teal);
+  padding-bottom: 8px;
+  margin-bottom: 24px;
+}
+
+section h2 {
+  color: var(--ak-navy);
+  font-size: 38px;
+  border-bottom: 3px solid var(--ak-teal);
+  padding-bottom: 6px;
+  margin-bottom: 20px;
+}
+
+section h3 {
+  color: var(--ak-teal);
+  font-size: 30px;
+}
+
+section.lead {
+  background: linear-gradient(135deg, var(--ak-navy) 0%, var(--ak-teal) 100%);
+  color: #ffffff;
+  justify-content: center;
+  text-align: left;
+}
+
+section.lead h1 {
+  color: #ffffff;
+  border: none;
+  font-size: 56px;
+}
+
+section.lead p {
+  color: #d9f0ec;
+  font-size: 28px;
+}
+
+section::after {
+  color: var(--ak-muted);
+  font-size: 18px;
+}
+
+section header,
+section footer {
+  color: var(--ak-muted);
+  font-size: 16px;
+}
+
+section code {
+  font-size: 0.85em;
+}
+
+section pre {
+  font-size: 0.75em;
+  background: #f3f4f6;
+  border-left: 6px solid var(--ak-teal);
+}
+
+section table {
+  font-size: 0.8em;
+}
+
+section th {
+  background: var(--ak-navy);
+  color: #ffffff;
+}
+
+section blockquote {
+  border-left: 6px solid var(--ak-teal);
+  color: #374151;
+  padding-left: 16px;
+}
+
+section strong {
+  color: var(--ak-navy);
+}

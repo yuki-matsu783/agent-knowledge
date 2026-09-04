@@ -1,0 +1,11 @@
+node_modules/
+# 生成物。SessionStart hook と npm run index で再生成する
+**/index.jsonl
+*.tmp.*
+
+# Python (uv)
+.venv/
+__pycache__/
+
+# archify テンプレートのプレビュー (pnpm diagrams で再生成、1 本 700KB)
+templates/archify/preview/

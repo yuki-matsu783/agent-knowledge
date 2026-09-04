@@ -1,0 +1,22 @@
+[project]
+name = "agent-knowledge-tools"
+version = "0.1.0"
+description = "Python 側の補助ツール (xlsx 生成など)。uv で管理する"
+requires-python = ">=3.12"
+dependencies = [
+  "openpyxl>=3.1",
+  "pandas>=2.2",
+]
+
+[dependency-groups]
+dev = ["ruff>=0.9"]
+
+[tool.uv]
+package = false
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]

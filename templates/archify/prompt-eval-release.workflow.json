@@ -1,0 +1,295 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Prompt Change Eval and Release",
+    "quality_profile": "showcase",
+    "views": [
+      {
+        "id": "happy-path",
+        "label": "Change to release",
+        "focus": [
+          "author",
+          "change",
+          "evals",
+          "judge",
+          "review",
+          "release"
+        ],
+        "note": "Follow a prompt or skill change through automated evals and human review to release."
+      },
+      {
+        "id": "failure-loop",
+        "label": "Failure loop",
+        "focus": [
+          "judge",
+          "regressed",
+          "revise"
+        ],
+        "note": "See where a regression stops the change and sends it back for revision."
+      },
+      {
+        "id": "evidence",
+        "label": "Evidence",
+        "focus": [
+          "dataset",
+          "evals",
+          "report"
+        ],
+        "note": "Isolate the eval dataset and the report that reviewers read."
+      }
+    ]
+  },
+  "lanes": [
+    {
+      "id": "author",
+      "label": "Author"
+    },
+    {
+      "id": "ci",
+      "label": "Eval Pipeline"
+    },
+    {
+      "id": "evidence",
+      "label": "Evidence"
+    },
+    {
+      "id": "gate",
+      "label": "Gate & Recovery",
+      "variant": "exception"
+    }
+  ],
+  "phases": [
+    {
+      "id": "propose",
+      "label": "Propose",
+      "fromCol": 0,
+      "toCol": 1
+    },
+    {
+      "id": "evaluate",
+      "label": "Evaluate",
+      "fromCol": 2,
+      "toCol": 3,
+      "variant": "emphasis"
+    },
+    {
+      "id": "ship",
+      "label": "Review + ship",
+      "fromCol": 4,
+      "toCol": 5,
+      "variant": "dashed"
+    }
+  ],
+  "groups": [
+    {
+      "id": "eval_loop",
+      "label": "Automated evals",
+      "lane": "ci",
+      "fromCol": 2,
+      "toCol": 3,
+      "variant": "emphasis"
+    },
+    {
+      "id": "stop_path",
+      "label": "Regression stop",
+      "lane": "gate",
+      "fromCol": 3,
+      "toCol": 5,
+      "variant": "security"
+    },
+    {
+      "id": "evidence_path",
+      "label": "Eval evidence",
+      "lane": "evidence",
+      "fromCol": 2,
+      "toCol": 4,
+      "variant": "dashed"
+    }
+  ],
+  "mainPath": [
+    "author",
+    "change",
+    "evals",
+    "judge",
+    "review",
+    "release"
+  ],
+  "nodes": [
+    {
+      "id": "author",
+      "lane": "author",
+      "col": 0,
+      "type": "external",
+      "label": "Author",
+      "sublabel": "edits prompt",
+      "width": 132
+    },
+    {
+      "id": "change",
+      "lane": "author",
+      "col": 1,
+      "type": "frontend",
+      "label": "Change",
+      "sublabel": "PR + rationale",
+      "width": 132
+    },
+    {
+      "id": "release",
+      "lane": "author",
+      "col": 5,
+      "type": "backend",
+      "label": "Release",
+      "sublabel": "tag + deploy",
+      "width": 132
+    },
+    {
+      "id": "evals",
+      "lane": "ci",
+      "col": 2,
+      "type": "backend",
+      "label": "Run Evals",
+      "sublabel": "cases x trials",
+      "tag": "deterministic",
+      "width": 132
+    },
+    {
+      "id": "judge",
+      "lane": "ci",
+      "col": 3,
+      "type": "backend",
+      "label": "Judge",
+      "sublabel": "score vs baseline",
+      "width": 132
+    },
+    {
+      "id": "review",
+      "lane": "gate",
+      "col": 5,
+      "type": "security",
+      "label": "Human Review",
+      "sublabel": "read report",
+      "tag": "required",
+      "width": 132
+    },
+    {
+      "id": "regressed",
+      "lane": "gate",
+      "col": 3,
+      "type": "security",
+      "label": "Regressed",
+      "sublabel": "below threshold",
+      "width": 132
+    },
+    {
+      "id": "revise",
+      "lane": "gate",
+      "col": 4,
+      "type": "messagebus",
+      "label": "Revise",
+      "sublabel": "back to author",
+      "width": 132
+    },
+    {
+      "id": "dataset",
+      "lane": "evidence",
+      "col": 2,
+      "type": "database",
+      "label": "Eval Dataset",
+      "sublabel": "golden cases",
+      "width": 132
+    },
+    {
+      "id": "report",
+      "lane": "evidence",
+      "col": 4,
+      "type": "database",
+      "label": "Eval Report",
+      "sublabel": "scores + diffs",
+      "width": 132
+    }
+  ],
+  "edges": [
+    {
+      "id": "author-change",
+      "from": "author",
+      "to": "change",
+      "variant": "default"
+    },
+    {
+      "id": "change-evals",
+      "from": "change",
+      "to": "evals",
+      "label": "trigger",
+      "variant": "emphasis"
+    },
+    {
+      "id": "evals-judge",
+      "from": "evals",
+      "to": "judge",
+      "variant": "default"
+    },
+    {
+      "id": "judge-review",
+      "from": "judge",
+      "to": "review",
+      "label": "passed",
+      "variant": "emphasis"
+    },
+    {
+      "id": "judge-regressed",
+      "from": "judge",
+      "to": "regressed",
+      "label": "failed",
+      "variant": "security",
+      "role": "error"
+    },
+    {
+      "id": "regressed-revise",
+      "from": "regressed",
+      "to": "revise",
+      "variant": "dashed",
+      "role": "branch"
+    },
+    {
+      "id": "review-release",
+      "from": "review",
+      "to": "release",
+      "label": "approved",
+      "variant": "emphasis"
+    },
+    {
+      "id": "dataset-evals",
+      "from": "dataset",
+      "to": "evals",
+      "label": "cases",
+      "variant": "dashed"
+    },
+    {
+      "id": "judge-report",
+      "from": "judge",
+      "to": "report",
+      "label": "write report",
+      "variant": "dashed",
+      "role": "async"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Pipeline",
+      "items": [
+        "Every prompt change runs the same golden cases",
+        "Judge compares against the last released baseline"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Gates",
+      "items": [
+        "Regression stops the change before human review",
+        "Human review reads the report, not raw transcripts"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,331 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Multi-Agent Orchestration",
+    "quality_profile": "showcase",
+    "views": [
+      {
+        "id": "delegation",
+        "label": "Delegation path",
+        "focus": [
+          "user",
+          "lead",
+          "queue",
+          "worker_a",
+          "worker_b"
+        ],
+        "note": "Follow how the lead agent splits work and hands it to workers through the task queue."
+      },
+      {
+        "id": "review-gate",
+        "label": "Review gate",
+        "focus": [
+          "worker_a",
+          "worker_b",
+          "reviewer",
+          "lead"
+        ],
+        "note": "See where worker output is checked before the lead accepts it."
+      },
+      {
+        "id": "shared-state",
+        "label": "Shared state",
+        "focus": [
+          "lead",
+          "worker_a",
+          "worker_b",
+          "memory",
+          "tools"
+        ],
+        "note": "Isolate the shared memory and tool access that all agents depend on."
+      }
+    ]
+  },
+  "components": [
+    {
+      "id": "user",
+      "type": "external",
+      "label": "User",
+      "sublabel": "goal",
+      "pos": [
+        40,
+        300
+      ],
+      "size": [
+        120,
+        60
+      ]
+    },
+    {
+      "id": "lead",
+      "type": "backend",
+      "label": "Lead Agent",
+      "sublabel": "plan + merge",
+      "pos": [
+        250,
+        300
+      ],
+      "size": [
+        130,
+        60
+      ],
+      "tag": "orchestrator"
+    },
+    {
+      "id": "queue",
+      "type": "messagebus",
+      "label": "Task Queue",
+      "sublabel": "subtasks",
+      "pos": [
+        460,
+        300
+      ],
+      "size": [
+        130,
+        60
+      ]
+    },
+    {
+      "id": "worker_a",
+      "type": "backend",
+      "label": "Worker A",
+      "sublabel": "research",
+      "pos": [
+        670,
+        150
+      ],
+      "size": [
+        130,
+        60
+      ],
+      "tag": "subagent"
+    },
+    {
+      "id": "worker_b",
+      "type": "backend",
+      "label": "Worker B",
+      "sublabel": "implement",
+      "pos": [
+        670,
+        440
+      ],
+      "size": [
+        130,
+        60
+      ],
+      "tag": "subagent"
+    },
+    {
+      "id": "reviewer",
+      "type": "security",
+      "label": "Reviewer",
+      "sublabel": "verify output",
+      "pos": [
+        880,
+        300
+      ],
+      "size": [
+        130,
+        60
+      ],
+      "tag": "quality gate"
+    },
+    {
+      "id": "memory",
+      "type": "database",
+      "label": "Shared Memory",
+      "sublabel": "notes + artifacts",
+      "pos": [
+        460,
+        480
+      ],
+      "size": [
+        130,
+        60
+      ]
+    },
+    {
+      "id": "tools",
+      "type": "cloud",
+      "label": "Tools",
+      "sublabel": "MCP / API",
+      "pos": [
+        1040,
+        480
+      ],
+      "size": [
+        130,
+        60
+      ]
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "Agent workspace",
+      "wraps": [
+        "lead",
+        "queue",
+        "worker_a",
+        "worker_b",
+        "reviewer",
+        "memory"
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "user-to-lead",
+      "from": "user",
+      "to": "lead",
+      "label": "goal",
+      "variant": "emphasis"
+    },
+    {
+      "id": "lead-to-queue",
+      "from": "lead",
+      "to": "queue",
+      "label": "subtasks",
+      "variant": "emphasis"
+    },
+    {
+      "id": "queue-to-worker-a",
+      "from": "queue",
+      "to": "worker_a",
+      "fromSide": "top",
+      "toSide": "left",
+      "via": [
+        [
+          525,
+          180
+        ]
+      ]
+    },
+    {
+      "id": "queue-to-worker-b",
+      "from": "queue",
+      "to": "worker_b",
+      "fromSide": "bottom",
+      "toSide": "left",
+      "via": [
+        [
+          525,
+          470
+        ]
+      ]
+    },
+    {
+      "id": "worker-a-to-reviewer",
+      "from": "worker_a",
+      "to": "reviewer",
+      "label": "result",
+      "fromSide": "right",
+      "toSide": "left",
+      "via": [
+        [
+          840,
+          180
+        ],
+        [
+          840,
+          330
+        ]
+      ]
+    },
+    {
+      "id": "worker-b-to-reviewer",
+      "from": "worker_b",
+      "to": "reviewer",
+      "label": "result",
+      "fromSide": "right",
+      "toSide": "bottom",
+      "via": [
+        [
+          945,
+          470
+        ]
+      ]
+    },
+    {
+      "id": "reviewer-to-lead",
+      "from": "reviewer",
+      "to": "lead",
+      "label": "accept / reject",
+      "variant": "security",
+      "fromSide": "top",
+      "toSide": "top",
+      "via": [
+        [
+          945,
+          80
+        ],
+        [
+          315,
+          80
+        ]
+      ]
+    },
+    {
+      "id": "lead-to-memory",
+      "from": "lead",
+      "to": "memory",
+      "label": "notes",
+      "variant": "dashed",
+      "fromSide": "bottom",
+      "toSide": "left",
+      "via": [
+        [
+          315,
+          510
+        ]
+      ]
+    },
+    {
+      "id": "worker-b-to-tools",
+      "from": "worker_b",
+      "to": "tools",
+      "label": "tool calls",
+      "variant": "dashed",
+      "fromSide": "bottom",
+      "toSide": "bottom",
+      "via": [
+        [
+          735,
+          600
+        ],
+        [
+          1105,
+          600
+        ]
+      ],
+      "labelSegment": 1
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Delegation",
+      "items": [
+        "Lead decomposes the goal into independent subtasks",
+        "Workers pull from the queue and run in parallel"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Quality",
+      "items": [
+        "Reviewer verifies each result before the lead merges it",
+        "Rejected work goes back through the lead, never directly to a worker"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "Shared state",
+      "items": [
+        "Shared memory holds notes and artifacts across agents",
+        "Tool access is scoped per worker role"
+      ]
+    }
+  ]
+}

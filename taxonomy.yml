@@ -1,0 +1,71 @@
+# type と tags の統制語彙。lint (scripts/lint-frontmatter.mjs) がこのファイルを参照する。
+# 語彙を増やすときはここに追加してからファイル側で使う。
+#
+# types.<name>:
+#   description : 用途
+#   dirs        : この type を置けるトップレベルディレクトリ ("." はリポジトリ直下)
+#   max_lines   : 本文行数の目安。超えると lint が分割を促す warning を出す
+#   lifecycle   : false なら status / verified_at / applies_to / sources の検査を行わない
+#   sources_required     : true なら status が verified のとき sources が 1 件以上必要
+#   derived_from_required: true なら derived_from (元 knowledge の ID) が必須
+
+types:
+  concept:
+    description: 概念や仕組みの解説。「それは何か・なぜそうなるか」に答える
+    dirs: [knowledge]
+    max_lines: 400
+    sources_required: true
+  how-to:
+    description: 目的を達成する手順。「どうやるか」に答える。1 ファイル 1 手順
+    dirs: [knowledge]
+    max_lines: 150
+    sources_required: true
+  reference:
+    description: 仕様・API・設定値の一覧。参照して使う
+    dirs: [knowledge]
+    max_lines: 400
+    sources_required: true
+  pattern:
+    description: 再利用できる設計・実装パターン。課題と解決と適用条件を 1 つずつ
+    dirs: [knowledge]
+    max_lines: 150
+    sources_required: true
+  pitfall:
+    description: 落とし穴。症状・原因・回避策を 1 件ずつ
+    dirs: [knowledge]
+    max_lines: 150
+    sources_required: true
+  adr:
+    description: このリポジトリの運用・設計の決定記録
+    dirs: [adr]
+    max_lines: 200
+  note:
+    description: 未整理のメモ。inbox にのみ置き、整理後に knowledge へ昇格させる
+    dirs: [inbox]
+    max_lines: 200
+  slide:
+    description: Marp 形式のスライド。knowledge から派生させる
+    dirs: [slides]
+    derived_from_required: true
+  index:
+    description: 自動生成される一覧。手で編集しない
+    dirs: ["."]
+    lifecycle: false
+
+# tags: 横断的な主題分類。kebab-case。ファイルには 2〜4 個つける。
+# keywords は自由記述なので、ここに無い語はそちらに書く。
+tags:
+  claude-code: Claude Code CLI の機能・設定・skills・hooks
+  agent-sdk: Claude Agent SDK でのエージェント構築
+  claude-api: Messages API・モデル・料金・SDK
+  mcp: MCP サーバーとクライアントの設計・実装
+  tool-use: ツール定義・ツール呼び出しループの設計
+  prompting: システムプロンプト・指示設計
+  context-management: コンテキスト長・要約・メモリ・キャッシュ
+  multi-agent: 複数エージェントの協調・オーケストレーション
+  evaluation: 評価・テスト・ベンチマーク
+  observability: ログ・トレース・監視
+  cost: トークン消費・コスト最適化
+  security: 権限・サンドボックス・プロンプトインジェクション対策
+  workflow: 開発フロー・運用手順
+  meta: このリポジトリ自身の運用・規約

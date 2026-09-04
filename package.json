@@ -1,0 +1,30 @@
+{
+  "name": "agent-knowledge",
+  "version": "0.1.0",
+  "private": true,
+  "description": "エージェント開発の知見を集約するリポジトリ",
+  "type": "module",
+  "scripts": {
+    "lint": "tsx scripts/lint-frontmatter.ts",
+    "index": "tsx scripts/build-index.ts",
+    "check": "tsx scripts/lint-frontmatter.ts && tsx scripts/build-index.ts",
+    "slides": "tsx scripts/build-slides.ts",
+    "audit": "tsx scripts/audit.ts",
+    "typecheck": "tsc --noEmit",
+    "search": "tsx scripts/search.ts",
+    "diagrams": "tsx scripts/build-diagrams.ts",
+    "xlsx": "uv run python scripts/xlsx/tables_to_xlsx.py",
+    "lint:py": "uv run ruff check scripts && uv run ruff format --check scripts"
+  },
+  "devDependencies": {
+    "@marp-team/marp-cli": "^4.1.2",
+    "@types/node": "^22.15.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.8.0",
+    "yaml": "^2.8.0"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "packageManager": "pnpm@10.8.1"
+}

@@ -1,0 +1,254 @@
+{
+  "schema_version": 1,
+  "diagram_type": "sequence",
+  "meta": {
+    "title": "Claude API Tool Call Loop",
+    "quality_profile": "showcase",
+    "viewBox": [
+      820,
+      760
+    ],
+    "views": [
+      {
+        "id": "first-turn",
+        "label": "First model turn",
+        "focus": [
+          "user",
+          "app",
+          "api"
+        ],
+        "note": "Follow the user message to the first model response that stops with tool_use."
+      },
+      {
+        "id": "tool-execution",
+        "label": "Tool execution",
+        "focus": [
+          "app",
+          "gate",
+          "tool"
+        ],
+        "note": "See the app check permission and run the requested tool locally."
+      },
+      {
+        "id": "second-turn",
+        "label": "Second model turn",
+        "focus": [
+          "app",
+          "api",
+          "trace",
+          "user"
+        ],
+        "note": "Separate the tool_result round trip from the final answer and the async trace."
+      }
+    ]
+  },
+  "participants": [
+    {
+      "id": "user",
+      "type": "external",
+      "label": "User",
+      "sublabel": "chat"
+    },
+    {
+      "id": "app",
+      "type": "backend",
+      "label": "App",
+      "sublabel": "agent loop"
+    },
+    {
+      "id": "api",
+      "type": "cloud",
+      "label": "Claude API",
+      "sublabel": "messages"
+    },
+    {
+      "id": "gate",
+      "type": "security",
+      "label": "Permission",
+      "sublabel": "policy check"
+    },
+    {
+      "id": "tool",
+      "type": "backend",
+      "label": "Tool",
+      "sublabel": "local exec"
+    },
+    {
+      "id": "trace",
+      "type": "messagebus",
+      "label": "Trace",
+      "sublabel": "async event"
+    }
+  ],
+  "segments": [
+    {
+      "from": 150,
+      "to": 300,
+      "label": "Turn 1"
+    },
+    {
+      "from": 320,
+      "to": 500,
+      "label": "Tool call"
+    },
+    {
+      "from": 520,
+      "to": 676,
+      "label": "Turn 2 + trace"
+    }
+  ],
+  "messages": [
+    {
+      "id": "user-prompt",
+      "from": "user",
+      "to": "app",
+      "y": 185,
+      "label": "prompt",
+      "variant": "default"
+    },
+    {
+      "id": "messages-create",
+      "from": "app",
+      "to": "api",
+      "y": 230,
+      "label": "POST /v1/messages",
+      "variant": "emphasis"
+    },
+    {
+      "id": "stop-tool-use",
+      "from": "api",
+      "to": "app",
+      "y": 280,
+      "label": "stop_reason tool_use",
+      "variant": "return"
+    },
+    {
+      "id": "check-permission",
+      "from": "app",
+      "to": "gate",
+      "y": 350,
+      "label": "check tool + input",
+      "variant": "security"
+    },
+    {
+      "id": "permission-ok",
+      "from": "gate",
+      "to": "app",
+      "y": 390,
+      "label": "allow",
+      "variant": "return"
+    },
+    {
+      "id": "run-tool",
+      "from": "app",
+      "to": "tool",
+      "y": 440,
+      "label": "execute",
+      "variant": "emphasis"
+    },
+    {
+      "id": "tool-output",
+      "from": "tool",
+      "to": "app",
+      "y": 485,
+      "label": "output",
+      "variant": "return"
+    },
+    {
+      "id": "tool-result",
+      "from": "app",
+      "to": "api",
+      "y": 550,
+      "label": "tool_result + history",
+      "variant": "emphasis"
+    },
+    {
+      "id": "emit-trace",
+      "from": "app",
+      "to": "trace",
+      "y": 595,
+      "label": "emit usage",
+      "variant": "dashed"
+    },
+    {
+      "id": "final-text",
+      "from": "api",
+      "to": "app",
+      "y": 632,
+      "label": "stop_reason end_turn",
+      "variant": "return"
+    },
+    {
+      "id": "answer",
+      "from": "app",
+      "to": "user",
+      "y": 668,
+      "label": "answer",
+      "variant": "return"
+    }
+  ],
+  "activations": [
+    {
+      "participant": "app",
+      "from": 220,
+      "to": 674,
+      "type": "backend"
+    },
+    {
+      "participant": "api",
+      "from": 225,
+      "to": 288,
+      "type": "cloud"
+    },
+    {
+      "participant": "gate",
+      "from": 345,
+      "to": 396,
+      "type": "security"
+    },
+    {
+      "participant": "tool",
+      "from": 435,
+      "to": 492,
+      "type": "backend"
+    },
+    {
+      "participant": "api",
+      "from": 545,
+      "to": 640,
+      "type": "cloud"
+    },
+    {
+      "participant": "trace",
+      "from": 590,
+      "to": 630,
+      "type": "messagebus"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Loop shape",
+      "items": [
+        "The model never executes tools; the app does",
+        "Each tool_use is answered with a tool_result in the next request"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Policy",
+      "items": [
+        "Permission check happens between tool_use and execution",
+        "A denied call is returned to the model as an error tool_result"
+      ]
+    },
+    {
+      "dot": "orange",
+      "title": "Observability",
+      "items": [
+        "Usage and latency are emitted asynchronously",
+        "The trace never blocks the final answer"
+      ]
+    }
+  ]
+}

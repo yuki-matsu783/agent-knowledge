@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Single Agent Tool Loop",
+    "quality_profile": "showcase",
+    "views": [
+      { "id": "main-loop", "label": "Model and tool loop", "focus": ["user", "host", "runtime", "model", "tools"], "note": "Follow the request from the user through the model loop to tool execution." },
+      { "id": "guardrails", "label": "Permission gate", "focus": ["runtime", "gate", "tools"], "note": "See where risky tool calls are allowed, asked, or denied before they run." },
+      { "id": "state-and-trace", "label": "Context and trace", "focus": ["runtime", "context", "trace"], "note": "Isolate the durable memory and observability paths behind the loop." }
+    ]
+  },
+  "components": [
+    { "id": "user", "type": "external", "label": "User", "sublabel": "prompt + files", "pos": [40, 300], "size": [120, 60] },
+    { "id": "host", "type": "frontend", "label": "Host App", "sublabel": "CLI / chat UI", "pos": [250, 300], "size": [130, 60] },
+    { "id": "runtime", "type": "backend", "label": "Agent Runtime", "sublabel": "plan + act loop", "pos": [460, 300], "size": [130, 60], "tag": "tool loop" },
+    { "id": "model", "type": "cloud", "label": "Claude API", "sublabel": "Messages API", "pos": [460, 110], "size": [130, 60], "tag": "tool_use" },
+    { "id": "gate", "type": "security", "label": "Permission Gate", "sublabel": "allow / ask / deny", "pos": [670, 110], "size": [130, 64], "tag": "policy" },
+    { "id": "tools", "type": "backend", "label": "Tool Executor", "sublabel": "shell / file / http", "pos": [670, 300], "size": [130, 60] },
+    { "id": "mcp", "type": "external", "label": "MCP Server", "sublabel": "stdio / http", "pos": [880, 300], "size": [130, 60] },
+    { "id": "context", "type": "database", "label": "Context Store", "sublabel": "repo + memory", "pos": [460, 440], "size": [130, 60] },
+    { "id": "trace", "type": "database", "label": "Trace Log", "sublabel": "events + tokens", "pos": [670, 440], "size": [130, 60] }
+  ],
+  "boundaries": [
+    { "kind": "region", "label": "Local sandbox", "wraps": ["runtime", "gate", "tools", "context", "trace"] }
+  ],
+  "connections": [
+    { "id": "user-to-host", "from": "user", "to": "host", "label": "prompt", "variant": "emphasis" },
+    { "id": "host-to-runtime", "from": "host", "to": "runtime", "variant": "emphasis" },
+    { "id": "runtime-to-model", "from": "runtime", "to": "model", "label": "messages", "variant": "emphasis", "fromSide": "top", "toSide": "bottom", "labelDy": -68 },
+    { "id": "model-to-gate", "from": "model", "to": "gate", "label": "tool_use", "variant": "security" },
+    { "id": "gate-to-tools", "from": "gate", "to": "tools", "label": "allowed", "variant": "security", "fromSide": "bottom", "toSide": "top", "labelDy": 58 },
+    { "id": "tools-to-mcp", "from": "tools", "to": "mcp", "label": "tools/call" },
+    { "id": "runtime-to-tools", "from": "runtime", "to": "tools", "label": "tool_result", "variant": "dashed" },
+    { "id": "runtime-to-context", "from": "runtime", "to": "context", "label": "read / write", "variant": "dashed", "fromSide": "bottom", "toSide": "top", "labelDy": 58 },
+    { "id": "tools-to-trace", "from": "tools", "to": "trace", "label": "record", "variant": "dashed", "fromSide": "bottom", "toSide": "top", "labelDy": 58 }
+  ],
+  "cards": [
+    { "dot": "cyan", "title": "Loop", "items": ["Runtime sends messages, model returns text or tool_use", "Tool results are appended and the loop continues"] },
+    { "dot": "rose", "title": "Guardrail", "items": ["Every tool_use passes the permission gate first", "Denied calls return an error to the model, not to the tool"] },
+    { "dot": "emerald", "title": "State", "items": ["Context store holds repo, memory, and prior turns", "Trace log keeps events and token usage per turn"] }
+  ]
+}
