@@ -1,7 +1,15 @@
 #!/bin/sh
-# lint を通し、INDEX.md を再生成してステージする。
+# pre-commit: lint を通し、INDEX.md を再生成してステージする。
 # 有効化: git config core.hooksPath .githooks
-set -e
-pnpm exec tsx scripts/lint-frontmatter.ts
-pnpm exec tsx scripts/build-index.ts --quiet
+#
+# - Claude Code が git を使ったときだけ動く (CLAUDECODE=1 が Claude Code の子プロセスに入る)。
+#   VS Code や手動の git commit では何もしない。GUI クライアントは PATH に pnpm/node が無いことがあり、
+#   hook の stderr がそのままエラー表示になるため。
+# - pnpm exec や uv run を挟まず node を直接呼ぶ (Windows では wrapper だけで 3 秒かかる)。
+# - 成功時は何も出力しない。失敗時だけ出力して非ゼロ終了する。
+[ "${CLAUDECODE:-}" = "1" ] || exit 0
+command -v node >/dev/null 2>&1 || { echo "pre-commit: node が PATH に無いためスキップ" >&2; exit 0; }
+out=$(node --import tsx scripts/lint-frontmatter.ts 2>&1) || { printf '%s\n' "$out" >&2; exit 1; }
+out=$(node --import tsx scripts/build-index.ts --quiet 2>&1) || { printf '%s\n' "$out" >&2; exit 1; }
 git add INDEX.md
+exit 0

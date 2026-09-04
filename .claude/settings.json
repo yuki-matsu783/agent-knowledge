@@ -5,7 +5,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "pnpm exec tsx scripts/build-index.ts --quiet 2>/dev/null || true",
+            "command": "node --import tsx scripts/build-index.ts --quiet 2>/dev/null || true",
             "timeout": 60,
             "statusMessage": "index.jsonl を再生成中"
           }

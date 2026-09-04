@@ -42,6 +42,7 @@ ID = リポジトリルートからの相対パスから `.md` を除いたも�
 |---|---|---|
 | `INDEX.md` | `pnpm index` | コミットする |
 | `<dir>/index.jsonl` | `pnpm index` (SessionStart hook でも再生成) | gitignore |
+| `INDEX.md` の自動ステージ | `.githooks/pre-commit` (Claude Code からの commit のときだけ。手動 commit では `pnpm index` を先に実行する) | コミットする |
 | `slides/*.html` | `pnpm slides` | コミットする (成果物として共有するため) |
 | `knowledge/diagrams/*.html` | `pnpm diagrams` | コミットする (knowledge からリンクされる成果物) |
 | `templates/archify/preview/*.html` | `pnpm diagrams` | gitignore (1 本 700KB。テンプレートの確認用) |

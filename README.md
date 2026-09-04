@@ -22,7 +22,7 @@ INDEX.md       自動生成の一覧
 ```sh
 pnpm install                          # Node 側 (lint / index / slides / archify)
 uv sync                               # Python 側 (xlsx 生成)。Python 本体は uv が用意する
-git config core.hooksPath .githooks   # pre-commit で lint と INDEX.md 生成
+git config core.hooksPath .githooks   # pre-commit で lint と INDEX.md 生成 (Claude Code からの commit のときだけ動く)
 ```
 
 ## コマンド

@@ -64,7 +64,8 @@ sources:
 | marp-cli の `--pptx` | 各スライドが画像になり編集不可。編集可能な PPTX は marpx (外部ツール) で別途検討 |
 | archify をグローバルインストール | 環境依存になり、リポジトリだけで再現できない。`pnpm dlx skills add ... --copy` でローカルに複製する |
 | 構成図もすべて mermaid | ノード数が増えると読めず、正しさを検証できない。archify は検証ゲートを通った図だけを出力する |
-| スクリプトを Python に統一 | hook・Marp・archify が Node なので Node は避けられない。Python を既定にすると常に 2 ランタイム必須になる。frontmatter は YAML 1.2 (Node の yaml) で読む方が日付や on/off が化けない |
+| スクリプトを Python に統一 | Marp・archify が Node なので Node は避けられない。Python を既定にすると常に 2 ランタイム必須になる。frontmatter は YAML 1.2 (Node の yaml) で読む方が日付や on/off が化けない。速度は判断材料にしない (実測で wrapper の起動コストが支配的) |
+| git hook を常に動かす | VS Code や手動 commit では PATH に pnpm/node が無いことがあり、hook の stderr がそのままエラー表示になる。Claude Code が git を使ったとき (CLAUDECODE=1) だけ動かす |
 | スクリプトを TypeScript に統一 | xlsx / docx / pptx の生成ライブラリと Anthropic の document skills は Python 前提。無理に Node で書くと品質が落ちる |
 | Excel 出力を Node (exceljs / SheetJS) で書く | 動くが、document skills の書式要件と乖離する。Python を入れる前提が決まったので openpyxl に寄せた |
 
