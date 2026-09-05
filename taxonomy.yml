@@ -36,10 +36,6 @@ types:
     dirs: [knowledge]
     max_lines: 150
     sources_required: true
-  adr:
-    description: このリポジトリの運用・設計の決定記録
-    dirs: [adr]
-    max_lines: 200
   note:
     description: 検証していないメモ・設計案。確かめられたら concept / pattern などに type を変える
     dirs: [knowledge]
