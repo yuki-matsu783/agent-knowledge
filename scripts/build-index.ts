@@ -88,10 +88,10 @@ const md: string[] = [
 const scopeOrder = (d: string) => (SCOPE_DIRS as readonly string[]).indexOf(d.split('/')[0]);
 const dirs = [...byDir.keys()].sort((a, b) => scopeOrder(a) - scopeOrder(b) || a.localeCompare(b));
 for (const dir of dirs) {
-  md.push(`## ${dir}`, '', '| ID | title | type | status | tags | verified_at |', '|---|---|---|---|---|---|');
+  md.push(`## ${dir}`, '', '| ID | title | type | nature | status | tags | verified_at |', '|---|---|---|---|---|---|---|');
   for (const e of byDir.get(dir) ?? []) {
     const f = fm(e);
-    md.push(`| ${link(e)} | ${cell(f.title)} | ${cell(f.type)} | ${cell(f.status)} | ${cell(tagsOf(e).join(', '))} | ${cell(f.verified_at)} |`);
+    md.push(`| ${link(e)} | ${cell(f.title)} | ${cell(f.type)} | ${cell(f.nature)} | ${cell(f.status)} | ${cell(tagsOf(e).join(', '))} | ${cell(f.verified_at)} |`);
   }
   md.push('');
 }

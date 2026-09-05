@@ -4,7 +4,7 @@
 //   matched は --limit で打ち切る前の件数。該当 0 件でも終了コードは 0。
 // 使い方: pnpm run search [オプション] (run を省くと pnpm 組み込みの npm 検索になる)
 //   --type <値> --tag <値> --keyword <値> --path <部分文字列> --text <部分文字列>
-//   --status <値> --since <YYYY-MM-DD> --until <YYYY-MM-DD> (mtime で絞る)
+//   --nature <値> --intervention <値> --status <値> --since <YYYY-MM-DD> --until <YYYY-MM-DD> (mtime で絞る)
 //   --sort path|mtime|type|title  --reverse  --limit <N>
 //   --format table|path|json|jsonl|detail|count  --dir <リポジトリルート基準の相対パス>
 //   --no-refresh (index.jsonl を再生成しない)  --quiet (件数サマリを出さない)
@@ -28,7 +28,8 @@ type SortKey = (typeof SORT_KEYS)[number];
 type Format = (typeof FORMATS)[number];
 
 interface Options {
-  types: string[]; tags: string[]; keywords: string[]; statuses: string[]; paths: string[]; texts: string[];
+  types: string[]; tags: string[]; keywords: string[]; statuses: string[]; natures: string[]; interventions: string[];
+  paths: string[]; texts: string[];
   since: string; until: string; sort: SortKey; reverse: boolean; limit: number; format: Format; dir: string;
   refresh: boolean; quiet: boolean;
 }
@@ -36,6 +37,7 @@ interface Options {
 function usage(): never {
   console.error(`usage: pnpm run search [options]
   --type <v> --tag <v> --keyword <v> --status <v>   完全一致 (大文字小文字を無視)。同じ option の繰り返しは OR
+  --nature <v> --intervention <v>                  同上 (taxonomy.yml の nature / intervention)
   --path <s> --text <s>                            部分一致
   --since <date> --until <date>                    mtime で絞る
   --sort ${SORT_KEYS.join('|')}  --reverse  --limit <N>
@@ -46,7 +48,7 @@ function usage(): never {
 
 function parseArgs(argv: string[]): Options {
   const o: Options = {
-    types: [], tags: [], keywords: [], statuses: [], paths: [], texts: [],
+    types: [], tags: [], keywords: [], statuses: [], natures: [], interventions: [], paths: [], texts: [],
     since: '', until: '', sort: 'path', reverse: false, limit: 0, format: 'table', dir: '.',
     refresh: true, quiet: false,
   };
@@ -64,6 +66,8 @@ function parseArgs(argv: string[]): Options {
       case '--tag': o.tags.push(takeValue()); break;
       case '--keyword': o.keywords.push(takeValue()); break;
       case '--status': o.statuses.push(takeValue()); break;
+      case '--nature': o.natures.push(takeValue()); break;
+      case '--intervention': o.interventions.push(takeValue()); break;
       case '--path': o.paths.push(takeValue()); break;
       case '--text': o.texts.push(takeValue()); break;
       case '--since': o.since = takeValue(); break;
@@ -167,6 +171,8 @@ for (const f of indexFiles) {
 const matched = all.filter((e) =>
   matchExact(o.types, [str(fm(e).type)])
   && matchExact(o.statuses, [str(fm(e).status)])
+  && matchExact(o.natures, [str(fm(e).nature)])
+  && matchExact(o.interventions, [str(fm(e).intervention)])
   && matchExact(o.tags, arr(e, 'tags'))
   && matchExact(o.keywords, arr(e, 'keywords'))
   && matchSub(o.paths, e.concept_id)

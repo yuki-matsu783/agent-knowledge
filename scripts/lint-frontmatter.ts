@@ -18,6 +18,9 @@ interface TypeDef {
 }
 interface Taxonomy {
   types: Record<string, TypeDef>;
+  subjects: Record<string, string>;
+  nature: Record<string, string>;
+  intervention: Record<string, string>;
   tags: Record<string, string>;
 }
 
@@ -57,6 +60,13 @@ for (const rel of files) {
   if (!tdef) { err(rel, `type '${type}' は taxonomy.yml に無い`); continue; }
   const topDir = rel.includes('/') ? rel.split('/')[0] : '.';
   if (!tdef.dirs.includes(topDir)) err(rel, `type '${type}' を置けるのは ${tdef.dirs.join(', ')} のみ`);
+  // knowledge は主題ディレクトリ直下に置く (knowledge/<subject>/<slug>.md)。subject の語彙は taxonomy.yml
+  if (topDir === 'knowledge') {
+    const parts = rel.split('/');
+    if (parts.length !== 3 || !(parts[1] in taxonomy.subjects)) {
+      err(rel, `knowledge の markdown は主題ディレクトリ直下に置く (knowledge/<subject>/<slug>.md。subject は ${Object.keys(taxonomy.subjects).join(' | ')})`);
+    }
+  }
   const lines = body.trim().split('\n').length;
   if (tdef.max_lines && lines > tdef.max_lines) warn(rel, `本文 ${lines} 行。type '${type}' の目安 ${tdef.max_lines} 行を超えている。分割を検討する`);
 
@@ -85,6 +95,20 @@ for (const rel of files) {
   if (tdef.lifecycle !== false) {
     const status = str(data.status);
     if (!STATUSES.includes(status)) err(rel, `status は ${STATUSES.join(' | ')} のいずれか`);
+    // nature (知見の性質) は knowledge で必須。intervention (対策の層) と stale_after (確かめ直す日) は任意
+    if (topDir === 'knowledge') {
+      const nature = str(data.nature);
+      if (!nature) err(rel, `nature を書く (${Object.keys(taxonomy.nature).join(' | ')})`);
+      else if (!(nature in taxonomy.nature)) err(rel, `nature '${nature}' は taxonomy.yml に無い (${Object.keys(taxonomy.nature).join(' | ')})`);
+    }
+    if (data.intervention !== undefined && !(str(data.intervention) in taxonomy.intervention)) {
+      err(rel, `intervention '${str(data.intervention)}' は taxonomy.yml に無い (${Object.keys(taxonomy.intervention).join(' | ')})`);
+    }
+    if (data.stale_after !== undefined) {
+      const s = str(data.stale_after);
+      if (!DATE_RE.test(s)) err(rel, 'stale_after は YYYY-MM-DD 形式');
+      else if (s <= today && status === 'stable') warn(rel, `stale_after ${s} を過ぎている。確かめ直して verified_at と stale_after を更新するか deprecated にする`);
+    }
     if (data.verified_at !== undefined) {
       const v = str(data.verified_at);
       if (!DATE_RE.test(v)) err(rel, 'verified_at は YYYY-MM-DD 形式');
