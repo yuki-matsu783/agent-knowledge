@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "diagram_type": "lifecycle",
+  "meta": {
+    "title": "ガード hook の 1 回の判定",
+    "quality_profile": "showcase",
+    "viewBox": [980,660],
+    "views": [
+      { "id": "main-path", "label": "判定の段階", "focus": ["received", "normalize", "decide", "enforce", "pass"], "note": "入力を正規化し、ローカルの材料だけでルールに照らし、モードで出口を決める。通した回も記録する。" },
+      { "id": "waits", "label": "待つ", "focus": ["decide", "external", "enforce", "ask"], "note": "ask は人の承認待ちで、ヘッドレスでは deny に化ける。外部通信や LLM 呼び出しを判定に挟むと timeout で素通りになるので置かない。" },
+      { "id": "exits", "label": "出口", "focus": ["enforce", "denied", "fallthrough", "broken"], "note": "HIT は exit 2 で止め、理由と代替を返す。timeout は出力ごと捨てられて fail-open。設定が読めないときは既定値で判定を続け、復旧経路を残す。" }
+    ]
+  },
+  "lanes": [
+    { "id": "main", "label": "判定の段階" },
+    { "id": "waiting", "label": "待つ" },
+    { "id": "exceptions", "label": "判定できない" },
+    { "id": "terminal", "label": "止まる出口" }
+  ],
+  "states": [
+    { "id": "received", "type": "start", "label": "入力を受ける", "sublabel": "stdin の JSON", "lane": "main", "col": 0, "step": "01", "tag": "PreToolUse" },
+    { "id": "normalize", "type": "active", "label": "正規化", "sublabel": "パス区切り、コマンド位置", "lane": "main", "col": 1, "step": "02" },
+    { "id": "decide", "type": "decision", "label": "ルール照合", "sublabel": "HIT? ローカルの材料だけ", "lane": "main", "col": 2, "step": "03", "tag": "スクリプト 1 箇所" },
+    { "id": "enforce", "type": "active", "label": "出口を選ぶ", "sublabel": "enforce / dryrun / off", "lane": "main", "col": 3, "step": "04", "tag": "GUARD_MODE" },
+    { "id": "pass", "type": "success", "label": "通す", "sublabel": "exit 0、pass も記録", "lane": "main", "col": 4, "step": "05", "tag": "done" },
+    { "id": "external", "type": "waiting", "label": "外部待ち", "sublabel": "外部通信・LLM (置かない)", "lane": "waiting", "col": 0, "width": 120},
+    { "id": "ask", "type": "waiting", "label": "承認待ち", "sublabel": "ask、無人なら deny", "lane": "waiting", "col": 1, "width": 120},
+    { "id": "broken", "type": "failure", "label": "設定が読めない", "sublabel": "既定値で判定を続ける", "lane": "exceptions", "col": 0, "yOffset": 78, "tag": "記録する" },
+    { "id": "fallthrough", "type": "failure", "label": "素通り", "sublabel": "timeout で出力ごと捨てられる", "lane": "terminal", "col": 0, "tag": "fail-open" },
+    { "id": "denied", "type": "failure", "label": "deny", "sublabel": "exit 2 + 理由と代替", "lane": "terminal", "col": 1, "tag": "fail-closed" }
+  ],
+  "transitions": [
+    { "id": "needs-external", "from": "decide", "to": "external", "variant": "security", "fromSide": "bottom", "toSide": "top", "route": "straight" },
+    { "id": "needs-ask", "from": "enforce", "to": "ask", "variant": "default", "route": "drop", "label": "ask" },
+    { "id": "config-broken", "from": "decide", "to": "broken", "variant": "security", "fromSide": "left", "toSide": "left", "via": [[320, 157], [320, 385]] },
+    { "id": "fallback-default", "from": "broken", "to": "decide", "variant": "emphasis", "fromSide": "left", "toSide": "top", "via": [[20, 385], [20, 80], [402, 80]], "label": "既定値で続行", "labelSegment": 2},
+    { "id": "ask-denied", "from": "ask", "to": "denied", "variant": "security", "fromSide": "bottom", "toSide": "top", "route": "straight" },
+    { "id": "timeout", "from": "external", "to": "fallthrough", "variant": "security", "fromSide": "bottom", "toSide": "top", "via": [[480, 336], [480, 432], [402, 432]] },
+    { "id": "hit-denied", "from": "enforce", "to": "denied", "variant": "security", "fromSide": "right", "toSide": "right", "via": [[633, 157], [633, 479]] }
+  ],
+  "cards": [
+    { "dot": "rose", "title": "止める側の既定", "items": ["判定に必要なものが揃わなければ exit 2。読めない入力も「安全」ではない", "deny の理由文には代わりに何を叩くかを書く。理由が無いと言い換えて再試行される"] },
+    { "dot": "cyan", "title": "判定が出ない 3 つの原因", "items": ["timeout: 出力ごと捨てられ、ラッパの || も trap も走らない。自前のタイムアウトを短く置く", "起動失敗 (相対パス登録で 127) は fail-closed ラッパが全 deny を出しロックアウト。設定破損は既定値で続ける"] },
+    { "dot": "emerald", "title": "運用", "items": ["enforce が既定。dryrun は HIT でも exit 0 で additionalContext に助言、off は判定しない。切り替えは環境変数で settings.json に置かない", "通した回も 1 行記録する。止めた回だけの記録では取りこぼしが数えられない"] }
+  ]
+}

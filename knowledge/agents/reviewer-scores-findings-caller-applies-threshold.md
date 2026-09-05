@@ -79,6 +79,7 @@ flowchart LR
 
 ## 関連
 
+- [サブエージェントへの委譲と隔離](../diagrams/subagent-delegation.architecture.html)。findings が呼び出し側に戻る経路を示した archify の構成図
 - [敵対的レビューは独立コンテキストの読み取り専用サブエージェントに切り出す](adversarial-review-in-isolated-subagent.md)。レビュアー側の隔離と回数上限。この pattern はその出力の受け渡し部分を切り出したもの
 - [エージェントからインラインレビューコメントを投稿するときのプロバイダ制約](../workflow/inline-review-comment-provider-constraints.md)。呼び出し側が findings を投稿するときの制約と、行を指せない指摘の縮退
 - [rules を固定フォーマットの唯一の正にし、レビューは関心事ごとのサブエージェントが横断的に読む](../rules/rules-as-single-source-for-authoring-and-review.md)。レビュアーを関心事ごとに分けると findings の合流が要る

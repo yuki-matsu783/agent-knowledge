@@ -101,6 +101,7 @@ SessionStart の注入 hook がチケットの「次にやること」節と「�
 
 ## 関連
 
+- [セッションをまたぐ引き継ぎの流れ](../../diagrams/ticket-handoff-across-sessions.dataflow.html)。チケットと logs の使い分けを 1 枚にした archify のデータフロー図
 - [compact 後は SessionStart hook で作業コンテキストを再注入すべき](../00-SessionStart/reinject-work-context-after-compact.md)。注入側
 - [完了時にやらせたい作業はチケットに置き Stop hook で 1 回だけ機械的に差し戻すべき](../11-Stop/return-once-with-the-ticket-checklist.md)。モデルが書く側
 - [API エラーで止まった回は Stop hook が走らないので StopFailure で記録した方がよさそう](../14-StopFailure/log-api-errors-where-stop-hook-does-not-run.md)。Stop が走らない終わり方の記録

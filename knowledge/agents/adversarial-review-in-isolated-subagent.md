@@ -58,6 +58,7 @@ intervention: tool
 
 ## 関連
 
+- [サブエージェントへの委譲と隔離](../diagrams/subagent-delegation.architecture.html)。レビュー役が diff だけを受け取り findings を返す位置を示した archify の構成図
 - [ツール使用回数を閾値にして、文脈を持たない監査サブエージェントを背景で走らせる](context-free-audit-subagent-on-tool-count.md)。同じ発想の未検証 note。こちらは実装して運用した形
 - [rules を固定フォーマットの唯一の正にし、レビューは関心事ごとのサブエージェントが横断的に読む](../rules/rules-as-single-source-for-authoring-and-review.md)。何を観点として渡すかの案
 - [レビューエージェントは判定せず確度と重大度を付けた findings を返し、閾値と投稿は呼び出し側が持つ](reviewer-scores-findings-caller-applies-threshold.md)。手順 3〜4 の出力の受け渡しを pattern として切り出したもの

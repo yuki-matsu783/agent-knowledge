@@ -95,6 +95,7 @@ claude-code@2.1.235。挙動と既定値は公式 hooks リファレンス (2026
 
 ## 関連
 
+- [ガード hook の 1 回の判定](../../diagrams/guard-hook-evaluation.lifecycle.html)。timeout が「素通り」の終端に落ちる位置を示した archify の状態遷移図
 - [hook を注入系とガード系に分け、失敗時の既定を逆にする](injecting-vs-guarding-hooks.md)。ガード側の exit 2 の考え方
 - [権限は permissions.deny ではなく PreToolUse hook で止める](../20-PreToolUse/deny-by-hook-not-permissions.md)。permissions が複合コマンドを止められない根拠
 - [hook のコマンド判定は正規化とコマンド位置の走査にし読めない入力はブロック側へ倒す](../20-PreToolUse/command-position-match-fails-closed.md)。8 KB 上限で打ち切りを避ける例

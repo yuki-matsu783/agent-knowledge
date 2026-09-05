@@ -147,6 +147,7 @@ hook の `deny` は `EndConversation` 以外の全ツール、全 permission mod
 
 ## 関連
 
+- [ガード hook の 1 回の判定](../../diagrams/guard-hook-evaluation.lifecycle.html)。入力の正規化から deny / 通す / 素通りまでの状態遷移を描いた archify の図 (ブラウザで開く)
 - [タイムアウトした hook はガードにならず素通りする](../common/hook-timeout-fails-open.md)。hook をガードにする以上は必ず併読する。判定はローカルの文字列一致とファイル読みに留め、外部通信や LLM 呼び出しを混ぜない
 - [ガードの設定と hook スクリプト自身をエージェントから守る](protect-guard-config-from-the-agent.md)。この settings.json と hook スクリプト自体を Claude が書き換えられる。設定は live reload されるので、外した瞬間から効かなくなる
 - [生のコマンド実行を deny してラッパスクリプトへ誘導する](command-wrappers-instead-of-raw-bash.md)。この考え方の具体例。deny の理由文でラッパへ誘導する

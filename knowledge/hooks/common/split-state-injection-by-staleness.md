@@ -139,6 +139,7 @@ rebase / merge の途中かは `$(git rev-parse --git-dir)` 直下の `MERGE_HEA
 ## 関連
 
 - [compact 後は SessionStart hook で作業コンテキストを再注入すべき](../00-SessionStart/reinject-work-context-after-compact.md)。SessionStart 側の先行パターン。こちらは何をどのイベントに置くかの振り分け
+- [1 ターンの hook イベントと 3 機構](../../diagrams/hook-events-per-turn.sequence.html)。stdout と additionalContext が届く位置を 1 ターンの時系列で描いた archify の図
 - [compact 後は「読んだ」認識を信用せず手順書の読み直しを指示で注入した方がよさそう](../00-SessionStart/reread-instruction-not-content-after-compact.md)
 - [hook は注入系とガード系に分かれ失敗時の既定は逆であるべき](injecting-vs-guarding-hooks.md)。注入系の作法
 - [hook の判定材料はリモートに問い合わせず全実行環境で読めるものだけであるべき](hooks-read-local-state-only.md)。注入しないものの境界

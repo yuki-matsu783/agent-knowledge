@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "diagram_type": "sequence",
+  "meta": {
+    "title": "1 ターンの hook イベントと 3 機構",
+    "quality_profile": "showcase",
+    "viewBox": [1500,800],
+    "column_fit": "spread",
+    "views": [
+      { "id": "turn-start", "label": "ターン開始", "focus": ["user", "api", "app", "hook"], "note": "SessionStart と UserPromptSubmit は plain な stdout がそのまま context に入る唯一の場所。UserPromptSubmit だけは exit 2 でプロンプトを止められる。" },
+      { "id": "tool-call", "label": "ツール呼び出し", "focus": ["app", "hook", "tool", "user"], "note": "PreToolUse は deny / ask / allow を返すガードで、理由文と additionalContext も返せる。PostToolUse はツールが走った後なので止められず、additionalContext の注入か副作用 (自動化) になる。" },
+      { "id": "turn-end", "label": "ターン終了", "focus": ["app", "hook", "api", "user"], "note": "Stop は block で応答を差し戻せる。stop_hook_active を見て 1 回だけ差し戻すと、判定を hook に持たずに済む。" }
+    ]
+  },
+  "participants": [
+    { "id": "user", "type": "external", "label": "人" },
+    { "id": "api", "type": "cloud", "label": "Claude API" },
+    { "id": "app", "type": "backend", "label": "Claude Code" },
+    { "id": "hook", "type": "security", "label": "hook" },
+    { "id": "tool", "type": "backend", "label": "ツール" }
+  ],
+  "segments": [
+    { "from": 150, "to": 310, "label": "ターン開始" },
+    { "from": 326, "to": 616, "label": "ツール呼び出し" },
+    { "from": 632, "to": 726, "label": "ターン終了" }
+  ],
+  "messages": [
+    { "id": "prompt", "from": "user", "to": "app", "y": 165, "label": "prompt", "variant": "default" },
+    { "id": "session-start", "from": "app", "to": "hook", "y": 195, "label": "SessionStart / UserPromptSubmit", "variant": "dashed" },
+    { "id": "stdout-context", "from": "hook", "to": "app", "y": 225, "label": "stdout が context に入る (誘導)", "variant": "return" },
+    { "id": "messages", "from": "app", "to": "api", "y": 262, "label": "messages", "variant": "emphasis" },
+    { "id": "tool-use", "from": "api", "to": "app", "y": 292, "label": "tool_use", "variant": "return" },
+    { "id": "pre-tool-use", "from": "app", "to": "hook", "y": 342, "label": "PreToolUse", "variant": "security" },
+    { "id": "decision", "from": "hook", "to": "app", "y": 372, "label": "allow / ask / deny + 理由 (ガード)", "variant": "return" },
+    { "id": "ask-user", "from": "app", "to": "user", "y": 402, "label": "ask なら承認プロンプト", "variant": "security" },
+    { "id": "execute", "from": "app", "to": "tool", "y": 436, "label": "allow なら実行", "variant": "emphasis" },
+    { "id": "tool-output", "from": "tool", "to": "app", "y": 466, "label": "結果", "variant": "return" },
+    { "id": "post-tool-use", "from": "app", "to": "hook", "y": 502, "label": "PostToolUse", "variant": "dashed" },
+    { "id": "post-context", "from": "hook", "to": "app", "y": 532, "label": "additionalContext (誘導) / 副作用 (自動化)", "variant": "return" },
+    { "id": "tool-result", "from": "app", "to": "api", "y": 568, "label": "tool_result + 注入文", "variant": "emphasis" },
+    { "id": "end-turn", "from": "api", "to": "app", "y": 598, "label": "end_turn", "variant": "return" },
+    { "id": "stop", "from": "app", "to": "hook", "y": 648, "label": "Stop", "variant": "security" },
+    { "id": "stop-decision", "from": "hook", "to": "app", "y": 678, "label": "block + reason (1 回) / approve", "variant": "return" },
+    { "id": "answer", "from": "app", "to": "user", "y": 708, "label": "応答", "variant": "return" }
+  ],
+  "activations": [
+    { "participant": "app", "from": 192, "to": 718, "type": "backend" },
+    { "participant": "hook", "from": 190, "to": 231, "type": "security" },
+    { "participant": "api", "from": 257, "to": 298, "type": "cloud" },
+    { "participant": "hook", "from": 337, "to": 378, "type": "security" },
+    { "participant": "tool", "from": 431, "to": 472, "type": "backend" },
+    { "participant": "hook", "from": 497, "to": 538, "type": "security" },
+    { "participant": "api", "from": 563, "to": 604, "type": "cloud" },
+    { "participant": "hook", "from": 643, "to": 684, "type": "security" }
+  ],
+  "cards": [
+    { "dot": "rose", "title": "ガードになるイベント", "items": ["PreToolUse (deny / ask)、UserPromptSubmit・Stop・SubagentStop (exit 2 で block)、PermissionRequest (deny)", "PostToolUse と SessionStart は止められない。timeout した hook は判定無しで素通り"] },
+    { "dot": "cyan", "title": "誘導が届く経路", "items": ["plain な stdout が入るのは SessionStart / UserPromptSubmit だけ", "additionalContext は PreToolUse / PostToolUse / PostToolUseFailure / PostToolBatch / Stop / SubagentStop / SubagentStart から届く。ツール結果の隣に置かれる"] },
+    { "dot": "emerald", "title": "自動化だけのイベント", "items": ["SessionEnd と StopFailure は出力が捨てられ、副作用しか起こせない", "PreCompact / PostCompact も同じ。compact 後の再注入は SessionStart (matcher compact) で行う"] }
+  ]
+}

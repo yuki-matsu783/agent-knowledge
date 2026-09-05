@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "サブエージェントへの委譲と隔離",
+    "quality_profile": "showcase",
+    "views": [
+      { "id": "delegation", "label": "委譲", "focus": ["user", "lead", "agent_tool", "research", "worker"], "note": "メインエージェントが依頼を読んでタスクを切り出し、Agent ツールで呼び出しごとにモデルと隔離を決める。調査役にはチケットを渡さず質問だけ渡す。" },
+      { "id": "isolation", "label": "隔離", "focus": ["worker", "main_checkout", "ticket"], "note": "実装役は worktree に入る。main checkout への書き込みは Claude Code の 4 チェックが止める。共有状態はチケットに寄せ、コミットや全体検査は親の Stop 側に置く。" },
+      { "id": "review", "label": "レビューの門", "focus": ["worker", "reviewer", "lead"], "note": "レビュー役は読み取り専用で、経緯を渡さず diff だけを見る。findings に確度と重大度を付けて返し、閾値と投稿は呼び出し側が持つ。" }
+    ]
+  },
+  "components": [
+    { "id": "user", "type": "external", "label": "人", "sublabel": "依頼 / 承認", "pos": [40, 300], "size": [120, 60] },
+    { "id": "lead", "type": "backend", "label": "メインエージェント", "sublabel": "計画・質問作り・合流", "pos": [250, 300], "size": [130, 60], "tag": "オーケストレータ" },
+    { "id": "agent_tool", "type": "messagebus", "label": "Agent ツール", "sublabel": "model / isolation を指定", "pos": [460, 300], "size": [130, 60] },
+    { "id": "research", "type": "backend", "label": "調査サブエージェント", "sublabel": "質問だけ、読み取り専用", "pos": [670, 150], "size": [130, 60], "tag": "Explore" },
+    { "id": "worker", "type": "backend", "label": "実装サブエージェント", "sublabel": "worktree、background", "pos": [670, 440], "size": [130, 60], "tag": "isolation: worktree" },
+    { "id": "reviewer", "type": "security", "label": "レビュー役", "sublabel": "読み取り専用、強いモデル", "pos": [880, 300], "size": [130, 60], "tag": "findings JSON" },
+    { "id": "ticket", "type": "database", "label": "チケット", "sublabel": "wip/tickets、共有状態", "pos": [460, 480], "size": [130, 60] },
+    { "id": "main_checkout", "type": "database", "label": "main checkout", "sublabel": "リポジトリ本体", "pos": [1040, 480], "size": [130, 60] }
+  ],
+  "boundaries": [
+    { "kind": "region", "label": "1 セッション", "wraps": ["lead", "agent_tool", "research", "worker", "reviewer", "ticket"] }
+  ],
+  "connections": [
+    { "id": "user-to-lead", "from": "user", "to": "lead", "label": "依頼", "variant": "emphasis" },
+    { "id": "lead-to-tool", "from": "lead", "to": "agent_tool", "label": "タスク", "variant": "emphasis" },
+    { "id": "tool-to-research", "from": "agent_tool", "to": "research", "label": "質問だけ", "fromSide": "top", "toSide": "left", "via": [[525, 180]] },
+    { "id": "tool-to-worker", "from": "agent_tool", "to": "worker", "label": "worktree で", "fromSide": "bottom", "toSide": "left", "via": [[525, 470]] },
+    { "id": "research-to-lead", "from": "research", "to": "lead", "label": "現状の記述 (意見なし)", "variant": "dashed", "fromSide": "top", "toSide": "top" },
+    { "id": "worker-to-reviewer", "from": "worker", "to": "reviewer", "label": "diff", "fromSide": "right", "toSide": "bottom", "via": [[945, 470]] },
+    { "id": "reviewer-to-lead", "from": "reviewer", "to": "lead", "label": "findings (確度・重大度)", "variant": "security", "fromSide": "top", "toSide": "top", "via": [[945, 80], [315, 80]] },
+    { "id": "lead-to-ticket", "from": "lead", "to": "ticket", "label": "完了条件 / 次にやること", "variant": "dashed", "fromSide": "bottom", "toSide": "left", "via": [[315, 510]] },
+    { "id": "worker-to-main", "from": "worker", "to": "main_checkout", "label": "書き込みは止まる", "variant": "security", "fromSide": "bottom", "toSide": "bottom", "via": [[735, 600], [1105, 600]], "labelSegment": 1}
+  ],
+  "cards": [
+    { "dot": "cyan", "title": "委譲", "items": ["モデルは定義で固定せず呼び出し側が決める。既定は親と同じで、親を越えるのはレビューだけ (事前に合意)", "調査役にはチケットを渡さず質問だけ。結果は事実だけの現状記述で、計画で初めてチケットと合流する"] },
+    { "dot": "emerald", "title": "隔離", "items": ["広く触る・並列で走る・捨てる前提の作業だけ worktree に入る。同時に持つのは 5 個まで", "worktree の中では main checkout への Edit / Write と git の向け替えを Claude Code が止める。ガードを自作しなくても main は守られる"] },
+    { "dot": "rose", "title": "レビューと完了", "items": ["レビュー役は投稿しない。findings を返し、閾値・件数上限・投稿は呼び出し側の 1 箇所に集める", "サブエージェントの完了条件は本人の文脈で閉じるものだけ。コミット・全体検査・チケットの締めは親の Stop に置く"] }
+  ]
+}

@@ -90,6 +90,7 @@ SessionStart と PostToolUse では block にならない。PostToolUse はツ�
 ## 関連
 
 - [エージェントへの介入はガード・誘導・自動化の 3 機構で切る](guard-steer-automate-mechanisms.md) — 目的による 3 分類。注入系はそのうち誘導と自動化を合わせたもの
+- [1 ターンの hook イベントと 3 機構](../../diagrams/hook-events-per-turn.sequence.html) — どのイベントが block になり、どのイベントが注入にしかならないかを 1 ターンの時系列で描いた archify の図
 - [タイムアウトした hook はガードにならず素通りする](hook-timeout-fails-open.md) — ガード系を fail-closed に保つための具体策
 - [権限は permissions.deny ではなく PreToolUse hook で止める](../20-PreToolUse/deny-by-hook-not-permissions.md) — ガード系の中身の設計
 - [ガードの設定と hook スクリプト自身をエージェントから守る](../20-PreToolUse/protect-guard-config-from-the-agent.md) — ガード系が無効化されない前提を作る

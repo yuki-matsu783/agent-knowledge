@@ -35,6 +35,33 @@ sources:
 
 ## 仕組み
 
+### 図で見る
+
+archify の図にまとめた (ブラウザで開く。元は同じ場所の同名 .json)。最初の 2 枚が全体像で、残りは各機構の内側。
+
+- [ガード・誘導・自動化の 3 機構](../../diagrams/guard-steer-automate.architecture.html)。構成図。ガードは tool_use とツール実行の間に立ち、allow だけをツール実行へ通す。
+  誘導は 2 経路で、常時の誘導 (CLAUDE.md、rules、skill) は起動時と Read 時に context へ載り、誘導 hook は PreToolUse や PostToolUse を契機に additionalContext を返してツール結果の隣に入る。
+  自動化はツール実行の後ろに付き、副作用だけを起こす
+- [1 ターンの hook イベントと 3 機構](../../diagrams/hook-events-per-turn.sequence.html)。時系列図。SessionStart / UserPromptSubmit、PreToolUse、ツール実行、PostToolUse、Stop の順に hook が発火し、
+  どのイベントがガードになれて (deny / ask / block)、どのイベントが誘導 (stdout、additionalContext) と自動化 (副作用) にしかなれないかを示す
+- [ガード hook の 1 回の判定](../../diagrams/guard-hook-evaluation.lifecycle.html)。ガードの内側。入力の正規化からルール照合、ask、deny、timeout の素通り、設定破損時の既定値までの状態遷移
+- [context に入るものと入るタイミング](../../diagrams/what-enters-context-when.dataflow.html)。誘導の内側。常時 (CLAUDE.md、rules)、Read 時 (paths 付き rules)、Skill 呼び出し、hook の 4 経路
+- [セッションをまたぐ引き継ぎの流れ](../../diagrams/ticket-handoff-across-sessions.dataflow.html)。自動化と誘導の組み合わせ。hook が書く記録 (チケット、logs) を SessionStart が注入し、同じ記録をガードが読む
+- [サブエージェントへの委譲と隔離](../../diagrams/subagent-delegation.architecture.html)。hook 以外のガード (worktree の強制、人の承認) がどこに立つか
+
+誘導が context に入る経路は 3 つあり、図ではこう描き分けている。
+
+| 経路 | 届き方 | 図での位置 |
+|---|---|---|
+| 常時 | CLAUDE.md と paths 無しの rules は起動時に、paths 付きの rules は一致ファイルを Read したときに context へ載る ([rules の paths frontmatter は Write には効かず、一致ファイルを Read したときだけ読み込まれる](../../rules/path-scoped-rules-load-on-read-not-on-write.md)) | 構成図の「常時の誘導」からエージェントへの破線 |
+| 契機 (hook) | plain な stdout がそのまま入るのは SessionStart と UserPromptSubmit だけ。PreToolUse / PostToolUse / PostToolUseFailure / PostToolBatch / Stop / SubagentStop / SubagentStart では JSON の `hookSpecificOutput.additionalContext` で返し、ツール結果の隣に置かれる | 構成図の「誘導 hook」へ入る PreToolUse / PostToolUse の破線と、そこからエージェントへ戻る破線。時系列図では hook からの return |
+| 拒否の理由文 | PreToolUse の deny は `permissionDecisionReason` がエージェントに戻る。止める (ガード) と同時に代替経路を伝える (誘導) ので、理由文には「代わりに何を叩くか」を書く ([権限は permissions.deny ではなく PreToolUse hook で止める](../20-PreToolUse/deny-by-hook-not-permissions.md)) | 時系列図の「allow / ask / deny + 理由」 |
+
+hook の additionalContext は「ツール結果の隣」に入るので、ターンの途中でも効く。CLAUDE.md に書き足すだけでは流れで進む瞬間に効きにくく、その瞬間に 1 度だけ注入する誘導 hook が効く理由がこれ
+([ガード hook にするか誘導 hook にするかは特定可能性と代替経路で決める](../20-PreToolUse/block-vs-notice-hook-selection.md))。
+PostToolUse はツールが既に走った後なので止められない。exit 2 と stderr は差し戻し (誘導) になり、formatter や lint の実行は自動化になる
+([hook は注入系とガード系に分かれ失敗時の既定は逆であるべき](injecting-vs-guarding-hooks.md))。
+
 ### 判定基準
 
 | 機構 | エージェントから見た効き方 | 落ちたときの既定 |

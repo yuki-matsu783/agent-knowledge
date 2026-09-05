@@ -101,6 +101,7 @@ hook で照合はしない。cytostack の実装は PreToolUse(Write) で Do-Not
 
 ## 関連
 
+- [セッションをまたぐ引き継ぎの流れ](../diagrams/ticket-handoff-across-sessions.dataflow.html)。Do-Not-Repeat を誰が書き誰が読むかを示した archify のデータフロー図
 - [同じコマンドの失敗は PostToolUseFailure で数えて段階的に介入した方がよさそう](../hooks/23-PostToolUseFailure/count-repeated-failures-then-escalate.md)。同一セッション内の側。こちらは context をまたぐ側
 - [完了時にやらせたい作業はチケットに置き Stop hook で 1 回だけ機械的に差し戻すべき](../hooks/11-Stop/return-once-with-the-ticket-checklist.md)。モデルに書かせる仕組み
 - [compact 後は SessionStart hook で作業コンテキストを再注入すべき](../hooks/00-SessionStart/reinject-work-context-after-compact.md)。読ませる仕組み

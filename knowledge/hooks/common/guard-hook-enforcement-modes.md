@@ -113,6 +113,7 @@ exit 2
 
 ## 関連
 
+- [ガード hook の 1 回の判定](../../diagrams/guard-hook-evaluation.lifecycle.html)。enforce / dryrun / off が出口を選ぶ段に当たることを示した archify の状態遷移図
 - [hook を注入系とガード系に分け、失敗時の既定を逆にする](injecting-vs-guarding-hooks.md) — このパターンを当てる対象はガード系だけ
 - [権限は permissions.deny ではなく PreToolUse hook で止める](../20-PreToolUse/deny-by-hook-not-permissions.md) — dry-run できるのは判定が hook 側にあるから。deny ルールにはこの段が作れない
 - [ガードの設定と hook スクリプト自身をエージェントから守る](../20-PreToolUse/protect-guard-config-from-the-agent.md) — off の経路を settings.json に置いてはいけない理由

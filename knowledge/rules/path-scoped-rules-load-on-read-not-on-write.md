@@ -66,6 +66,7 @@ Edit は Claude Code が事前の Read を要求するので、結果として R
 
 ## 関連
 
+- [context に入るものと入るタイミング](../diagrams/what-enters-context-when.dataflow.html)。常時・Read 時・Skill 呼び出し・hook の 4 経路を並べた archify のデータフロー図 (ブラウザで開く)
 - [エージェントへの介入はガード・誘導・自動化の 3 機構で切るべき](../hooks/common/guard-steer-automate-mechanisms.md)。paths 付き rules は「呼ばれたとき」に届く誘導で、その「呼ばれたとき」が Read に限られる
 - [rules を固定フォーマットの唯一の正にし、レビューは関心事ごとのサブエージェントが横断的に読むとよいはず](rules-as-single-source-for-authoring-and-review.md)。paths でルールを集める設計は、作成時に Read を経ない経路 (新規 Write) を別に埋める必要がある
 - [抜けを塞ぐのはルールの文言強化ではなく記録とゲートであるべき](close-gaps-with-mechanism-not-wording.md)。規約が載っていない状態で書いたものは lint (PostToolUse) で拾う。このリポジトリの lint-on-edit.sh がその層

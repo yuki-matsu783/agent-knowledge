@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "diagram_type": "dataflow",
+  "meta": {
+    "title": "context に入るものと入るタイミング",
+    "quality_profile": "showcase",
+    "viewBox": [900,760],
+    "views": [
+      { "id": "always", "label": "常時と compact 後", "focus": ["claude_md", "session_load", "land_always"], "note": "CLAUDE.md と paths 無しの rules は起動時に載り、compact 後もディスクから再注入される。skill 本文の再注入だけは 1 件 5,000 / 合計 25,000 トークンで切られる。" },
+      { "id": "on-demand", "label": "呼ばれたとき", "focus": ["path_rules", "glob_match", "skills", "skill_call", "land_read", "land_skill"], "note": "paths 付きの rules は一致ファイルを Read したときだけ載る。Write と Grep では載らない。skill の一覧は毎ターン入るが 1,536 字と全体 1% の予算がある。" },
+      { "id": "hooks", "label": "契機", "focus": ["hook_src", "hook_events", "land_hook"], "note": "hook の注入はイベントを契機にツール結果の隣へ入る。ターンの途中でも効く唯一の経路。" }
+    ]
+  },
+  "stages": [
+    { "label": "源" },
+    { "label": "契機" },
+    { "label": "context のどこに" }
+  ],
+  "nodes": [
+    { "id": "claude_md", "type": "database", "label": "CLAUDE.md + rules", "sublabel": "paths 無し", "stage": 0, "row": 0, "tag": "常時", "height": 84},
+    { "id": "path_rules", "type": "database", "label": "paths 付き rules", "sublabel": "一致ファイル限定", "stage": 0, "row": 1, "height": 84},
+    { "id": "skills", "type": "database", "label": "skill", "sublabel": "description と本文", "stage": 0, "row": 2, "height": 84},
+    { "id": "hook_src", "type": "backend", "label": "hook の注入", "sublabel": "stdout / additionalContext", "stage": 0, "row": 4, "tag": "契機", "height": 84},
+    { "id": "session_load", "type": "backend", "label": "session_start", "sublabel": "起動時と compact 後", "stage": 1, "row": 0, "tag": "InstructionsLoaded", "height": 84},
+    { "id": "glob_match", "type": "backend", "label": "path_glob_match", "sublabel": "Read したときだけ", "stage": 1, "row": 1, "tag": "Write / Grep は不可", "height": 84},
+    { "id": "skill_call", "type": "backend", "label": "Skill 呼び出し", "sublabel": "本文が入る", "stage": 1, "row": 2, "tag": "一覧は 1,536 字まで", "height": 84},
+    { "id": "hook_events", "type": "backend", "label": "hook イベント", "sublabel": "ツール結果の隣に置く", "stage": 1, "row": 4, "tag": "ターンの途中でも", "height": 84},
+    { "id": "land_always", "type": "cloud", "label": "常時の枠", "sublabel": "compact 後も戻る", "stage": 2, "row": 0, "height": 84},
+    { "id": "land_read", "type": "cloud", "label": "Read の直後", "sublabel": "一致した rule が載る", "stage": 2, "row": 1, "height": 84},
+    { "id": "land_skill", "type": "cloud", "label": "Skill の結果", "sublabel": "本文がそのまま入る", "stage": 2, "row": 2, "height": 84},
+    { "id": "land_hook", "type": "cloud", "label": "ツール結果の隣", "sublabel": "ターンの途中でも効く", "stage": 2, "row": 4, "height": 84}
+  ],
+  "flows": [
+    { "id": "md-to-load", "from": "claude_md", "to": "session_load", "label": "起動時", "classification": "常時", "variant": "emphasis" },
+    { "id": "rules-to-glob", "from": "path_rules", "to": "glob_match", "label": "Read 時", "classification": "呼ばれたとき", "variant": "default" },
+    { "id": "skills-to-call", "from": "skills", "to": "skill_call", "label": "呼んだ時", "classification": "呼ばれたとき", "variant": "default" },
+    { "id": "hook-to-events", "from": "hook_src", "to": "hook_events", "label": "契機", "classification": "契機", "variant": "emphasis" },
+    { "id": "load-to-context", "from": "session_load", "to": "land_always", "label": "全文", "classification": "常時", "variant": "emphasis" },
+    { "id": "glob-to-context", "from": "glob_match", "to": "land_read", "label": "載る", "classification": "呼ばれたとき", "variant": "default" },
+    { "id": "call-to-context", "from": "skill_call", "to": "land_skill", "label": "本文", "classification": "呼ばれたとき", "variant": "default" },
+    { "id": "events-to-context", "from": "hook_events", "to": "land_hook", "label": "注入", "classification": "契機", "variant": "emphasis" }
+  ],
+  "cards": [
+    { "dot": "cyan", "title": "常時", "items": ["CLAUDE.md と paths 無しの rules は毎セッション読まれ、compact 後もディスクから戻る。短い規約はここ", "auto memory は machine-local で他の人に渡らない。共有する設定は rules と settings に寄せ、プロジェクトで off にする"] },
+    { "dot": "rose", "title": "切られるもの", "items": ["skill の description は 1,536 字で切られ、一覧が 1% を超えると使っていない skill から名前だけになる。大事な使いどころを先頭に", "長い SKILL.md は compact 後に 1 件 5,000 / 合計 25,000 トークンで後半が落ちる。手順書は末尾の注入で読み直させる"] },
+    { "dot": "emerald", "title": "契機", "items": ["paths 付きの rules は Write では載らない。新規ファイルを作る skill は規約を先に Read させる", "hook の注入だけがターンの途中で効く。事実の平叙文で 1 行に絞る"] }
+  ]
+}

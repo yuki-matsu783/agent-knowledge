@@ -100,6 +100,7 @@ Claude Code 2.1.260 (VS Code 拡張に同梱の実体) の実装を読むと、S
 
 ## 関連
 
+- [セッションをまたぐ引き継ぎの流れ](../../diagrams/ticket-handoff-across-sessions.dataflow.html)。モデルと hook が書く記録と、SessionStart とガードが読む経路を並べた archify のデータフロー図 (ブラウザで開く)
 - [Stop の 2 回目は prompt 型 hook で Haiku に最終報告をレビューさせた方がよさそう](haiku-prompt-hook-reviews-final-report-on-second-stop.md) — この差し戻しの後ろに置く 2 段目
 - [hook は注入系とガード系に分かれ失敗時の既定は逆であるべき](../common/injecting-vs-guarding-hooks.md) — この差し戻しをどちらの型として書くか
 - [意味理解を要する判定はエージェントのもので、スクリプトには決定的な判定だけがあるべき](../../skills/scripts/delegate-meaning-to-agent-keep-scripts-decidable.md) — 判定を hook から外す根拠

@@ -189,6 +189,7 @@ worktree とブランチの両方が消える。`git worktree remove` を自分�
 
 ## 関連
 
+- [サブエージェントへの委譲と隔離](../diagrams/subagent-delegation.architecture.html)。委譲・隔離・レビューの門を 1 枚にした archify の構成図 (ブラウザで開く)
 - [worktree に入るとガード hook の前提が変わる](../hooks/common/hook-guards-under-worktree-isolation.md) — このパターンの副作用
 - [Claude Code の worktree 隔離は Gemini CLI に移植すると強制が消える](worktree-isolation-not-portable-to-gemini-cli.md) — 他の CLI に持っていくときに落ちる層
 - [GitLab の issue から作ったマージリクエストのブランチで worktree に入る](worktree-on-gitlab-merge-request-branch.md) — リモートに既にブランチがある流れへの当てはめ

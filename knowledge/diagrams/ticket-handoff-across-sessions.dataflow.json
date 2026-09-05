@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "diagram_type": "dataflow",
+  "meta": {
+    "title": "セッションをまたぐ引き継ぎの流れ",
+    "quality_profile": "showcase",
+    "viewBox": [900,760],
+    "views": [
+      { "id": "write-side", "label": "書く側", "focus": ["model_writes", "record_hooks", "statusline", "ticket", "logs"], "note": "意図はモデルが Stop の差し戻しで書き、事実は hook が機械で書く。コミットするものはチケット、絶対パスや全量は logs に分ける。" },
+      { "id": "read-side", "label": "注入する側", "focus": ["ticket", "logs", "session_start"], "note": "SessionStart が startup / resume / clear / compact のたびに「次にやること」「Do-Not-Repeat」「最終状態」と前回の止まり方を注入する。" },
+      { "id": "guard-side", "label": "同じ記録を読むガード", "focus": ["logs", "pretool_guard", "stop_hook"], "note": "logs は注入だけでなくガードの材料にもなる。同じ失敗が M 回なら PreToolUse が ask で止め、context 使用率が閾値を超えたら Stop が 1 回差し戻す。" }
+    ]
+  },
+  "stages": [
+    { "label": "書き手" },
+    { "label": "記録" },
+    { "label": "読み手" }
+  ],
+  "nodes": [
+    { "id": "model_writes", "type": "backend", "label": "モデル", "sublabel": "Stop の差し戻しで書く", "stage": 0, "row": 0, "tag": "意図", "height": 84},
+    { "id": "record_hooks", "type": "backend", "label": "記録 hook", "sublabel": "PostToolUseFailure / SessionEnd", "stage": 0, "row": 2, "tag": "StopFailure も", "width": 132, "height": 84},
+    { "id": "statusline", "type": "frontend", "label": "statusLine", "sublabel": "context 使用率", "stage": 0, "row": 4, "tag": "拡張では未検証", "height": 84},
+    { "id": "ticket", "type": "database", "label": "チケット", "sublabel": "wip/tickets、コミットする", "stage": 1, "row": 0, "tag": "固定節", "height": 84},
+    { "id": "logs", "type": "database", "label": "logs/", "sublabel": "追跡しない、1 行 1 件", "stage": 1, "row": 3, "tag": "絶対パス可", "height": 84},
+    { "id": "session_start", "type": "backend", "label": "SessionStart", "sublabel": "次の context へ注入", "stage": 2, "row": 0, "tag": "startup / resume / clear / compact", "width": 132, "height": 84},
+    { "id": "pretool_guard", "type": "security", "label": "PreToolUse ガード", "sublabel": "同じ失敗 M 回で ask", "stage": 2, "row": 2, "height": 84},
+    { "id": "stop_hook", "type": "security", "label": "Stop", "sublabel": "閾値超えで 1 回 block", "stage": 2, "row": 4, "height": 84}
+  ],
+  "flows": [
+    { "id": "model-to-ticket", "from": "model_writes", "to": "ticket", "label": "意図", "classification": "意図", "variant": "emphasis", "route": "straight", "labelDx": -26},
+    { "id": "hooks-to-ticket", "from": "record_hooks", "to": "ticket", "label": "最終状態", "classification": "事実", "variant": "default", "labelSegment": 1},
+    { "id": "hooks-to-logs", "from": "record_hooks", "to": "logs", "label": "全量", "classification": "事実", "variant": "default", "labelSegment": 1},
+    { "id": "statusline-to-logs", "from": "statusline", "to": "logs", "label": "使用率", "classification": "事実", "variant": "dashed", "labelSegment": 1},
+    { "id": "ticket-to-start", "from": "ticket", "to": "session_start", "label": "節ごと", "classification": "注入", "variant": "emphasis", "route": "straight" },
+    { "id": "logs-to-start", "from": "logs", "to": "session_start", "label": "止まり方", "classification": "注入", "variant": "dashed", "labelSegment": 1, "route": "vertical-channel", "channelX": 450},
+    { "id": "logs-to-guard", "from": "logs", "to": "pretool_guard", "label": "回数", "classification": "判定材料", "variant": "security", "labelSegment": 1, "labelDx": -20},
+    { "id": "logs-to-stop", "from": "logs", "to": "stop_hook", "label": "使用率", "classification": "判定材料", "variant": "security", "labelSegment": 1, "route": "vertical-channel", "channelX": 402}
+  ],
+  "cards": [
+    { "dot": "cyan", "title": "誰が何を書くか", "items": ["なぜ駄目だったか・次に何をするかはモデルにしか書けない。Stop hook の差し戻しに「チケットを更新したか」を入れる", "hook は判断せず事実だけ書く。SessionEnd は git の状態、PostToolUseFailure は回数、StopFailure は error の種別"] },
+    { "dot": "emerald", "title": "置き場所", "items": ["チケットはコミットするのでリポジトリ相対パスだけ。機械が書く節はマーカーで囲み上書きする", "logs は追跡しない。絶対パスや全量 JSON はここにだけ書き、書き手が行数か日数で切る"] },
+    { "dot": "rose", "title": "読む側", "items": ["SessionStart は起動要因で分岐させない。注入は数行に絞り、超えたら切り詰めずに警告を足す", "Do-Not-Repeat は 20 行で頭打ち。context をまたぐ再試行を止められるのはこの節だけ"] }
+  ]
+}

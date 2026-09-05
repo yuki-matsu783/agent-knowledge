@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "ガード・誘導・自動化の 3 機構",
+    "quality_profile": "showcase",
+    "views": [
+      { "id": "guard", "label": "ガード (止める)", "focus": ["model", "runtime", "gate", "tools"], "note": "Claude API が返した tool_use はツール実行の前に必ずガードを通る。allow なら実行、ask なら人の承認待ち、deny なら止まって理由がエージェントの context に戻る。" },
+      { "id": "steer", "label": "誘導 (促す)", "focus": ["steer_static", "steer_hook", "gate", "tools", "runtime"], "note": "常時の誘導 (CLAUDE.md、rules) は起動時と Read 時に context に載る。誘導 hook は PreToolUse や PostToolUse の契機で additionalContext を返し、ツール結果の隣に入る。どちらも無視できる。" },
+      { "id": "automate", "label": "自動化 (代行する)", "focus": ["tools", "automate"], "note": "PostToolUse の formatter やログ記録、index 再生成は副作用だけを起こす。エージェントには何も見えない。" }
+    ]
+  },
+  "components": [
+    { "id": "user", "type": "external", "label": "人", "sublabel": "プロンプト / 承認", "pos": [40, 110], "size": [120, 60] },
+    { "id": "model", "type": "cloud", "label": "Claude API", "sublabel": "Messages API", "pos": [300, 110], "size": [130, 60], "tag": "リモート" },
+    { "id": "runtime", "type": "backend", "label": "エージェント", "sublabel": "context + tool loop", "pos": [300, 290], "size": [130, 60] },
+    { "id": "gate", "type": "security", "label": "ガード", "sublabel": "PreToolUse / permissions", "pos": [580, 290], "size": [130, 64], "tag": "allow / ask / deny" },
+    { "id": "tools", "type": "backend", "label": "ツール実行", "sublabel": "Bash / Edit / MCP", "pos": [860, 290], "size": [130, 60] },
+    { "id": "steer_static", "type": "database", "label": "常時の誘導", "sublabel": "CLAUDE.md / rules / skill", "pos": [40, 420], "size": [130, 64], "tag": "起動時・Read 時" },
+    { "id": "steer_hook", "type": "backend", "label": "誘導 hook", "sublabel": "additionalContext", "pos": [300, 420], "size": [130, 64], "tag": "契機で注入" },
+    { "id": "automate", "type": "messagebus", "label": "自動化", "sublabel": "formatter / ログ / index", "pos": [860, 420], "size": [130, 64], "tag": "何も見えない" }
+  ],
+  "boundaries": [
+    { "kind": "region", "label": "Claude Code (ローカル)", "wraps": ["runtime", "gate", "tools", "steer_static", "steer_hook", "automate"], "pad": 30}
+  ],
+  "connections": [
+    { "id": "user-to-runtime", "from": "user", "to": "runtime", "label": "prompt", "variant": "emphasis", "fromSide": "right", "toSide": "left" },
+    { "id": "runtime-to-model", "from": "runtime", "to": "model", "label": "messages", "variant": "emphasis", "fromSide": "top", "toSide": "bottom", "labelDy": -60},
+    { "id": "model-to-runtime", "from": "model", "to": "runtime", "label": "tool_use", "variant": "emphasis", "fromSide": "right", "toSide": "right" },
+    { "id": "runtime-to-gate", "from": "runtime", "to": "gate", "label": "tool_use", "variant": "security", "labelDy": 22},
+    { "id": "gate-to-tools", "from": "gate", "to": "tools", "label": "allow", "variant": "security" },
+    { "id": "tools-to-runtime", "from": "tools", "to": "runtime", "label": "tool_result", "variant": "dashed", "fromSide": "top", "toSide": "top" },
+    { "id": "gate-to-steer", "from": "gate", "to": "steer_hook", "label": "PreToolUse", "variant": "dashed", "fromSide": "bottom", "toSide": "right", "labelDy": 40},
+    { "id": "tools-to-steer", "from": "tools", "to": "steer_hook", "label": "PostToolUse", "variant": "dashed", "fromSide": "bottom", "toSide": "right" },
+    { "id": "steer-to-runtime", "from": "steer_hook", "to": "runtime", "label": "文が context に入る", "variant": "dashed", "fromSide": "top", "toSide": "bottom" },
+    { "id": "static-to-runtime", "from": "steer_static", "to": "runtime", "label": "context に載る", "variant": "dashed", "fromSide": "top", "toSide": "left" },
+    { "id": "tools-to-automate", "from": "tools", "to": "automate", "label": "副作用のみ", "variant": "dashed", "fromSide": "bottom", "toSide": "top", "labelDy": 58}
+  ],
+  "cards": [
+    { "dot": "rose", "title": "ガード: 先へ進めない", "items": ["PreToolUse hook の deny / ask、permissions、sandbox、Stop の block、スクリプトのゲート", "判定できなければ止める (exit 2)。timeout は素通りなのでローカル完結にする"] },
+    { "dot": "cyan", "title": "誘導: 読めるが無視できる", "items": ["常時: CLAUDE.md、paths 無しの rules。呼ばれたとき: skill、paths 付き rules (Read 時のみ)、memory", "契機: hook の additionalContext (PreToolUse / PostToolUse / Stop など) と deny の理由文。落ちたら黙って通す (exit 0)"] },
+    { "dot": "emerald", "title": "自動化: 何も見えない", "items": ["PostToolUse の formatter、ログ、index 再生成、git hook、SessionEnd の記録", "落ちたら何もせずに通す (exit 0)。systemMessage は人向けで、エージェントには届かない"] }
+  ]
+}
