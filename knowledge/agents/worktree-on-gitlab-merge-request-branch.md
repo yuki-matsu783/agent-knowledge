@@ -129,7 +129,9 @@ flowchart TD
 - **`.worktreeinclude` は効かない。** 処理されるのは Claude Code が自分で作った worktree だけなので、`.env` の持ち込みとポートの差し替えは自分でやる (ドキュメントの記述。今回の検証では `.worktreeinclude` を置いていない)
 - **定期 sweep も消さない。** Claude Code のマーカーが無いため、後始末は `git worktree remove` を自分で打つ
 - 検証では main checkout をこのリポジトリの中の追跡外ディレクトリに置いた入れ子のリポジトリにした。`ExitWorktree keep` の戻り先は
-  セッションを起こしたディレクトリではなく**その入れ子リポジトリのルート**だった。実運用の「現在のリポジトリの worktree」では起きない
+  セッションを起こしたディレクトリではなく**その入れ子リポジトリのルート**だった。transcript の `worktree-state` 行を見ると
+  `originalCwd` が入れ子側のルート、`preEnterOriginalCwd` が起点、`enteredExisting: true` と記録されていて、戻り先は `originalCwd` のほう。
+  実運用の「現在のリポジトリの worktree」では両者が一致するので起きない
 
 ## 他の道
 
