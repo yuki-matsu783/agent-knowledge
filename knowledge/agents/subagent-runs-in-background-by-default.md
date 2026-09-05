@@ -44,7 +44,7 @@ PostToolUse の `Agent` matcher に置いた。ところが検査は常に「該
 - PostToolUse `Agent` の hook は `tool_response.status` で分岐する。`completed` なら作業後の検査を行う。`async_launched` なら**検査を行わず、「background 起動なので完了後の検査は届かない。`run_in_background: false` で起動し直すか、完了を確かめてから自分で作業領域を確認すること」と伝える**。
   「該当なし」を返さないことが要点。検査できない状況で「問題なし」と伝えるのは、何も伝えないより悪い
 - status が想定外の値のときは `completed` 側に倒さない (検査しない側が安全側)
-- 起動前の PreToolUse `Agent` で、タスクの実施者を background で起動しようとしていることを通知する (起動は止めない)。既定は Claude Code 側の仕様で機構が変えられるものではない
+- 起動前の PreToolUse `Agent` で、タスクの実施者を background で起動しようとしていることを通知する (起動は止めない)。既定は Claude Code 側の仕様で hook 側から変えられるものではない
 - SubagentStop 側の記録は background でも残るので、後から人間や次のセッションが読める。届かないのは「その場でメインエージェントに」だけ
 - 逆に**起動の事実に関する通知** (実行者のモデルが計画と違う、など) は起動直後に発火する方が有利。サブエージェントがほとんど動かないうちに気づける。
   比較の材料は `tool_response.resolvedModel` にあり (実測)、`tool_input.model` は呼び出し側が明示したときしか来ないので、起動後の方が確実

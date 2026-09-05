@@ -1,7 +1,7 @@
 ---
 type: pattern
 nature: heuristic
-title: 操作をブロックするか注意喚起で済ませるかは特定可能性と代替経路で決めた方がよさそう
+title: ガード hook にするか誘導 hook にするかは特定可能性と代替経路で決めた方がよさそう
 description: >-
   A decision rule for Claude Code hooks: enforce with a blocking PreToolUse hook (exit 2) only when the
   forbidden operation can be identified uniquely from the tool call string and a sanctioned alternative path
@@ -12,7 +12,7 @@ description: >-
   process rule into a hard block, or when a block keeps being bypassed by deleting state files. Not for
   choosing hook events or matchers, and not for isolation that must hold against a hostile agent.
 tags: [claude-code, security, workflow]
-keywords: [PreToolUse, PostToolUse, exit 2, ブロック, 注意喚起, additionalContext, 多重防御, 代替経路, 正規経路, 一意に特定, 状態ファイル, 形骸化, 機構的強制, ドキュメントのみ, issue 起票後]
+keywords: [PreToolUse, PostToolUse, exit 2, ガード hook, 誘導 hook, ブロック, 注意喚起, additionalContext, 多重防御, 代替経路, 正規経路, 一意に特定, 状態ファイル, 形骸化, 機構的強制, ドキュメントのみ, issue 起票後]
 status: stable
 sources:
   - https://code.claude.com/docs/en/hooks
@@ -20,7 +20,7 @@ sources:
 intervention: hook
 ---
 
-# 操作をブロックするか注意喚起で済ませるかは特定可能性と代替経路で決める
+# ガード hook にするか誘導 hook にするかは特定可能性と代替経路で決める
 
 ## 課題
 
@@ -30,7 +30,7 @@ intervention: hook
 
 ## 解決
 
-ブロック (PreToolUse で exit 2) してよいのは次の 2 条件が**両方**揃うときだけ。
+ガード hook (PreToolUse で exit 2) にしてよいのは次の 2 条件が**両方**揃うときだけ。
 
 | 条件 | 揃う例: `git commit` の直接実行 | 揃わない例: issue 起票直後の着手 |
 |---|---|---|
@@ -40,7 +40,7 @@ intervention: hook
 代替経路が無い強制は、解除手段が「hook を黙らせる」「状態ファイルを消す」しか無くなり、規範そのものを形骸化させる。
 セッション単位の状態ファイルで「起票した」ことを記録して以降を禁止する案も、解除が「AI が自分で状態ファイルを消す」形になるので同じ。
 
-条件が揃わないときは、**PostToolUse で注意喚起を注入する**多重防御に留める。
+条件が揃わないときは、**PostToolUse で注意喚起を注入する誘導 hook** の多重防御に留める。
 
 - 起票を検知したら (CLI 経路はコマンド文字列、MCP 経路は `mcp__github__issue_write` の `method="create"`)、「同じセッションで着手しない」
   「新しいセッションでの実行を勧めるに留める」「AI から着手を持ちかけない」を `hookSpecificOutput.additionalContext` で注入する。
@@ -63,5 +63,6 @@ intervention: hook
 
 - [権限は permissions.deny ではなく PreToolUse hook で止める](deny-by-hook-not-permissions.md)。ブロック側の作り方
 - [生のコマンド実行を deny してラッパスクリプトへ誘導する](command-wrappers-instead-of-raw-bash.md)。「正規の代替経路」の作り方
-- [hook を注入系とガード系に分け、失敗時の既定を逆にする](../common/injecting-vs-guarding-hooks.md)。注意喚起は注入系なので fail-open でよい
+- [エージェントへの介入はガード・誘導・自動化の 3 機構で切る](../common/guard-steer-automate-mechanisms.md)。ガード hook と誘導 hook の定義
+- [hook を注入系とガード系に分け、失敗時の既定を逆にする](../common/injecting-vs-guarding-hooks.md)。誘導 hook は注入系なので fail-open でよい
 - [ルールの文言強化ではなく記録とゲートで抜けを塞ぐ](../../rules/close-gaps-with-mechanism-not-wording.md)。ブロックも注意喚起も効かない「記録の欠落」型の抜け

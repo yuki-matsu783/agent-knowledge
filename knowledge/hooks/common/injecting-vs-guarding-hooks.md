@@ -31,7 +31,7 @@ zaico の記事はこれを全 hook の統一原則として採っていて、�
 
 問題は、この原則を settings.json に並ぶ hook 全部へ一律に当てるところにある。hook には役割の違う 2 種類が混ざっている。
 
-- 状態やコンテキストを**足す** hook。落ちても足りないだけで、作業は進めてよい
+- 状態やコンテキストを**足す** hook (誘導 hook と自動化 hook)。落ちても足りないだけで、作業は進めてよい
 - 動作を**止める** hook。落ちたということは判定が出ていないので、進めてはいけない
 
 後者に「常に exit 0」を当てると、ガードが黙って無効になる。落ちたことは stderr のログに残るだけで、transcript には目立って出ない。
@@ -88,6 +88,7 @@ SessionStart と PostToolUse では block にならない。PostToolUse はツ�
 
 ## 関連
 
+- [エージェントへの介入はガード・誘導・自動化の 3 機構で切る](guard-steer-automate-mechanisms.md) — 目的による 3 分類。注入系はそのうち誘導と自動化を合わせたもの
 - [タイムアウトした hook はガードにならず素通りする](hook-timeout-fails-open.md) — ガード系を fail-closed に保つための具体策
 - [権限は permissions.deny ではなく PreToolUse hook で止める](../20-PreToolUse/deny-by-hook-not-permissions.md) — ガード系の中身の設計
 - [ガードの設定と hook スクリプト自身をエージェントから守る](../20-PreToolUse/protect-guard-config-from-the-agent.md) — ガード系が無効化されない前提を作る

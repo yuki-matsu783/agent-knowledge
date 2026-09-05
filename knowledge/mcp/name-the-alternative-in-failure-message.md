@@ -60,5 +60,5 @@ intervention: tool
 ## 関連
 
 - [エージェントが呼ぶスクリプトは無言で成功してはならない](../skills/scripts/agent-scripts-must-not-succeed-silently.md)
-- [操作をブロックするか注意喚起で済ませるかは特定可能性と代替経路で決める](../hooks/20-PreToolUse/block-vs-notice-hook-selection.md)。「読まれなければ機能しない」を機構で補う同じ考え方
+- [ガード hook にするか誘導 hook にするかは特定可能性と代替経路で決める](../hooks/20-PreToolUse/block-vs-notice-hook-selection.md)。「読まれなければ機能しない」を誘導 hook で補う同じ考え方
 - [権限は permissions.deny ではなく PreToolUse hook で止める](../hooks/20-PreToolUse/deny-by-hook-not-permissions.md)。deny の理由に代替を書くのも同じ発想

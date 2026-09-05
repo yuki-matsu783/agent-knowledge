@@ -70,4 +70,4 @@ git 2.38 以降 (`merge-tree --write-tree` が使える)。作業ブランチは
   merge-base が無いと 3 ドット記法の diff は終了コード 128 で落ちる (`rev-list` は成功してしまう) ので、先に `hasCommonHistory` を判定する
 - push 検知 hook のたびに走らせない。マージ依頼の直前に 1 回で足り、部分一致で誤発火する hook の上に fetch を積むと無駄が増える
 - [連番 ID はブランチ並行で必ず衝突し git はそれを報告しない](sequential-ids-collide-across-branches.md)。手順 3 が要る理由
-- [意味理解を要する判定はエージェントへ委ねスクリプトには決定的な判定だけを置く](../skills/scripts/delegate-meaning-to-agent-keep-scripts-decidable.md)。番号重複は決定的に判定できるので機構化できた
+- [意味理解を要する判定はエージェントへ委ねスクリプトには決定的な判定だけを置く](../skills/scripts/delegate-meaning-to-agent-keep-scripts-decidable.md)。番号重複は決定的に判定できるのでスクリプトで判定できた

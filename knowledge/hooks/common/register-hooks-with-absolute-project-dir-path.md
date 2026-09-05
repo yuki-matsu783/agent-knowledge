@@ -68,5 +68,5 @@ fail-closed のラッパも同じ形で包む。登録の期待値をテスト�
 ## 関連
 
 - [worktree に入るとガード hook の前提が変わる](hook-guards-under-worktree-isolation.md)。置き場と作業ツリーを分ける理由
-- [ガードの設定が読めないときも復旧経路を残す](keep-recovery-path-when-guard-config-breaks.md)。同じ「機構が自分を止めて回復手段を奪う」形のロックアウト
+- [ガードの設定が読めないときも復旧経路を残す](keep-recovery-path-when-guard-config-breaks.md)。同じ「ガード hook が自分を止めて回復手段を奪う」形のロックアウト
 - [hook を注入系とガード系に分け、失敗時の既定を逆にする](injecting-vs-guarding-hooks.md)
