@@ -56,7 +56,7 @@ subjects:
   skills: skill・コマンド・エージェントが呼ぶスクリプトの設計
   agents: サブエージェント、並列化、役割分担、worktree による隔離
   rules: Claude Code の rules そのもの。CLAUDE.md・.claude/rules・memory の書き方、効き方、限界
-  hooks: hook の機構 (イベント、入出力、並列、タイムアウト、登録) とガード hook・permissions による制御
+  hooks: hook の仕組み (イベント、入出力、並列、タイムアウト、登録) と、ガード hook・permissions による制御
   mcp: MCP サーバーとツール名、ツール定義の見え方
   model: モデル挙動。構成要素に依らないモデルの傾向・得手不得手 (観測したモデル名と月を applies_to に残す)
   workflow: 複数の構成要素の組み合わせ、運用手順、決定記録と仕様の置き方、git と VCS ホスティング、transcript の観測、未解決の finding
@@ -69,7 +69,7 @@ subdirs:
   skills:
     scripts: エージェントが呼ぶスクリプトの書き方 (出力、終了コード、判定の置き場)
   hooks:
-    common: イベントに依らない hook の機構と設計 (登録、タイムアウト、並列実行、運用モード、移植性)
+    common: イベントに依らない hook の仕組みと設計 (登録、タイムアウト、並列実行、運用モード、移植性、ガード・誘導・自動化の語彙)
     scripts: hook スクリプトそのものの書き方 (sh と jq、戻り値、ロック、fork 予算、依存)
     00-SessionStart: セッションの開始・再開・compact 後の注入
     01-PreCompact: 圧縮の前後
@@ -92,12 +92,13 @@ nature:
   principle: 規範・原則 (Principle / Norm)。「こうあるべき」。価値判断を含む、より一般化された指針
   opinion: 意見・好み (Opinion / Preference)。「自分はこう思う」。属人的で未検証、検証不要のもの
 
-# intervention: 対策をどの層で打つか (任意)。対策を主題にする知見 (pattern / how-to) につける。
+# intervention: 対策をどの手段で打つか (任意)。対策を主題にする知見 (pattern / how-to) につける。
+# 手段の軸であって目的の軸ではない。目的 (ガード / 誘導 / 自動化) は knowledge/hooks/common/guard-steer-automate-mechanisms.md で分ける。
 # 下に行くほど確実だが硬い。「prompt で効かなかったので hook にした」という経緯は本文に書く。
 intervention:
   prompt: プロンプト・指示・rules の文言で解決する。軽いが確率的
   tool: ツール・skill・スクリプトで構造化して渡す
-  hook: hook・permissions で強制する。確実だが硬い
+  hook: hook・permissions で打つ。ガードにすれば確実だが硬い
   human: 人間のレビューや承認を挟む。最終手段
 
 # tags: 横断的な主題分類。kebab-case。ファイルには 2〜4 個つける。
