@@ -11,7 +11,8 @@ description: >-
   @marp-team/marp-cli@4.2.3` with a 60 second timeout, so the first download must be done beforehand,
   and rich crashes on cp932 when printing the failure mark unless PYTHONUTF8=1 is set. Use when a
   deck built with slide-make must be delivered as .pptx. Not for HTML or PDF output, which marp-cli
-  already covers, and the visual fidelity in PowerPoint itself was not checked (only the shape tree).
+  already covers. The shape tree was inspected with python-pptx and the result was opened in
+  PowerPoint on Windows and judged fine for this repository's theme; other themes are not covered.
 tags: [workflow, meta]
 keywords: [marpx, pptx, PowerPoint, Marp, marp-cli, --pptx, --pptx-editable, LibreOffice, Playwright, python-pptx, uv, npx, PYTHONUTF8, cp932, UnicodeEncodeError, marp-cli timed out, --theme, 編集可能, ネイティブ表]
 status: stable
@@ -113,4 +114,5 @@ for i, s in enumerate(p.slides, 1):
 ## このリポジトリでの位置づけ
 
 - slide-make skill は HTML 出力まで。PPTX が要るときはこの手順で `wip/local/marpx` に入れて変換し、生成物は共有するものだけコミットする
-- PowerPoint 上での見え方 (フォントの置換、行間、はみ出し) は確認していない。開いて崩れがあれば `templates/marp-theme.css` 側の該当箇所をここに追記する
+- PowerPoint (Windows) で開いて目で確認した範囲では、このテーマの 8 枚に崩れは無かった (2026-09-05)。別のテーマやレイアウトで崩れが出たら、
+  `templates/marp-theme.css` 側の該当箇所と `-v` の fallback 数をここに追記する
