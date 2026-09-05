@@ -9,3 +9,8 @@ __pycache__/
 
 # archify テンプレートのプレビュー (pnpm diagrams で再生成、1 本 700KB)
 templates/archify/preview/
+
+# セッション中の作業ファイル。wip/tickets/ (作業中チケットの情報) だけコミットし、
+# それ以外 (フラグ・カウンタ・ログ) は追跡しない
+wip/*
+!wip/tickets/
