@@ -36,15 +36,15 @@ subject の一覧と説明は taxonomy.yml の `subjects` が正。「何につ�
 
 | subject | 入るもの |
 |---|---|
-| `skill` | skill・コマンド・エージェントが呼ぶスクリプトの設計 |
-| `agent` | サブエージェント、並列化、役割分担、worktree による隔離 |
-| `rule` | Claude Code の rules そのもの。CLAUDE.md・.claude/rules・memory の書き方、効き方、限界 |
-| `hook` | hook の機構 (イベント、入出力、並列、タイムアウト、登録) とガード hook・permissions による制御 |
+| `skills` | skill・コマンド・エージェントが呼ぶスクリプトの設計 |
+| `agents` | サブエージェント、並列化、役割分担、worktree による隔離 |
+| `rules` | Claude Code の rules そのもの。CLAUDE.md・.claude/rules・memory の書き方、効き方、限界 |
+| `hooks` | hook の機構 (イベント、入出力、並列、タイムアウト、登録) とガード hook・permissions による制御 |
 | `mcp` | MCP サーバーとツール名、ツール定義の見え方 |
 | `model` | モデル挙動。構成要素に依らないモデルの傾向 |
 | `workflow` | 複数の構成要素の組み合わせ、運用手順、決定記録と仕様の置き方、git と VCS ホスティング、transcript の観測、未解決の finding |
 
-- 1 つの知見は 1 つの subject に置く。迷ったら「その知見を活かすとき何を書き換えるか」で決める (hook スクリプトなら hook、CLAUDE.md なら rule)。どれにも収まらない組み合わせは workflow
+- 1 つの知見は 1 つの subject に置く。迷ったら「その知見を活かすとき何を書き換えるか」で決める (hook スクリプトなら hooks、CLAUDE.md なら rules)。どれにも収まらない組み合わせは workflow
 - 横断的な分類 (security、cost、observability など) は tags が担う。subject と tags が重なってもよい
 - 新しい subject は候補が 5 件以上溜まってから taxonomy.yml に足す。1 つの subject が 30 件を超えたら小主題で切るか subject を分ける
 - ディレクトリ名は ID の一部になる。ファイルを移すときは本文のリンク、sources のパス、superseded_by と derived_from を合わせて更新する (lint が検出する)。subject は増やしても改名しない
@@ -85,7 +85,7 @@ ID = リポジトリルートからの相対パスから `.md` を除いたも�
 
 ## リンク
 
-- 本文内の相互リンクは相対パスの markdown リンクのみ (同じ subject なら `[title](foo.md)`、別の subject なら `[title](../rule/foo.md)`)
+- 本文内の相互リンクは相対パスの markdown リンクのみ (同じ subject なら `[title](foo.md)`、別の subject なら `[title](../rules/foo.md)`)
 - wikilink `[[...]]` とルート絶対パス `/knowledge/foo.md` は使わない (lint が error にする)
 - リンク先の存在は lint が検査する
 

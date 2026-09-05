@@ -24,7 +24,7 @@ knowledge/ に markdown を追加・更新する手順。規約は .claude/rules
    - 「それは何か・なぜか」→ `concept`
    - まだ確かめていない、出典が無い → `note`。置き場所は他と同じ knowledge/
    type ごとの粒度は .claude/rules/knowledge-authoring.md の表に従う。タイトルが「〜と〜」になるなら分割する。
-   置き場所は主題ディレクトリ `knowledge/<subject>/`。subject は taxonomy.yml の `subjects` (skill / agent / rule / hook / mcp / model / workflow) から、
+   置き場所は主題ディレクトリ `knowledge/<subject>/`。subject は taxonomy.yml の `subjects` (skills / agents / rules / hooks / mcp / model / workflow) から、
    「その知見を活かすとき何を書き換えるか」で 1 つ選ぶ。どれにも収まらない組み合わせは workflow。knowledge/ 直下には置かない (lint が error にする)。
 
 3. **雛形をコピーする。** `templates/<type>.md` を `knowledge/<subject>/<kebab-case>.md` にコピーする。ファイル名は ASCII kebab-case の名詞句。
@@ -56,4 +56,4 @@ knowledge/ に markdown を追加・更新する手順。規約は .claude/rules
 ## 検索
 
 似た知識が既に無いか、先に `pnpm run search --text <語>` や `pnpm run search --tag <tag>` (`run` を省くと pnpm 組み込みの npm 検索に取られる) で確認する。
-subject で絞るなら `--path hook/`、性質で絞るなら `--nature fact` のように指定する。
+subject で絞るなら `--path hooks/`、性質で絞るなら `--nature fact` のように指定する。
