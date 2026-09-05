@@ -58,7 +58,7 @@ subject の一覧と説明は taxonomy.yml の `subjects` が正。「何につ�
 | subject | subdir |
 |---|---|
 | `skills` | `scripts` (エージェントが呼ぶスクリプトの書き方) |
-| `hooks` | `common` (イベントに依らない仕組みと設計)、`scripts` (hook スクリプトの書き方)、`00-SessionStart` `01-PreCompact` `10-UserPromptSubmit` `11-Stop` `12-SubagentStart` `13-SubagentStop` `20-PreToolUse` `21-PermissionRequest` `22-PostToolUse` |
+| `hooks` | `common` (イベントに依らない仕組みと設計)、`scripts` (hook スクリプトの書き方)、`00-SessionStart` `01-PreCompact` `10-UserPromptSubmit` `11-Stop` `12-SubagentStart` `13-SubagentStop` `14-StopFailure` `20-PreToolUse` `21-PermissionRequest` `22-PostToolUse` `23-PostToolUseFailure` `30-SessionEnd` |
 
 - hooks はどのイベントの話かで切る。イベント名は Claude Code の表記に合わせるので、ここだけディレクトリ名が kebab-case ではない。2 桁の prefix はライフサイクル順に並べるためのもの
 - 2 つ以上のイベントにまたがる知見と、イベントに依らない仕組み (登録、タイムアウト、並列実行、運用モード、ガード・誘導・自動化の語彙) は `common`。sh と jq の書き方そのものは `scripts`
