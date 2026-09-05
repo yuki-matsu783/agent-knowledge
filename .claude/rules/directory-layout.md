@@ -4,7 +4,6 @@
 
 ```
 knowledge/     # 知識はすべてここ。主題ディレクトリは当面作らず直下に置く (20 件を超えたら主題で切る)
-adr/           # このリポジトリの運用・設計の決定記録 (type: adr)
 slides/        # Marp 形式の markdown (type: slide) と生成した HTML
 templates/     # 各 type の雛形と Marp テーマ
 scripts/       # lint・index・slides・audit (TypeScript、tsx で実行、pnpm)
@@ -45,7 +44,7 @@ INDEX.md       # 自動生成の一覧。手で編集しない
 - `.gitignore` は `wip/*` で全部無視し `!wip/tickets/` だけ戻す。既定が「push しない」側なので、
   `wip/` 直下に置いたログを取り違えてコミットすることがない
 - `wip/local/` はコミットされないので clone 直後には存在しない。書く側が `mkdir -p wip/local` してから書く
-- `wip/` は lint と index の対象外 (scripts/lib/repo.ts の `SCOPE_DIRS` は knowledge / adr / slides)。frontmatter は要らない
+- `wip/` は lint と index の対象外 (scripts/lib/repo.ts の `SCOPE_DIRS` は knowledge / slides)。frontmatter は要らない
 - チケットが終わったら `wip/tickets/` の中身を消すか、残す価値があるなら knowledge へ移す
 
 ## ファイル名
@@ -53,12 +52,11 @@ INDEX.md       # 自動生成の一覧。手で編集しない
 - ASCII の kebab-case のみ (`^[a-z0-9]+(-[a-z0-9]+)*\.md$`)。日本語ファイル名は使わない
 - 日本語の名前は frontmatter の `title` に書く
 - ファイル名は内容を表す名詞句にする。日付 prefix は付けない (日付は git が持つ)
-- adr/ は `NNNN-slug.md` の連番
 
 ## ID
 
 ID = リポジトリルートからの相対パスから `.md` を除いたもの。`superseded_by` と `derived_from` はこの ID で参照する。
-参照先は scope 内 (knowledge / adr / slides) でも `.claude/docs/` でもよい。lint はファイルの実在を見る。
+参照先は scope 内 (knowledge / slides) でも `.claude/docs/` でもよい。lint はファイルの実在を見る。
 ファイルを移動・改名すると ID が変わるので、参照元を必ず更新する (lint が検出する)。
 
 ## リンク

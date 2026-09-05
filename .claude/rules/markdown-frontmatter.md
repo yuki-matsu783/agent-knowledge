@@ -1,7 +1,6 @@
 ---
 paths:
   - "knowledge/**/*.md"
-  - "adr/**/*.md"
   - "slides/**/*.md"
   - "templates/**/*.md"
 ---

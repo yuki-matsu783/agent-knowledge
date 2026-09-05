@@ -9,7 +9,7 @@ description: >-
 
 # knowledge-audit
 
-knowledge/ と adr/ の鮮度を点検し、status を正しい状態に戻す手順。
+knowledge/ の鮮度を点検し、status を正しい状態に戻す手順。
 
 ## 手順
 

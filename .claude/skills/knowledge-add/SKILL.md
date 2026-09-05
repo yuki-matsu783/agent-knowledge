@@ -1,7 +1,7 @@
 ---
 name: knowledge-add
 description: >-
-  Add or update a knowledge markdown file (concept / how-to / reference / pattern / pitfall / adr / note)
+  Add or update a knowledge markdown file (concept / how-to / reference / pattern / pitfall / note)
   in this repository following its frontmatter, placement, and freshness conventions. Use when the user
   wants to record something learned about agent development, promote a note to a firmer type, or
   mark an existing knowledge file as deprecated. Not for building slides (use slide-make) or for periodic
@@ -10,7 +10,7 @@ description: >-
 
 # knowledge-add
 
-knowledge/ と adr/ に markdown を追加・更新する手順。規約は .claude/rules/ の 3 ファイルが正。
+knowledge/ に markdown を追加・更新する手順。規約は .claude/rules/ の 3 ファイルが正。
 
 ## 手順
 
@@ -22,7 +22,6 @@ knowledge/ と adr/ に markdown を追加・更新する手順。規約は .cla
    - 「課題と解決の組」→ `pattern`
    - 「一覧・仕様」→ `reference`
    - 「それは何か・なぜか」→ `concept`
-   - このリポジトリ自身の運用の決定 → `adr` (adr/ に連番)
    - まだ確かめていない、出典が無い → `note`。置き場所は他と同じ knowledge/
    type ごとの粒度は .claude/rules/knowledge-authoring.md の表に従う。タイトルが「〜と〜」になるなら分割する。
 
@@ -51,4 +50,4 @@ knowledge/ と adr/ に markdown を追加・更新する手順。規約は .cla
 
 ## 検索
 
-似た知識が既に無いか、先に `pnpm search --text <語>` や `pnpm search --tag <tag>` で確認する。
+似た知識が既に無いか、先に `pnpm run search --text <語>` や `pnpm run search --tag <tag>` (`run` を省くと pnpm 組み込みの npm 検索に取られる) で確認する。
