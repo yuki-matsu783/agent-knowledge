@@ -49,10 +49,23 @@ uv run marpx your-slide.md -o output.pptx
 
 作者いわく、Marp が出力する HTML / CSS の全パターンを網羅しておらず、観測したケースにだけ対応している。見慣れないレイアウトでは変換が崩れる可能性がある。
 
+## ソースから分かること (2026-09-05、commit 316ba66 を読んだ)
+
+- **Python だけでは動かない。** `src/marpx/extraction/marp_renderer.py` が `shutil.which("npx")` で npx を探し、
+  `npx @marp-team/marp-cli@4.2.3` (バージョン固定) で Markdown を HTML にしてから Playwright に渡す。npx が無いと
+  「npx not found. Please install Node.js (>=18) and npm.」で止まる。README の前提にも Node.js >= 18 と npm / npx がある
+- このリポジトリは npm / npx を使わない方針なので、使うなら marp-cli の呼び出しを pnpm 側の `@marp-team/marp-cli` に差し替えるか、
+  HTML を先に `pnpm slides` で作ってから marpx の HTML 入力側だけを使えるかを見る必要がある (どちらも未確認)
+- 依存は python-pptx、playwright、click、pydantic 2、Pillow、rich、numpy 2.4 以上、latex2mathml。`requires-python >= 3.11`
+- marp-cli のタイムアウトは 60 秒固定
+- Mermaid はコードブロックのまま (marp-cli が描画しないため。README は `mmdc` 前処理を将来対応としている)
+
+実行はまだしていない。`uv sync` から先 (Chromium の取得、変換) は未検証のまま。
+
 ## このリポジトリでの位置づけ
 
 - slide-make skill は HTML 出力まで。PPTX が必要になった時点で marpx を試し、`templates/marp-theme.css` で崩れる箇所があれば記録する
-- Python ツールなので uv で扱う (CLAUDE.md の方針どおり)
+- Python 部分は uv で扱う (CLAUDE.md の方針どおり)。ただし上のとおり Node と npx も要る
 
 ## 昇格の目安
 
