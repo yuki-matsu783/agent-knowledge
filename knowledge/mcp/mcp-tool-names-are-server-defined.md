@@ -51,6 +51,6 @@ PreToolUse の matcher にツール名の正規表現を使う構成。MCP サ�
 
 ## 関連
 
-- [ガードの設定が読めないときも復旧経路を残す](../hook/keep-recovery-path-when-guard-config-breaks.md)。「判定できなければ拒否」の適用範囲
-- [読み取り専用に分類したコマンドはオプションで状態を変えたり任意実行したりする](../hook/read-only-command-classes-have-option-holes.md)。コマンド側の `curl` の扱い
+- [ガードの設定が読めないときも復旧経路を残す](../hooks/keep-recovery-path-when-guard-config-breaks.md)。「判定できなければ拒否」の適用範囲
+- [読み取り専用に分類したコマンドはオプションで状態を変えたり任意実行したりする](../hooks/read-only-command-classes-have-option-holes.md)。コマンド側の `curl` の扱い
 - [失敗メッセージに代替手段を名指しで埋め込む](name-the-alternative-in-failure-message.md)。MCP フォールバックへ誘導する側

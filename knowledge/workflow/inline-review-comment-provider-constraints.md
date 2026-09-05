@@ -55,5 +55,5 @@ hook の部分一致検知 (`git` と `commit` / `push` の連続) を誤って�
 
 ## 関連
 
-- [敵対的レビューは独立コンテキストの読み取り専用サブエージェントに切り出す](../agent/adversarial-review-in-isolated-subagent.md)
+- [敵対的レビューは独立コンテキストの読み取り専用サブエージェントに切り出す](../agents/adversarial-review-in-isolated-subagent.md)
 - [transcript の user 行の message.content は配列とは限らない](transcript-user-content-may-be-string.md)。同じ引数長上限の実例

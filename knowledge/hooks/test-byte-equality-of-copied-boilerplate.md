@@ -54,4 +54,4 @@ hook と提供コマンドの全スクリプトが先頭に持つ「読み込み
 
 - [source するライブラリは読み込み失敗を呼び手に委ね戻り値で 3 状態を返す](bash-return-code-conventions-for-sourced-libs.md)。読み込み行が持つ規約の中身
 - [横断で決めた規則は個別の仕様まで降ろす](../workflow/push-cross-cutting-decisions-down-to-individual-specs.md)。「雛形だけ直して波及を見ない」の文書版
-- [ルールの文言強化ではなく記録とゲートで抜けを塞ぐ](../rule/close-gaps-with-mechanism-not-wording.md)。「コピーせよ」の文言だけでは守られない
+- [ルールの文言強化ではなく記録とゲートで抜けを塞ぐ](../rules/close-gaps-with-mechanism-not-wording.md)。「コピーせよ」の文言だけでは守られない

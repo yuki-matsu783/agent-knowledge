@@ -60,4 +60,4 @@ intervention: hook
 - [同じイベントの hook は並列に走り settings.json の配列順は実行順ではない](hooks-run-in-parallel-not-in-array-order.md)。状態を持つライブラリがレースする理由
 - [source するライブラリの戻り値規約](bash-return-code-conventions-for-sourced-libs.md)。frontmatter 読み取りの 3 状態と、失敗ポリシーを呼び手に委ねる形
 - [ホットパスの hook は秒数ではなく fork の回数で予算を決める](count-forks-not-seconds-for-hot-path-hooks.md)。ライブラリがファイルを開かない理由
-- [意味理解を要する判定はエージェントへ委ねスクリプトには決定的な判定だけを置く](../skill/delegate-meaning-to-agent-keep-scripts-decidable.md)。1 段上の同じ線引き
+- [意味理解を要する判定はエージェントへ委ねスクリプトには決定的な判定だけを置く](../skills/delegate-meaning-to-agent-keep-scripts-decidable.md)。1 段上の同じ線引き

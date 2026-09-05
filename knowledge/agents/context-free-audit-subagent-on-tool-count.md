@@ -18,8 +18,8 @@ keywords: [wip, 風紀委員, 監査, ドリフト, 目的逸脱, ルール違�
 status: stable
 sources:
   - https://code.claude.com/docs/en/hooks
-  - knowledge/hook/hook-timeout-fails-open.md
-  - knowledge/hook/protect-guard-config-from-the-agent.md
+  - knowledge/hooks/hook-timeout-fails-open.md
+  - knowledge/hooks/protect-guard-config-from-the-agent.md
 ---
 
 # ツール使用回数を閾値にして、文脈を持たない監査サブエージェントを背景で走らせる
@@ -78,14 +78,14 @@ flowchart LR
 停止モードの要点は、**判定の生成と判定の適用を分ける**こと。監査役 (遅い、LLM を呼ぶ) は背景に置いたまま、
 `logs/audit-verdict.json` のようなファイルに結論と理由を書く。ゲート側の `PreToolUse` hook は
 そのファイルの有無を見て中身を stderr に出して `exit 2` するだけで、ローカル完結で速い。
-[hook はタイムアウトすると素通りする](../hook/hook-timeout-fails-open.md) の回避策 1 と 6 にそのまま沿う。
+[hook はタイムアウトすると素通りする](../hooks/hook-timeout-fails-open.md) の回避策 1 と 6 にそのまま沿う。
 LLM を同期パスに置かずに fail-closed のゲートが作れる。
 
 決めていないこと。
 
 - **判定ファイルをいつ消すか。** 止めた時点で消すと、本体が理由を読んでユーザーに確認して続行できる。
   ユーザーが消すまで残すとロックが強くなるが、エージェント自身が消せてしまう
-  ([ガードの設定と hook 自身をエージェントから守る](../hook/protect-guard-config-from-the-agent.md) と同じ問題)
+  ([ガードの設定と hook 自身をエージェントから守る](../hooks/protect-guard-config-from-the-agent.md) と同じ問題)
 - **何を止めるか。** 全ツールを止めると状況確認もできなくなる。`Edit|Write|Bash` だけ matcher で止め、
   読み取りは通すほうが、本体がユーザーに説明する材料を集められる
 - **モードの置き場所。** settings.json に書くとエージェントが書き換えられる。環境変数か managed settings に寄せる

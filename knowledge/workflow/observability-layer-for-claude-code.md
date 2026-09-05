@@ -49,7 +49,7 @@ sources:
 | 端末画面 (multiplexer) | 無い | 人が見える範囲 | 無い | 端末構成を変える |
 
 判断の軸は遅延ではなく**侵襲**にした方がよい。可視化のために本業を遅くするのは順序が逆で、
-これは [サブエージェントと全体進捗を VS Code 拡張で可視化する](../agent/subagent-progress-ui-in-vscode.md)
+これは [サブエージェントと全体進捗を VS Code 拡張で可視化する](../agents/subagent-progress-ui-in-vscode.md)
 でも同じ結論になっている。承認ゲートのように hook でしか取れないものだけ hook に残す。
 
 ## 3 つのツール

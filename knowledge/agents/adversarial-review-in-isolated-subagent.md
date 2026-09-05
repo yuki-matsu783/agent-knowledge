@@ -59,8 +59,8 @@ intervention: tool
 ## 関連
 
 - [ツール使用回数を閾値にして、文脈を持たない監査サブエージェントを背景で走らせる](context-free-audit-subagent-on-tool-count.md)。同じ発想の未検証 note。こちらは実装して運用した形
-- [rules を固定フォーマットの唯一の正にし、レビューは関心事ごとのサブエージェントが横断的に読む](../rule/rules-as-single-source-for-authoring-and-review.md)。何を観点として渡すかの案
+- [rules を固定フォーマットの唯一の正にし、レビューは関心事ごとのサブエージェントが横断的に読む](../rules/rules-as-single-source-for-authoring-and-review.md)。何を観点として渡すかの案
 - [レビューエージェントは判定せず確度と重大度を付けた findings を返し、閾値と投稿は呼び出し側が持つ](reviewer-scores-findings-caller-applies-threshold.md)。手順 3〜4 の出力の受け渡しを pattern として切り出したもの
 - [エージェントからインラインレビューコメントを投稿するときのプロバイダ制約](../workflow/inline-review-comment-provider-constraints.md)。findings を投稿する側の制約
 - [サブエージェントのモデルは定義で固定せず呼び出し側に決めさせる](subagent-model-selection-by-orchestrator.md)。レビュー用は例外として強いモデルを固定する判断
-- [hook の前置フィルタは精密判定の超集合でなければ生 JSON のエスケープで穴が開く](../hook/hook-prefilter-must-stay-superset.md)。このレビューで見つかった反例
+- [hook の前置フィルタは精密判定の超集合でなければ生 JSON のエスケープで穴が開く](../hooks/hook-prefilter-must-stay-superset.md)。このレビューで見つかった反例

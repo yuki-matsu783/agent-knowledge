@@ -87,4 +87,4 @@ Windows (Git Bash)、claude-code 2.1.235、ripgrep 14.1.1 で確認した。
 
 ## 関連
 
-- [生のコマンド実行を deny してラッパスクリプトへ誘導する](../hook/command-wrappers-instead-of-raw-bash.md)
+- [生のコマンド実行を deny してラッパスクリプトへ誘導する](../hooks/command-wrappers-instead-of-raw-bash.md)

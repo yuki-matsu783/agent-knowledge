@@ -58,6 +58,6 @@ Claude Code と Gemini CLI で rules・skills・hooks・agents を二重管理�
 ## 関連
 
 - [NTFS ジャンクションは git にリンクとして扱われず中身が丸ごとコミットされる](ntfs-junction-is-not-a-git-symlink.md)
-- [Gemini CLI には圧縮後に発火する hook が無い](../hook/gemini-cli-no-post-compress-hook.md)。変換しても埋まらない機能差
-- [ConfigChange と FileChanged に頼ったガードは他のエージェント CLI へ移植できない](../hook/hook-event-portability-across-agent-clis.md)
+- [Gemini CLI には圧縮後に発火する hook が無い](../hooks/gemini-cli-no-post-compress-hook.md)。変換しても埋まらない機能差
+- [ConfigChange と FileChanged に頼ったガードは他のエージェント CLI へ移植できない](../hooks/hook-event-portability-across-agent-clis.md)
 - [生成物を Git 管理下に置くかは人間が直接読むかで決める](committed-vs-ignored-generated-files.md)

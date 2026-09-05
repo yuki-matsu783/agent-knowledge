@@ -52,4 +52,4 @@ intervention: hook
 - 業務条件を満たす状況を作って測る案 (エージェント定義を実装し、チケットの記載を書き換える) は、測定のために正史のアセットを増やし状態を偽装することになる
 - 一時的な逸脱 (値を記録する、記録の表に無いパスを増やす) は、期限と検査手段 (grep 0 件) が最初から決まっていれば受け入れられる
 - [実測の前に外れたときの縮退を書いておく](../workflow/write-fallback-condition-before-measuring.md)。プローブを仕込む前にやること
-- [Agent ツール周りの hook 入出力の一覧](../agent/agent-tool-hook-fields-reference.md)。この方法で確定した事実の一覧
+- [Agent ツール周りの hook 入出力の一覧](../agents/agent-tool-hook-fields-reference.md)。この方法で確定した事実の一覧

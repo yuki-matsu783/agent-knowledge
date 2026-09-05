@@ -65,7 +65,7 @@ exit=0
   `$(cat file)` で読んで `--arg` に渡す案は `cat` が fork で、`$(< file)` でも設定が育つと引数長の制限に当たる
 
 `jq` の `//` 演算子は `false` も右辺に倒すことにも注意する。`.draft // empty` は「draft でない」を「判定できない」に化けさせる。値の有無と値そのものは分けて読む
-([判定できないときは「進んだことにする」でなく「もう一度やる」側に倒す](../skill/undeterminable-means-redo-not-assume-done.md))。
+([判定できないときは「進んだことにする」でなく「もう一度やる」側に倒す](../skills/undeterminable-means-redo-not-assume-done.md))。
 
 ## 再現条件
 

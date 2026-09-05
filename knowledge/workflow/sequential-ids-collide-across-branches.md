@@ -69,4 +69,4 @@ sources:
 
 - [merge-tree で作業ツリーを汚さずにベースブランチとの衝突を検知する](detect-conflicts-with-merge-tree.md)。番号重複を直接調べる検知の作り方
 - [設計書の隣に決定ログを置く](decision-log-beside-design-docs.md)。決定記録を置く場所の話。こちらはその ID の話
-- [並列で走らせるエージェントは git worktree で隔離する](../agent/parallel-agents-isolated-by-worktree.md)。worktree 並列で採番が本流限定になる理由
+- [並列で走らせるエージェントは git worktree で隔離する](../agents/parallel-agents-isolated-by-worktree.md)。worktree 並列で採番が本流限定になる理由

@@ -55,4 +55,4 @@ Windows 10、Git for Windows、開発者モード無効のセッション。`git
 ## 関連
 
 - [.gemini/ を .claude/ からの変換生成物にして Git 管理下に置く](generate-gemini-assets-from-claude-assets.md)
-- [ConfigChange と FileChanged に頼ったガードは他のエージェント CLI へ移植できない](../hook/hook-event-portability-across-agent-clis.md)。CLI 間で資産を共有するときの別の壁
+- [ConfigChange と FileChanged に頼ったガードは他のエージェント CLI へ移植できない](../hooks/hook-event-portability-across-agent-clis.md)。CLI 間で資産を共有するときの別の壁

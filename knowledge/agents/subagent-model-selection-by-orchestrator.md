@@ -132,4 +132,4 @@ flowchart LR
 ## 関連
 
 - [ツール使用回数を閾値にして、文脈を持たない監査サブエージェントを背景で走らせる](context-free-audit-subagent-on-tool-count.md) — 別文脈の点検役を立てる話。その点検役のモデルをどう決めるかがこのパターン
-- [タスクの切れ目で /compact と /clear をユーザに依頼させる](../hook/ask-user-to-reset-context-at-task-boundaries.md) — エージェントが自分で決めずユーザに判断を返す形の別例
+- [タスクの切れ目で /compact と /clear をユーザに依頼させる](../hooks/ask-user-to-reset-context-at-task-boundaries.md) — エージェントが自分で決めずユーザに判断を返す形の別例

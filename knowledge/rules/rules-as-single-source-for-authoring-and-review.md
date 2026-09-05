@@ -82,4 +82,4 @@ sources:
 
 ## 関連
 
-- [敵対的レビューは独立コンテキストの読み取り専用サブエージェントに切り出す](../agent/adversarial-review-in-isolated-subagent.md)。レビューを担うサブエージェントの作り
+- [敵対的レビューは独立コンテキストの読み取り専用サブエージェントに切り出す](../agents/adversarial-review-in-isolated-subagent.md)。レビューを担うサブエージェントの作り

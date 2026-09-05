@@ -62,5 +62,5 @@ Linux x86_64 (Claude Code on the web) で strace 実測、2026-08。git bash (Wi
 ## 関連
 
 - [hook のコマンド判定は正規化とコマンド位置の走査にし読めない入力はブロック側へ倒す](command-position-match-fails-closed.md)。後段の精密判定
-- [敵対的レビューは独立コンテキストの読み取り専用サブエージェントに切り出す](../agent/adversarial-review-in-isolated-subagent.md)
+- [敵対的レビューは独立コンテキストの読み取り専用サブエージェントに切り出す](../agents/adversarial-review-in-isolated-subagent.md)
 - [タイムアウトした hook はガードにならず素通りする](hook-timeout-fails-open.md)

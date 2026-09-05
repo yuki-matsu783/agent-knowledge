@@ -52,7 +52,7 @@ bash から透過的に呼ぶには MCP サーバーへ HTTP / JSON-RPC で直�
 3. **プロバイダ API が要る処理はエージェントへ持ち上げる。** PR / MR の存在、レビュースレッド、issue 本文は
    git のデータモデルに無く API 必須。これは hook の中でやらず、hook は `additionalContext` や stdout で
    「ブランチ X の PR を確認して Y をせよ」と**指示だけ注入**し、エージェントがその環境で使える経路
-   (`gh` / `glab` / MCP) で実行する。判断は [意味理解を要する判定はエージェントへ委ねる](../skill/delegate-meaning-to-agent-keep-scripts-decidable.md)
+   (`gh` / `glab` / MCP) で実行する。判断は [意味理解を要する判定はエージェントへ委ねる](../skills/delegate-meaning-to-agent-keep-scripts-decidable.md)
    と同じ向き
 4. **それでもスクリプトが CLI を呼ぶなら、不在時は名指しで委ねる。** `command -v gh` / `command -v glab` で
    経路を判定し、CLI が無ければ「gh / glab が使えないので、`mcp__github__<tool>` で owner/repo を指定して X をしてほしい」を
@@ -88,6 +88,6 @@ flowchart LR
 ## 関連
 
 - [失敗メッセージに代替手段を名指しで埋め込む](../mcp/name-the-alternative-in-failure-message.md)。手順 4 の具体的な書き方
-- [エージェントが呼ぶスクリプトは無言で成功してはならない](../skill/agent-scripts-must-not-succeed-silently.md)。「PR: なし」の誤注入はこれの実例
-- [意味理解を要する判定はエージェントへ委ねスクリプトには決定的な判定だけを置く](../skill/delegate-meaning-to-agent-keep-scripts-decidable.md)
+- [エージェントが呼ぶスクリプトは無言で成功してはならない](../skills/agent-scripts-must-not-succeed-silently.md)。「PR: なし」の誤注入はこれの実例
+- [意味理解を要する判定はエージェントへ委ねスクリプトには決定的な判定だけを置く](../skills/delegate-meaning-to-agent-keep-scripts-decidable.md)
 - [worktree に入るとガード hook の前提が変わる](hook-guards-under-worktree-isolation.md)。hook の前提が環境で変わる別の例

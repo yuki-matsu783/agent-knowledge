@@ -34,7 +34,7 @@ sources:
   - https://code.claude.com/docs/en/worktrees
   - https://code.claude.com/docs/en/tools-reference
   - https://docs.gitlab.com/user/project/merge_requests/creating_merge_requests/
-  - knowledge/agent/parallel-agents-isolated-by-worktree.md
+  - knowledge/agents/parallel-agents-isolated-by-worktree.md
 ---
 
 # GitLab の issue から作ったマージリクエストのブランチで worktree に入る

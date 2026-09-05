@@ -38,7 +38,7 @@ sources:
 
 エージェントが相手だとこれが毎回起きる。人は「前にそれを試して駄目だった」を覚えているが、
 エージェントはセッションをまたいで覚えていない
-([タスクの切れ目で /compact と /clear をユーザに依頼させる](../hook/ask-user-to-reset-context-at-task-boundaries.md)
+([タスクの切れ目で /compact と /clear をユーザに依頼させる](../hooks/ask-user-to-reset-context-at-task-boundaries.md)
 のように、そもそも意図的に忘れさせている)。渡した設計書が入力の全部になる。
 だから**経緯を人の頭ではなくファイルに置く**必要がある。
 

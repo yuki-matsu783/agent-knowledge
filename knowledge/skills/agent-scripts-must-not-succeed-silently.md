@@ -60,6 +60,6 @@ intervention: tool
 
 ## 関連
 
-- [ルールの文言強化ではなく記録とゲートで抜けを塞ぐ](../rule/close-gaps-with-mechanism-not-wording.md)
+- [ルールの文言強化ではなく記録とゲートで抜けを塞ぐ](../rules/close-gaps-with-mechanism-not-wording.md)
 - [失敗メッセージに代替手段を名指しで埋め込む](../mcp/name-the-alternative-in-failure-message.md)
-- [hook を注入系とガード系に分け、失敗時の既定を逆にする](../hook/injecting-vs-guarding-hooks.md)。注入系は fail-open でよいが、注入する**内容**が誤情報になってはならない
+- [hook を注入系とガード系に分け、失敗時の既定を逆にする](../hooks/injecting-vs-guarding-hooks.md)。注入系は fail-open でよいが、注入する**内容**が誤情報になってはならない

@@ -22,7 +22,7 @@ applies_to: [claude-code@2.1]
 sources:
   - https://code.claude.com/docs/en/hooks
   - https://code.claude.com/docs/en/permissions
-  - knowledge/hook/deny-by-hook-not-permissions.md
+  - knowledge/hooks/deny-by-hook-not-permissions.md
 intervention: hook
 ---
 

@@ -57,5 +57,5 @@ Claude Code 2.1 系 (2026-09 時点) の hooks リファレンスと、サブエ
 ## 関連
 
 - [サブエージェントは既定で background で走り PostToolUse Agent は起動直後に発火する](subagent-runs-in-background-by-default.md)
-- [通知しなかった判定も skip として記録し記録の欠如を縮退と読めるようにする](../hook/record-skips-so-absence-means-degraded.md)。`agentId` で記録を引く側
+- [通知しなかった判定も skip として記録し記録の欠如を縮退と読めるようにする](../hooks/record-skips-so-absence-means-degraded.md)。`agentId` で記録を引く側
 - [サブエージェントのモデルは定義で固定せず呼び出し側に決めさせる](subagent-model-selection-by-orchestrator.md)
