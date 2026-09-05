@@ -53,6 +53,6 @@ hook はセッション開始やツール呼び出しのたびに**自動で**�
 ## 関連
 
 - [ConfigChange と FileChanged に頼ったガードは他のエージェント CLI へ移植できない](hook-event-portability-across-agent-clis.md)。環境差に耐える hook の別の側面
-- [失敗メッセージに代替手段を名指しで埋め込む](../mcp/name-the-alternative-in-failure-message.md)。提供コマンドの側が CLI 不在に対処する形
-- [merge-tree で作業ツリーを汚さずにベースブランチとの衝突を検知する](../workflow/detect-conflicts-with-merge-tree.md)。最終ゲートの実装
-- [compact 後に SessionStart hook で作業コンテキストを再注入する](reinject-work-context-after-compact.md)。注入する内容をローカルから導く側
+- [失敗メッセージに代替手段を名指しで埋め込む](../../mcp/name-the-alternative-in-failure-message.md)。提供コマンドの側が CLI 不在に対処する形
+- [merge-tree で作業ツリーを汚さずにベースブランチとの衝突を検知する](../../workflow/detect-conflicts-with-merge-tree.md)。最終ゲートの実装
+- [compact 後に SessionStart hook で作業コンテキストを再注入する](../00-SessionStart/reinject-work-context-after-compact.md)。注入する内容をローカルから導く側

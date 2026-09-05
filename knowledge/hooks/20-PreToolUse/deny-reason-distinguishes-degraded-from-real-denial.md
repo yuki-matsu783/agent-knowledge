@@ -58,6 +58,6 @@ intervention: hook
 
 ## 関連
 
-- [失敗メッセージに代替手段を名指しで埋め込む](../mcp/name-the-alternative-in-failure-message.md)。本来の拒否の文面に代替を書く側
+- [失敗メッセージに代替手段を名指しで埋め込む](../../mcp/name-the-alternative-in-failure-message.md)。本来の拒否の文面に代替を書く側
 - [hook のコマンド判定は正規化とコマンド位置の走査にし読めない入力はブロック側へ倒す](command-position-match-fails-closed.md)。縮退の設計
-- [縮退時に判定しなかった分岐も skip を記録する](record-skips-so-absence-means-degraded.md)。判定の内部状態を記録に出す同じ発想
+- [縮退時に判定しなかった分岐も skip を記録する](../22-PostToolUse/record-skips-so-absence-means-degraded.md)。判定の内部状態を記録に出す同じ発想

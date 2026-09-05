@@ -65,7 +65,7 @@ exit=0
   `$(cat file)` で読んで `--arg` に渡す案は `cat` が fork で、`$(< file)` でも設定が育つと引数長の制限に当たる
 
 `jq` の `//` 演算子は `false` も右辺に倒すことにも注意する。`.draft // empty` は「draft でない」を「判定できない」に化けさせる。値の有無と値そのものは分けて読む
-([判定できないときは「進んだことにする」でなく「もう一度やる」側に倒す](../skills/undeterminable-means-redo-not-assume-done.md))。
+([判定できないときは「進んだことにする」でなく「もう一度やる」側に倒す](../../skills/scripts/undeterminable-means-redo-not-assume-done.md))。
 
 ## 再現条件
 
@@ -73,6 +73,6 @@ jq 1.6 以降の `--slurpfile` / `--rawfile` の挙動。上の出力は Git Bas
 
 ## 関連
 
-- [ガードの設定が読めないときも復旧経路を残す](keep-recovery-path-when-guard-config-breaks.md)。この分岐に到達させるための話
+- [ガードの設定が読めないときも復旧経路を残す](../common/keep-recovery-path-when-guard-config-breaks.md)。この分岐に到達させるための話
 - [ホットパスの hook は秒数ではなく fork の回数で予算を決める](count-forks-not-seconds-for-hot-path-hooks.md)。副入力を 1 回の jq に相乗りさせる理由
-- [hook は CLAUDE_PROJECT_DIR 基準の絶対パスで登録しないと cwd 次第で全 deny のロックアウトになる](register-hooks-with-absolute-project-dir-path.md)。同じ形のロックアウト
+- [hook は CLAUDE_PROJECT_DIR 基準の絶対パスで登録しないと cwd 次第で全 deny のロックアウトになる](../common/register-hooks-with-absolute-project-dir-path.md)。同じ形のロックアウト

@@ -63,5 +63,5 @@ L1〜L3 は「通らない」= 手数の問題、L4 は「通ってしまう」=
 
 - [分類を広げるときは新たに通るものを数える](count-what-newly-passes-when-widening-a-class.md)。`curl` の改定で送信側が開いた経緯
 - [削除は保護 glob が対象で始まるかで判定し配下を列挙しない](judge-deletes-by-protected-glob-prefix.md)。同じ guard の削除側
-- [共有ライブラリは分類までにし規約との照合は呼び手が行う](shared-library-classifies-caller-matches-rules.md)。`-o` の次が出力先、という意味論を持つのは呼び手
+- [共有ライブラリは分類までにし規約との照合は呼び手が行う](../scripts/shared-library-classifies-caller-matches-rules.md)。`-o` の次が出力先、という意味論を持つのは呼び手
 - [生のコマンド実行を deny してラッパスクリプトへ誘導する](command-wrappers-instead-of-raw-bash.md)

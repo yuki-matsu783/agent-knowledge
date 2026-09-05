@@ -57,5 +57,5 @@ claude-code v2.1.198 以降。実測は VSCode 拡張の対話セッションで
 ## 関連
 
 - [Agent ツール周りの hook 入出力の一覧](agent-tool-hook-fields-reference.md)。`status` / `agentId` / `resolvedModel` の名前と、どのイベントに何が来るか
-- [通知しなかった判定も skip として記録し記録の欠如を縮退と読めるようにする](../hooks/record-skips-so-absence-means-degraded.md)。起動前の経路が使えないときの補い方
+- [通知しなかった判定も skip として記録し記録の欠如を縮退と読めるようにする](../hooks/22-PostToolUse/record-skips-so-absence-means-degraded.md)。起動前の経路が使えないときの補い方
 - [並列で走らせるエージェントは git worktree で隔離する](parallel-agents-isolated-by-worktree.md)

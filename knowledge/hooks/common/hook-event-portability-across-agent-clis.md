@@ -52,8 +52,8 @@ Antigravity は `PreToolUse` `PostToolUse` `PreInvocation` `PostInvocation` `Sto
 どのツールにもある「ツール実行前に止めて理由を返す」だけで組めば、設定は移せなくても設計は移せる。
 
 - 拒否理由をエージェントに返す口はどれも持っている。Claude Code は `permissionDecisionReason`、Gemini CLI は `decision: "deny"` の `reason` (exit 2 なら stderr)、Antigravity は `decision: "deny"`。
-  [権限は permissions.deny ではなく PreToolUse hook で止める](deny-by-hook-not-permissions.md) の「理由と代替を返す」はそのまま通用する
-- [ガードの設定と hook スクリプト自身をエージェントから守る](protect-guard-config-from-the-agent.md) の 4 層のうち、**3 層目 (`ConfigChange` で設定変更の適用を止める) だけが Claude Code 専用**になる。
+  [権限は permissions.deny ではなく PreToolUse hook で止める](../20-PreToolUse/deny-by-hook-not-permissions.md) の「理由と代替を返す」はそのまま通用する
+- [ガードの設定と hook スクリプト自身をエージェントから守る](../20-PreToolUse/protect-guard-config-from-the-agent.md) の 4 層のうち、**3 層目 (`ConfigChange` で設定変更の適用を止める) だけが Claude Code 専用**になる。
   他ツールで残るのは 2 層目のツール時点の deny と、4 層目の OS 権限と CI。移植を前提にするならこの 2 つを主にする
 - Claude Code だけで使う設定なら両イベントとも使ってよい。移植性を理由に捨てる必要は無い。分けて書いておけば移すときに落とす箇所が分かる
 
@@ -66,6 +66,6 @@ Gemini CLI にはもう 1 つ差がある。設定ファイルの watcher をそ
 
 ## 関連
 
-- [ガードの設定と hook スクリプト自身をエージェントから守る](protect-guard-config-from-the-agent.md)。4 層のどれが移植できるかはこちらの構成と対応する
-- [権限は permissions.deny ではなく PreToolUse hook で止める](deny-by-hook-not-permissions.md)。共通部分で組む土台
+- [ガードの設定と hook スクリプト自身をエージェントから守る](../20-PreToolUse/protect-guard-config-from-the-agent.md)。4 層のどれが移植できるかはこちらの構成と対応する
+- [権限は permissions.deny ではなく PreToolUse hook で止める](../20-PreToolUse/deny-by-hook-not-permissions.md)。共通部分で組む土台
 - [タイムアウトした hook はガードにならず素通りする](hook-timeout-fails-open.md)

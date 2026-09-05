@@ -51,6 +51,6 @@ push コマンドは push 前チェックの項目を、記録ファイルに理
 
 ## 関連
 
-- [エージェントが書く宣言で権限を広げられない](../hooks/agent-written-declarations-cannot-widen-permissions.md)。エージェントの書き込みを信頼しない同じ構図
+- [エージェントが書く宣言で権限を広げられない](../hooks/20-PreToolUse/agent-written-declarations-cannot-widen-permissions.md)。エージェントの書き込みを信頼しない同じ構図
 - [ルールの文言強化ではなく記録とゲートで抜けを塞ぐ](../rules/close-gaps-with-mechanism-not-wording.md)。ゲート側の実装の注意
-- [エージェントが呼ぶスクリプトは無言で成功してはならない](../skills/agent-scripts-must-not-succeed-silently.md)
+- [エージェントが呼ぶスクリプトは無言で成功してはならない](../skills/scripts/agent-scripts-must-not-succeed-silently.md)

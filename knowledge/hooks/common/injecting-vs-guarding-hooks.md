@@ -87,7 +87,7 @@ SessionStart と PostToolUse では block にならない。PostToolUse はツ�
 ## 関連
 
 - [タイムアウトした hook はガードにならず素通りする](hook-timeout-fails-open.md) — ガード系を fail-closed に保つための具体策
-- [権限は permissions.deny ではなく PreToolUse hook で止める](deny-by-hook-not-permissions.md) — ガード系の中身の設計
-- [ガードの設定と hook スクリプト自身をエージェントから守る](protect-guard-config-from-the-agent.md) — ガード系が無効化されない前提を作る
+- [権限は permissions.deny ではなく PreToolUse hook で止める](../20-PreToolUse/deny-by-hook-not-permissions.md) — ガード系の中身の設計
+- [ガードの設定と hook スクリプト自身をエージェントから守る](../20-PreToolUse/protect-guard-config-from-the-agent.md) — ガード系が無効化されない前提を作る
 - [ガード hook は enforce / dry-run / off の 3 モードで運用する](guard-hook-enforcement-modes.md) — ガード系側の運用。判定を止めずに記録だけする段を挟む
-- [Gemini CLI には圧縮後に発火する hook が無い](gemini-cli-no-post-compress-hook.md) — 注入系を毎ターン打ち直す動機
+- [Gemini CLI には圧縮後に発火する hook が無い](../01-PreCompact/gemini-cli-no-post-compress-hook.md) — 注入系を毎ターン打ち直す動機

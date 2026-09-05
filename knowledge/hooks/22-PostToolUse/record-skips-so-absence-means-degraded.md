@@ -52,7 +52,7 @@ intervention: hook
 
 ## 関連
 
-- [Agent ツール周りの hook 入出力の一覧](../agents/agent-tool-hook-fields-reference.md)。記録を引く識別子 (`tool_response.agentId`) が入力側の `agent_id` と別名で、取り違えると常に縮退になる
-- [サブエージェントは既定で background で走り PostToolUse Agent は起動直後に発火する](../agents/subagent-runs-in-background-by-default.md)。保険側の経路が起動直後に来る話
-- [縮退で拒否したときの理由文は本来の拒否と分けて何が判定を妨げたかを書く](deny-reason-distinguishes-degraded-from-real-denial.md)。判定の内部状態を外に出す同じ発想
-- [エージェントが呼ぶスクリプトは無言で成功してはならない](../skills/agent-scripts-must-not-succeed-silently.md)
+- [Agent ツール周りの hook 入出力の一覧](../../agents/agent-tool-hook-fields-reference.md)。記録を引く識別子 (`tool_response.agentId`) が入力側の `agent_id` と別名で、取り違えると常に縮退になる
+- [サブエージェントは既定で background で走り PostToolUse Agent は起動直後に発火する](../../agents/subagent-runs-in-background-by-default.md)。保険側の経路が起動直後に来る話
+- [縮退で拒否したときの理由文は本来の拒否と分けて何が判定を妨げたかを書く](../20-PreToolUse/deny-reason-distinguishes-degraded-from-real-denial.md)。判定の内部状態を外に出す同じ発想
+- [エージェントが呼ぶスクリプトは無言で成功してはならない](../../skills/scripts/agent-scripts-must-not-succeed-silently.md)

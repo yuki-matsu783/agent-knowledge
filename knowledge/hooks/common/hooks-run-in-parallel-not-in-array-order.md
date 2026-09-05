@@ -54,7 +54,7 @@ PostToolUse はさらに、Claude が並列にツールを呼ぶと同時に発�
 - 各 hook の拒否理由は**単独で読んで成立する文面**にする。他の hook の判定結果に言及しない
 - 順序による絞り込みは無いので、性能は「各 hook が単独で軽いこと」だけで決まる。fork の回数を hook ごとに数えて上限を置く
 - 共有ライブラリは状態ファイルを持たず、進捗の起点 (前回どこまで進んだか) は呼び手が引数で渡す。呼び手ごとに別の状態を持てば、どの順で走っても互いに影響しない
-- 記録ファイルへの並行書き込みは [並行する hook の記録は追記の行長制限と一時ファイルと mkdir ロックで守る](concurrent-hook-writes-append-tmpfile-mkdir-lock.md) の 3 段で守る
+- 記録ファイルへの並行書き込みは [並行する hook の記録は追記の行長制限と一時ファイルと mkdir ロックで守る](../scripts/concurrent-hook-writes-append-tmpfile-mkdir-lock.md) の 3 段で守る
 - 11 本を 1 本にまとめて内部で順に判定する案は、緊急停止やテストの粒度、要件との対応が崩れるので採らない
 
 ## 再現条件
@@ -63,7 +63,7 @@ PostToolUse はさらに、Claude が並列にツールを呼ぶと同時に発�
 
 ## 関連
 
-- [並行する hook の記録は追記の行長制限と一時ファイルと mkdir ロックで守る](concurrent-hook-writes-append-tmpfile-mkdir-lock.md)。並列が引き起こす書き込み競合の対策
-- [ホットパスの hook は秒数ではなく fork の回数で予算を決める](count-forks-not-seconds-for-hot-path-hooks.md)。本数倍になる fork の抑え方
-- [共有ライブラリは分類までにし規約との照合は呼び手が行う](shared-library-classifies-caller-matches-rules.md)。ライブラリが状態を持たない理由
+- [並行する hook の記録は追記の行長制限と一時ファイルと mkdir ロックで守る](../scripts/concurrent-hook-writes-append-tmpfile-mkdir-lock.md)。並列が引き起こす書き込み競合の対策
+- [ホットパスの hook は秒数ではなく fork の回数で予算を決める](../scripts/count-forks-not-seconds-for-hot-path-hooks.md)。本数倍になる fork の抑え方
+- [共有ライブラリは分類までにし規約との照合は呼び手が行う](../scripts/shared-library-classifies-caller-matches-rules.md)。ライブラリが状態を持たない理由
 - [タイムアウトした hook はガードにならず素通りする](hook-timeout-fails-open.md)

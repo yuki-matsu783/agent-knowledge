@@ -59,5 +59,5 @@ glob の `**` は「0 個以上のディレクトリに一致する」だが、�
 ## 関連
 
 - [削除は保護 glob が対象で始まるかで判定し配下を列挙しない](judge-deletes-by-protected-glob-prefix.md)。ディレクトリを消してよいかを「配下に守るものを含み得るか」で見る、向きを逆にした判定
-- [共有ライブラリは分類までにし規約との照合は呼び手が行う](shared-library-classifies-caller-matches-rules.md)。位置引数を取り出す関数はライブラリ、元と宛先の解釈は呼び手
+- [共有ライブラリは分類までにし規約との照合は呼び手が行う](../scripts/shared-library-classifies-caller-matches-rules.md)。位置引数を取り出す関数はライブラリ、元と宛先の解釈は呼び手
 - [hook のコマンド判定は正規化とコマンド位置の走査にし読めない入力はブロック側へ倒す](command-position-match-fails-closed.md)

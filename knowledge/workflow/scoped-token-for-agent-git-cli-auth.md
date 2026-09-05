@@ -109,6 +109,6 @@ intervention: hook
 - **project / group access token は bot ユーザーとして動く**。コミットの author、MR の承認、メンションの扱いが
   人のアカウントと違う。承認まわりの運用に当てる前に確かめる
 - hook から呼ぶスクリプトはこの認証に頼らせない。
-  [hook から呼ぶスクリプトは gh / glab に依存させず git だけで完結させる](../hooks/keep-provider-cli-out-of-hook-scripts.md)
+  [hook から呼ぶスクリプトは gh / glab に依存させず git だけで完結させる](../hooks/scripts/keep-provider-cli-out-of-hook-scripts.md)
 - 範囲外を踏んだときのメッセージは、そのままだと何をすればよいか分からない。
   [失敗メッセージに代替手段を名指しで埋め込む](../mcp/name-the-alternative-in-failure-message.md)

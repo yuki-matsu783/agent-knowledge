@@ -46,7 +46,7 @@ hooks リファレンスは `if` の照合を「Bash if matching」表として�
 
 以前この調査で「`if` の挙動が別の時点の観測 (部分一致で発火する) と食い違う」と記録したが、当時は公式の記述が無かった。
 現行の規則は「最初の `*` より前を書いたとおりに照合する」なので、`Bash(git commit *)` は `git -C /repo commit` に一致しない。
-`if` をガードの前置フィルタにしない判断はこの規則から導ける ([ガードの判定はスクリプト 1 箇所に集め settings.json には入口だけを置く](guard-config-lives-in-one-script.md))。
+`if` をガードの前置フィルタにしない判断はこの規則から導ける ([ガードの判定はスクリプト 1 箇所に集め settings.json には入口だけを置く](../common/guard-config-lives-in-one-script.md))。
 
 ## 確かめていないこと
 
@@ -62,5 +62,5 @@ hooks リファレンスは `if` の照合を「Bash if matching」表として�
 
 ## 関連
 
-- [Bash ツールの description はコンソールに 1 行しか表示されない](../workflow/tool-description-shows-one-line.md)
-- [権限は permissions.deny ではなく PreToolUse hook で止める](deny-by-hook-not-permissions.md)
+- [Bash ツールの description はコンソールに 1 行しか表示されない](../../workflow/tool-description-shows-one-line.md)
+- [権限は permissions.deny ではなく PreToolUse hook で止める](../20-PreToolUse/deny-by-hook-not-permissions.md)

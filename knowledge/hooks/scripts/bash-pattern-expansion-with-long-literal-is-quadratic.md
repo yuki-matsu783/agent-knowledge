@@ -57,4 +57,4 @@ bash 4 系 (Git Bash 同梱) で確認。GNU bash のパターン照合の実装
 
 - [ホットパスの hook は秒数ではなく fork の回数で予算を決める](count-forks-not-seconds-for-hot-path-hooks.md)。fork を数えても、これは別に見張る必要がある
 - [並行する hook の記録は追記の行長制限と一時ファイルと mkdir ロックで守る](concurrent-hook-writes-append-tmpfile-mkdir-lock.md)。この伏字化の後ろにある切り詰めの話
-- [hook のコマンド判定は正規化とコマンド位置の走査にし読めない入力はブロック側へ倒す](command-position-match-fails-closed.md)。正規化が特殊文字数に対して二乗になる別の例
+- [hook のコマンド判定は正規化とコマンド位置の走査にし読めない入力はブロック側へ倒す](../20-PreToolUse/command-position-match-fails-closed.md)。正規化が特殊文字数に対して二乗になる別の例

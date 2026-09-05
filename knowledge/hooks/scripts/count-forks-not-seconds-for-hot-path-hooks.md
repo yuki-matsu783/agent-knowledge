@@ -23,11 +23,11 @@ intervention: hook
 
 ## 課題
 
-[打ち切りは fail-open](hook-timeout-fails-open.md) なので、拒否側の hook を守る手段は速さだけになる。そこで仕様に「ホットパス 5 本は 1 秒以内」と書いたが、
+[打ち切りは fail-open](../common/hook-timeout-fails-open.md) なので、拒否側の hook を守る手段は速さだけになる。そこで仕様に「ホットパス 5 本は 1 秒以内」と書いたが、
 これは**結果であって守り方ではない**。実装者が守れているか判断できず、テストにも落ちない。実行環境 (Windows / Linux、同時実行数) で値が変わるので回帰にも使えない。
 
 しかも同じ仕様が「作業ツリーの位置は `git rev-parse --show-toplevel` を基準にする」と書いており、素直に読むと hook が毎回 git を起動する。
-Git Bash では外部プロセス 1 回が約 95 ms で、[同一イベントの hook は並列に走る](hooks-run-in-parallel-not-in-array-order.md) ので 5 本なら毎ツール呼び出しで 475 ms がそれだけで消える。
+Git Bash では外部プロセス 1 回が約 95 ms で、[同一イベントの hook は並列に走る](../common/hooks-run-in-parallel-not-in-array-order.md) ので 5 本なら毎ツール呼び出しで 475 ms がそれだけで消える。
 
 ## 解決
 
@@ -59,6 +59,6 @@ Git Bash では外部プロセス 1 回が約 95 ms で、[同一イベントの
 
 ## 関連
 
-- [hook の前置フィルタは精密判定の超集合でなければ生 JSON のエスケープで穴が開く](hook-prefilter-must-stay-superset.md)。fork ゼロの前置フィルタも同じ回数検査で固定している
+- [hook の前置フィルタは精密判定の超集合でなければ生 JSON のエスケープで穴が開く](../20-PreToolUse/hook-prefilter-must-stay-superset.md)。fork ゼロの前置フィルタも同じ回数検査で固定している
 - [bash のパターン照合に入力由来の長い文字列を置くと二乗で遅くなる](bash-pattern-expansion-with-long-literal-is-quadratic.md)。fork ゼロでも遅くなる別の原因
-- [hook のコマンド判定は正規化とコマンド位置の走査にし読めない入力はブロック側へ倒す](command-position-match-fails-closed.md)。純 bash のコマンド分割
+- [hook のコマンド判定は正規化とコマンド位置の走査にし読めない入力はブロック側へ倒す](../20-PreToolUse/command-position-match-fails-closed.md)。純 bash のコマンド分割

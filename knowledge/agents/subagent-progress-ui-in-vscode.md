@@ -74,7 +74,7 @@ Park が読み取り専用に振り切っているのは、この性質を取っ
 - **hook 固有のイベントは見えない。** PreToolUse での拒否、Notification、権限の判定結果は落ちる。
   これらが要ると分かったときに初めて hook を検討する
 - **承認 UI は作らない。** 承認をこちらで受けるには結局 hook で待たせることになり、
-  [hook はタイムアウトすると素通りする](../hooks/hook-timeout-fails-open.md) にぶつかる。
+  [hook はタイムアウトすると素通りする](../hooks/common/hook-timeout-fails-open.md) にぶつかる。
   fail-open するゲートは承認 UI として成立しない。承認はターミナルに残す
 
 ## 設計の当て

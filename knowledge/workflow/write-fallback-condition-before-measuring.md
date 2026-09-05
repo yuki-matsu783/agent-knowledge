@@ -56,5 +56,5 @@ hook の登録表を 17 行に保つ判断が、「PreToolUse の hook が出す
 ## 関連
 
 - [Agent ツール周りの hook 入出力の一覧](../agents/agent-tool-hook-fields-reference.md)。この実測で確定した事実
-- [環境変数で切るプローブと負のコントロールで hook 入力を実測する](../hooks/env-gated-probe-with-negative-control.md)。実測の仕込み方
+- [環境変数で切るプローブと負のコントロールで hook 入力を実測する](../hooks/common/env-gated-probe-with-negative-control.md)。実測の仕込み方
 - [サブエージェントは既定で background で走り PostToolUse Agent は起動直後に発火する](../agents/subagent-runs-in-background-by-default.md)。同じ起動で分かったもう 1 つ

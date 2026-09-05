@@ -61,4 +61,4 @@ intervention: hook
 
 - [共有ライブラリは分類までにし規約との照合は呼び手が行う](shared-library-classifies-caller-matches-rules.md)。ライブラリが呼び手の識別子 (WF2xx / WF3xx) を知らないので、識別子まで決めて返せない
 - [コピーした定型行はバイト一致をテストで固定する](test-byte-equality-of-copied-boilerplate.md)。読み込み行を 20 本以上にコピーしたときの話
-- [hook を注入系とガード系に分け、失敗時の既定を逆にする](injecting-vs-guarding-hooks.md)。呼び手ごとにポリシーが違う理由
+- [hook を注入系とガード系に分け、失敗時の既定を逆にする](../common/injecting-vs-guarding-hooks.md)。呼び手ごとにポリシーが違う理由

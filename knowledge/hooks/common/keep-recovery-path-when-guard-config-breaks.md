@@ -59,6 +59,6 @@ intervention: hook
 ## 関連
 
 - [hook は CLAUDE_PROJECT_DIR 基準の絶対パスで登録しないと cwd 次第で全 deny のロックアウトになる](register-hooks-with-absolute-project-dir-path.md)。ロックアウト経路の 1 つ目
-- [jq の --slurpfile は副入力が壊れていると呼び出し全体を失敗させ stdin の解析まで失う](jq-slurpfile-fails-whole-call-on-broken-side-input.md)。3 つ目。この分岐に到達できなくする
-- [MCP のツール名はサーバが定義するのでパターンで種別を分類しない](../mcp/mcp-tool-names-are-server-defined.md)。MCP の分岐の中身
+- [jq の --slurpfile は副入力が壊れていると呼び出し全体を失敗させ stdin の解析まで失う](../scripts/jq-slurpfile-fails-whole-call-on-broken-side-input.md)。3 つ目。この分岐に到達できなくする
+- [MCP のツール名はサーバが定義するのでパターンで種別を分類しない](../../mcp/mcp-tool-names-are-server-defined.md)。MCP の分岐の中身
 - [hook を注入系とガード系に分け、失敗時の既定を逆にする](injecting-vs-guarding-hooks.md)。原則の側

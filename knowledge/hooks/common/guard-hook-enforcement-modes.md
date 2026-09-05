@@ -27,7 +27,7 @@ intervention: hook
 ## 課題
 
 ガード hook を新しく足すとき、判定が正しいかを確かめる手段が無い。パス一致も正規表現も、書いた本人が想定していない形に当たる
-([生の文字列でコマンドを判定すると引用符とコメントに誤爆する](regex-command-match-misfires.md))。厳しすぎれば作業が止まり、緩ければ入れた意味が無い。
+([生の文字列でコマンドを判定すると引用符とコメントに誤爆する](../20-PreToolUse/regex-command-match-misfires.md))。厳しすぎれば作業が止まり、緩ければ入れた意味が無い。
 
 確かめられない理由は、hook が**止めた回しか表に出ない**ことにある。通した回は何も残らないので、次の 2 つがどちらも分からない。
 
@@ -35,7 +35,7 @@ intervention: hook
 - 止めるべきだったのに素通りした回があったのか
 
 さらに、いざ邪魔になったときに外す手段が settings.json の編集しかない。それは live reload で即座に効くうえ、
-ガードの設定自体をエージェントから守る設計 ([ガードの設定と hook スクリプト自身をエージェントから守る](protect-guard-config-from-the-agent.md)) と正面から衝突する。
+ガードの設定自体をエージェントから守る設計 ([ガードの設定と hook スクリプト自身をエージェントから守る](../20-PreToolUse/protect-guard-config-from-the-agent.md)) と正面から衝突する。
 「一時的に止める」と「ガードを恒久的に外す」が同じ操作になっているのが問題。
 
 ## 解決
@@ -83,7 +83,7 @@ exit 2
 1. **判定はモードの外に 1 つだけ置く。** モードが変えるのは判定結果の扱いだけにする。dryrun と enforce で判定コードが分かれると、dry-run で得た結果が本番の保証にならない
 2. **通した回も書く。** `result: "pass"` の行があって初めて、HIT の比率と取りこぼしを後から数えられる。止めた回だけのログは「止めすぎ」しか見えない
 3. **dry-run の助言は `systemMessage` で返す。** exit 0 のときの stderr は debug log 止まりで Claude にも人にも届かない。JSON で返せば transcript に出る。人の判断を挟みたいなら `permissionDecision` を `ask` にする段も置ける
-4. **ログは JSON Lines で `logs/` に置き、gitignore する。** 絶対パスやコマンド全文が入るのでコミットしない。1 行 1 判定なら `jq` で集計できる ([生のコマンド実行を deny してラッパスクリプトへ誘導する](command-wrappers-instead-of-raw-bash.md) のログ置き場と揃える)
+4. **ログは JSON Lines で `logs/` に置き、gitignore する。** 絶対パスやコマンド全文が入るのでコミットしない。1 行 1 判定なら `jq` で集計できる ([生のコマンド実行を deny してラッパスクリプトへ誘導する](../20-PreToolUse/command-wrappers-instead-of-raw-bash.md) のログ置き場と揃える)
 
 新しいガードは dryrun で入れる。数日運用してログの `result` を数え、HIT が想定どおりで pass に取りこぼしが無いことを確かめてから enforce に上げる。
 
@@ -113,7 +113,7 @@ exit 2
 ## 関連
 
 - [hook を注入系とガード系に分け、失敗時の既定を逆にする](injecting-vs-guarding-hooks.md) — このパターンを当てる対象はガード系だけ
-- [権限は permissions.deny ではなく PreToolUse hook で止める](deny-by-hook-not-permissions.md) — dry-run できるのは判定が hook 側にあるから。deny ルールにはこの段が作れない
-- [ガードの設定と hook スクリプト自身をエージェントから守る](protect-guard-config-from-the-agent.md) — off の経路を settings.json に置いてはいけない理由
-- [生の文字列でコマンドを判定すると引用符とコメントに誤爆する](regex-command-match-misfires.md) — dry-run で見つけたい誤爆の典型
+- [権限は permissions.deny ではなく PreToolUse hook で止める](../20-PreToolUse/deny-by-hook-not-permissions.md) — dry-run できるのは判定が hook 側にあるから。deny ルールにはこの段が作れない
+- [ガードの設定と hook スクリプト自身をエージェントから守る](../20-PreToolUse/protect-guard-config-from-the-agent.md) — off の経路を settings.json に置いてはいけない理由
+- [生の文字列でコマンドを判定すると引用符とコメントに誤爆する](../20-PreToolUse/regex-command-match-misfires.md) — dry-run で見つけたい誤爆の典型
 - [タイムアウトした hook はガードにならず素通りする](hook-timeout-fails-open.md) — ログに所要時間も書いておくと、timeout に近づいている hook を見つけられる

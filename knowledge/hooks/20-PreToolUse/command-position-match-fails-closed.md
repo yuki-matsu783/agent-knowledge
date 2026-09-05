@@ -68,7 +68,7 @@ git bash の fork コストが桁で大きいことを見込んで fork 0 回を
 - 効かない: 敵対的な安全境界。意図的な文字列分割 (`git "com""mit"`)、変数展開、alias 経由は対象外で、完全なシェルパーサ (数千行) を書いても守れる範囲は広がらない
 - `settings.json` の hook に `if` を足さない。公式は `if` を best-effort と明記しており、照合は「最初の `*` より前を書いたとおり」なので
   `Bash(git commit *)` は `git -C /repo commit`、`/usr/bin/git commit`、`bash -c "git commit"` に一致しない。前置フィルタが精密判定の超集合にならず、
-  この判定に届かない入力ができる ([ガードの判定はスクリプト 1 箇所に集め settings.json には入口だけを置く](guard-config-lives-in-one-script.md))
+  この判定に届かない入力ができる ([ガードの判定はスクリプト 1 箇所に集め settings.json には入口だけを置く](../common/guard-config-lives-in-one-script.md))
 
 ## トレードオフ
 
@@ -82,5 +82,5 @@ git bash の fork コストが桁で大きいことを見込んで fork 0 回を
 
 - [生の文字列でコマンドを判定すると引用符とコメントに誤爆する](regex-command-match-misfires.md)。同じ問題の Python (shlex) 版。こちらは bash だけで済ませたいとき
 - [hook の前置フィルタは精密判定の超集合でなければならない](hook-prefilter-must-stay-superset.md)。この判定の前に置く足切りの設計
-- [タイムアウトした hook はガードにならず素通りする](hook-timeout-fails-open.md)。8KB 上限の理由
+- [タイムアウトした hook はガードにならず素通りする](../common/hook-timeout-fails-open.md)。8KB 上限の理由
 - [権限は permissions.deny ではなく PreToolUse hook で止める](deny-by-hook-not-permissions.md)

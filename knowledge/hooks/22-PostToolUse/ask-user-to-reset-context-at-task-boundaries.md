@@ -123,6 +123,6 @@ let s = ""; process.stdin.on("data", d => s += d).on("end", () => {
 
 ## 関連
 
-- [生の文字列でコマンドを判定すると引用符とコメントに誤爆する](regex-command-match-misfires.md)
-- [タイムアウトした hook はガードにならず素通りする](hook-timeout-fails-open.md)
-- [Gemini CLI には圧縮後に発火する hook が無い](gemini-cli-no-post-compress-hook.md)
+- [生の文字列でコマンドを判定すると引用符とコメントに誤爆する](../20-PreToolUse/regex-command-match-misfires.md)
+- [タイムアウトした hook はガードにならず素通りする](../common/hook-timeout-fails-open.md)
+- [Gemini CLI には圧縮後に発火する hook が無い](../01-PreCompact/gemini-cli-no-post-compress-hook.md)

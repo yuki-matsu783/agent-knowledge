@@ -81,5 +81,5 @@ PR の作成はレビューを始めるための場を用意する操作にす�
 
 ## 関連
 
-- [操作をブロックするか注意喚起で済ませるかは特定可能性と代替経路で決める](../hooks/block-vs-notice-hook-selection.md)。方針を機構にするときの判断
-- [意味理解を要する判定はエージェントへ委ねスクリプトには決定的な判定だけを置く](../skills/delegate-meaning-to-agent-keep-scripts-decidable.md)。「影響がある issue か」の判定はエージェントの解釈で、だから人間が 1 回見る
+- [操作をブロックするか注意喚起で済ませるかは特定可能性と代替経路で決める](../hooks/20-PreToolUse/block-vs-notice-hook-selection.md)。方針を機構にするときの判断
+- [意味理解を要する判定はエージェントへ委ねスクリプトには決定的な判定だけを置く](../skills/scripts/delegate-meaning-to-agent-keep-scripts-decidable.md)。「影響がある issue か」の判定はエージェントの解釈で、だから人間が 1 回見る

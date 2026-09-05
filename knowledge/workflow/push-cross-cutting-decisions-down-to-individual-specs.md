@@ -59,6 +59,6 @@ hook 本体を書く人が読むのは個別仕様で、そこに無ければ素
 ## 関連
 
 - [設計書の隣に決定ログを置く](decision-log-beside-design-docs.md)。決定記録の「影響」節の位置づけ
-- [並行する hook の記録は追記の行長制限と一時ファイルと mkdir ロックで守る](../hooks/concurrent-hook-writes-append-tmpfile-mkdir-lock.md)。ロックの語が 0 件だった規則
-- [分類を広げるときは新たに通るものを数える](../hooks/count-what-newly-passes-when-widening-a-class.md)。同じレビューで見つかったもう 1 つの型
-- [コピーした定型行はバイト一致をテストで固定する](../hooks/test-byte-equality-of-copied-boilerplate.md)。コードにおける同じ「雛形だけ直して波及を見ない」
+- [並行する hook の記録は追記の行長制限と一時ファイルと mkdir ロックで守る](../hooks/scripts/concurrent-hook-writes-append-tmpfile-mkdir-lock.md)。ロックの語が 0 件だった規則
+- [分類を広げるときは新たに通るものを数える](../hooks/20-PreToolUse/count-what-newly-passes-when-widening-a-class.md)。同じレビューで見つかったもう 1 つの型
+- [コピーした定型行はバイト一致をテストで固定する](../hooks/scripts/test-byte-equality-of-copied-boilerplate.md)。コードにおける同じ「雛形だけ直して波及を見ない」

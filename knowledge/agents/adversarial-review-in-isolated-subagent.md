@@ -63,4 +63,4 @@ intervention: tool
 - [レビューエージェントは判定せず確度と重大度を付けた findings を返し、閾値と投稿は呼び出し側が持つ](reviewer-scores-findings-caller-applies-threshold.md)。手順 3〜4 の出力の受け渡しを pattern として切り出したもの
 - [エージェントからインラインレビューコメントを投稿するときのプロバイダ制約](../workflow/inline-review-comment-provider-constraints.md)。findings を投稿する側の制約
 - [サブエージェントのモデルは定義で固定せず呼び出し側に決めさせる](subagent-model-selection-by-orchestrator.md)。レビュー用は例外として強いモデルを固定する判断
-- [hook の前置フィルタは精密判定の超集合でなければ生 JSON のエスケープで穴が開く](../hooks/hook-prefilter-must-stay-superset.md)。このレビューで見つかった反例
+- [hook の前置フィルタは精密判定の超集合でなければ生 JSON のエスケープで穴が開く](../hooks/20-PreToolUse/hook-prefilter-must-stay-superset.md)。このレビューで見つかった反例

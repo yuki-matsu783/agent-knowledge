@@ -53,7 +53,7 @@ intervention: hook
 
 - 効く: 「うっかり飛ばす」型の抜け。既に「ループ範囲の一部だけを完了扱いにできない」のような制約を機械的に強制しているスクリプトがあれば、同じ場所へ同じ形で足せる
 - 効かない: 値を書くのはエージェント自身なので嘘を書けば通る。敵対的な安全境界ではなく、既定動作を確実な方向へ倒す仕組み
-- ツール呼び出しの時点で直接止められる操作なら、そちら ([block-vs-notice-hook-selection.md](../hooks/block-vs-notice-hook-selection.md)) の方が単純
+- ツール呼び出しの時点で直接止められる操作なら、そちら ([block-vs-notice-hook-selection.md](../hooks/20-PreToolUse/block-vs-notice-hook-selection.md)) の方が単純
 
 ## トレードオフ
 
@@ -63,6 +63,6 @@ intervention: hook
 
 ## 関連
 
-- [操作をブロックするか注意喚起で済ませるかは特定可能性と代替経路で決める](../hooks/block-vs-notice-hook-selection.md)
-- [エージェントが呼ぶスクリプトは無言で成功してはならない](../skills/agent-scripts-must-not-succeed-silently.md)。ゲートの拒否も「書き戻さず非 0」の一形態
+- [操作をブロックするか注意喚起で済ませるかは特定可能性と代替経路で決める](../hooks/20-PreToolUse/block-vs-notice-hook-selection.md)
+- [エージェントが呼ぶスクリプトは無言で成功してはならない](../skills/scripts/agent-scripts-must-not-succeed-silently.md)。ゲートの拒否も「書き戻さず非 0」の一形態
 - [敵対的レビューは独立コンテキストの読み取り専用サブエージェントに切り出す](../agents/adversarial-review-in-isolated-subagent.md)

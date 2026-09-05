@@ -22,7 +22,7 @@ applies_to: [claude-code@2.1]
 sources:
   - https://code.claude.com/docs/en/hooks
   - https://code.claude.com/docs/en/permissions
-  - knowledge/hooks/deny-by-hook-not-permissions.md
+  - knowledge/hooks/20-PreToolUse/deny-by-hook-not-permissions.md
 intervention: hook
 ---
 
@@ -58,7 +58,7 @@ intervention: hook
 ```
 
 - **settings.json に `if` を書かない。** 書いた瞬間に判定が 2 箇所になる。しかも `if` は精密判定の超集合にならないので、
-  スクリプトに届かない入力が生まれる ([hook の前置フィルタは精密判定の超集合でなければならない](hook-prefilter-must-stay-superset.md) と同じ形)
+  スクリプトに届かない入力が生まれる ([hook の前置フィルタは精密判定の超集合でなければならない](../20-PreToolUse/hook-prefilter-must-stay-superset.md) と同じ形)
 - **ルールはデータにする。** guard-and-guide の `rules.toml` のように 1 件 = matcher + 正規表現 + メッセージの行にすると、
   追加が 1 行で済み、diff を見れば何が変わったか分かる
 - **`permissions.deny` にコマンドの禁止事項を並べ始めない。** スクリプト側と二重になるうえ、deny は理由も代替も返せないので言い換えの再試行を誘発する
@@ -84,7 +84,7 @@ intervention: hook
 
 ## 関連
 
-- [権限は permissions.deny ではなく PreToolUse hook で止める](deny-by-hook-not-permissions.md)。「入口を 1 本にする」の具体化
-- [hook のコマンド判定は正規化とコマンド位置の走査にし読めない入力はブロック側へ倒す](command-position-match-fails-closed.md)。スクリプト側の判定の中身
-- [タイムアウトした hook はガードにならず素通りする](hook-timeout-fails-open.md)、[hook を注入系とガード系に分け、失敗時の既定を逆にする](injecting-vs-guarding-hooks.md)、[ガードの設定と hook スクリプト自身をエージェントから守る](protect-guard-config-from-the-agent.md)。判定が出ない 3 つの原因と対策
+- [権限は permissions.deny ではなく PreToolUse hook で止める](../20-PreToolUse/deny-by-hook-not-permissions.md)。「入口を 1 本にする」の具体化
+- [hook のコマンド判定は正規化とコマンド位置の走査にし読めない入力はブロック側へ倒す](../20-PreToolUse/command-position-match-fails-closed.md)。スクリプト側の判定の中身
+- [タイムアウトした hook はガードにならず素通りする](hook-timeout-fails-open.md)、[hook を注入系とガード系に分け、失敗時の既定を逆にする](injecting-vs-guarding-hooks.md)、[ガードの設定と hook スクリプト自身をエージェントから守る](../20-PreToolUse/protect-guard-config-from-the-agent.md)。判定が出ない 3 つの原因と対策
 - [ガード hook は enforce / dry-run / off の 3 モードで運用する](guard-hook-enforcement-modes.md)。モード切り替えも環境変数で持ち、settings.json に置かない

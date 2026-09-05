@@ -44,7 +44,7 @@ sources:
 
 # worktree に入るとガード hook の前提が変わる
 
-[並列で走らせるエージェントは git worktree で隔離する](../agents/parallel-agents-isolated-by-worktree.md) を採ると、
+[並列で走らせるエージェントは git worktree で隔離する](../../agents/parallel-agents-isolated-by-worktree.md) を採ると、
 hook で組んだガードの足元が動く。ガードは「どのファイルを見るか」「どこに状態を書くか」を暗黙に
 1 つのチェックアウトに固定して書かれているためで、worktree はその前提を 2 つに割る。
 
@@ -83,7 +83,7 @@ worktree は新しいチェックアウトで、既定の分岐元はリポジ�
 ### 3. 状態ファイルが worktree ごとにリセットされる
 
 カウンタ、フラグ、判定ファイルは gitignore された場所に置くのが普通なので、fresh checkout には存在しない。
-[ツール使用回数を閾値にして、文脈を持たない監査サブエージェントを背景で走らせる](../agents/context-free-audit-subagent-on-tool-count.md)
+[ツール使用回数を閾値にして、文脈を持たない監査サブエージェントを背景で走らせる](../../agents/context-free-audit-subagent-on-tool-count.md)
 のような回数ベースのガードは、worktree ごとに 0 から数え直す。並列で 3 本走らせれば、どれも閾値に届かないまま
 全体では 3 倍のツール呼び出しが起きる。
 
@@ -115,7 +115,7 @@ worktree で隔離されている間は、main checkout への `Edit` / `Write` 
 Claude Code 自身が止める。最後のチェックは無効化できない。
 
 つまり「main checkout を守る」だけが目的のガードは、worktree を使う構成では自作しなくてよくなる。
-[Edit/Write を deny してもスクリプト経由でファイルは書き換わる](protected-file-rewritten-via-subprocess.md)
+[Edit/Write を deny してもスクリプト経由でファイルは書き換わる](../20-PreToolUse/protected-file-rewritten-via-subprocess.md)
 で問題になる抜け道も、行き先が main checkout なら製品側の作業ディレクトリ判定に掛かる。
 守る対象が worktree の中のファイル (生成物の手編集を止める、など) なら、従来どおり自分のガードが要る。
 

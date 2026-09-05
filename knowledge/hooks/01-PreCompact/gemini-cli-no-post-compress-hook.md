@@ -141,5 +141,5 @@ gemini-cli 0.58.0 の hooks リファレンスと claude-code 2.1 の hooks ド�
 
 ## 関連
 
-- [タイムアウトした hook はガードにならず素通りする](hook-timeout-fails-open.md)
-- [権限は permissions.deny ではなく PreToolUse hook で止める](deny-by-hook-not-permissions.md)
+- [タイムアウトした hook はガードにならず素通りする](../common/hook-timeout-fails-open.md)
+- [権限は permissions.deny ではなく PreToolUse hook で止める](../20-PreToolUse/deny-by-hook-not-permissions.md)

@@ -30,7 +30,7 @@ sources:
 
 - **`Write(path)` は誰も見ていない**。ファイルパスの検査に使われるのは `Edit(path)` と `Read(path)` だけ。`Write` `NotebookEdit` `MultiEdit` にパスを付けたルールは受理されるが一度も参照されず、起動時に warning が出て終わる。`Edit(docs/**)` と書く
 - **スクリプトが開いたファイルは素通りする**。`Read` と `Edit` の deny が効くのは組み込みのファイルツールと、Claude Code が認識する Bash のファイルコマンド (`cat` `head` `tail` `sed`) まで。`node fix.js` や `python -c` が自分で open して書くぶんには何も起きない
-- **hook の matcher を `Write|Edit` に絞ると Bash が抜ける**。このリポジトリの [protect-generated.sh](../../.claude/hooks/protect-generated.sh) がその形で、`.tool_input.file_path` しか見ていない。同じパスへ Bash から書けば hook 自体が起動しない (matcher `Write|Edit` の PreToolUse を入れた状態で、Bash の `echo x > .../INDEX.md` が素通りすることを確認した)
+- **hook の matcher を `Write|Edit` に絞ると Bash が抜ける**。このリポジトリの [protect-generated.sh](../../../.claude/hooks/protect-generated.sh) がその形で、`.tool_input.file_path` しか見ていない。同じパスへ Bash から書けば hook 自体が起動しない (matcher `Write|Edit` の PreToolUse を入れた状態で、Bash の `echo x > .../INDEX.md` が素通りすることを確認した)
 
 一方で**リダイレクトは穴ではない**。`>` `>>` `2>` の書き込み先は Edit ルール・protected paths・working directories と照合される。検査されないのは `/dev/null` と、`~` 始まりや glob を含む書き込み先 (これは承認が要る) だけ。
 
@@ -93,5 +93,5 @@ claude-code@2.1、Windows (Git Bash)。matcher `Write|Edit` の PreToolUse hook 
 ## 関連
 
 - [権限は permissions.deny ではなく PreToolUse hook で止める](deny-by-hook-not-permissions.md)。止める側の設計。この pitfall はそこで挙げた「間接的なファイルアクセスは見えない」を掘ったもの
-- [タイムアウトした hook はガードにならず素通りする](hook-timeout-fails-open.md)。検知 hook も timeout すれば黙って素通りする。git の判定はローカルで完結させ、外部通信を混ぜない
+- [タイムアウトした hook はガードにならず素通りする](../common/hook-timeout-fails-open.md)。検知 hook も timeout すれば黙って素通りする。git の判定はローカルで完結させ、外部通信を混ぜない
 - [ガードの設定と hook スクリプト自身をエージェントから守る](protect-guard-config-from-the-agent.md)。ここで足す検知 hook 自体も同じ理由で書き換えられる

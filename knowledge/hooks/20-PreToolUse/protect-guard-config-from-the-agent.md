@@ -124,7 +124,7 @@ printf '{"decision":"block"}\n'
 ## 関連
 
 - [権限は permissions.deny ではなく PreToolUse hook で止める](deny-by-hook-not-permissions.md)。守る対象そのもの。あちらを入れるならこちらは必須の対
-- [タイムアウトした hook はガードにならず素通りする](hook-timeout-fails-open.md)。ConfigChange hook も同じで、重い処理を入れるとガードが消える
-- [ConfigChange と FileChanged に頼ったガードは他のエージェント CLI へ移植できない](hook-event-portability-across-agent-clis.md)。3 層目は Claude Code 専用。Gemini CLI と Antigravity には相当するイベントが無い
+- [タイムアウトした hook はガードにならず素通りする](../common/hook-timeout-fails-open.md)。ConfigChange hook も同じで、重い処理を入れるとガードが消える
+- [ConfigChange と FileChanged に頼ったガードは他のエージェント CLI へ移植できない](../common/hook-event-portability-across-agent-clis.md)。3 層目は Claude Code 専用。Gemini CLI と Antigravity には相当するイベントが無い
 - [生のコマンド実行を deny してラッパスクリプトへ誘導する](command-wrappers-instead-of-raw-bash.md)。ラッパスクリプト自身も同じ理由で書き換え対象になる
 - [Edit/Write を deny してもスクリプト経由でファイルは書き換わる](protected-file-rewritten-via-subprocess.md)。設定と hook 本体を deny で名指ししても、スクリプト経由の書き換えは残る。検知して戻す層はそちらにある

@@ -77,7 +77,7 @@ def tokenize(command: str) -> list[str]:
 - **包みを開く**。`sh -c` `bash -c` `node -e` `python -c` の引数は、それ自体が 1 トークンのコマンド列
   (`sh -c "git push"` → `['sh','-c','git push']`)。中身を再帰的に tokenize しないと、1 段包むだけで抜ける
 - **パース失敗は deny にする**。引用符が閉じていなければ `ValueError: No closing quotation` が飛ぶ。
-  例外でスクリプトが落ちると hook は判定を返さず素通りする ([hook-timeout-fails-open.md](hook-timeout-fails-open.md))。必ず捕まえて「解釈できないコマンドは実行しない」と返す
+  例外でスクリプトが落ちると hook は判定を返さず素通りする ([hook-timeout-fails-open.md](../common/hook-timeout-fails-open.md))。必ず捕まえて「解釈できないコマンドは実行しない」と返す
 
 ### 限界
 
@@ -90,10 +90,10 @@ def tokenize(command: str) -> list[str]:
 - POSIX shell の語彙が前提。PowerShell や cmd を叩く環境では合わない
 
 Node に shlex 相当の標準ライブラリは無い。判定だけ `.venv/Scripts/python.exe` (Linux は `.venv/bin/python`) を直接呼ぶのが速い
-(起動 0.5 秒、[scripting.md](../../.claude/rules/scripting.md))。`pnpm exec` や `uv run` を挟むと 1 回で 3 秒級になる。
+(起動 0.5 秒、[scripting.md](../../../.claude/rules/scripting.md))。`pnpm exec` や `uv run` を挟むと 1 回で 3 秒級になる。
 
 ## 関連
 
 - [権限は permissions.deny ではなく PreToolUse hook で止める](deny-by-hook-not-permissions.md)。「判定の前に正規化する」の具体的なやり方がこれ。判定をスクリプトに寄せる意味はトークン化できることにある
 - [生のコマンド実行を deny してラッパスクリプトへ誘導する](command-wrappers-instead-of-raw-bash.md)。あの `case` 文による文字列一致も同じ誤爆をする。対象が数語なら許容できるが、ルールが増えたらトークン化に移す
-- [タイムアウトした hook はガードにならず素通りする](hook-timeout-fails-open.md)。トークン化は失敗しうる処理なので、例外とタイムアウトの両方で fail-open しないようにする
+- [タイムアウトした hook はガードにならず素通りする](../common/hook-timeout-fails-open.md)。トークン化は失敗しうる処理なので、例外とタイムアウトの両方で fail-open しないようにする
