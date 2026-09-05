@@ -1,3 +1,5 @@
+参考ディレクトリ
+
 node_modules/
 # 生成物。SessionStart hook と npm run index で再生成する
 **/index.jsonl
