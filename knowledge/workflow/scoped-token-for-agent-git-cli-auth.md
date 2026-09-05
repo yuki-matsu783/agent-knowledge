@@ -107,6 +107,20 @@ intervention: tool
   書き換えたら起動し直す
 - **環境変数は `glab auth login` で keyring に保存した資格情報を上書きする**。「ログインし直したのに古い権限のまま」は
   たいていこれ。切り分けは手順 2 の helper 単体実行が速い
+- **Windows では helper をリポジトリに足しただけでは GUI のダイアログが先に開く** (2026-09-05、Git for Windows と glab 1.114 で確認)。
+  システム設定 (`C:/Program Files/Git/etc/gitconfig`) に `credential.helper=manager` があり、helper は設定の階層をまたいで**累積**するので、
+  `.git/config` に glab を足しても順番は manager の後になる。manager の Git Credential Manager がダイアログを出し、エージェントの Bash は
+  それに答えられないまま `git push` が止まる (`fatal: helper error (-1): User cancelled dialog` か、`GIT_TERMINAL_PROMPT=0` でも待ち続ける)。
+  空の helper を 1 つ挟むと連鎖がそこでリセットされるので、リポジトリ設定を「空 → glab」の順にする
+
+  ```sh
+  git config --replace-all credential.helper ""
+  git config --add credential.helper '!glab auth git-credential'
+  git config --get-all credential.helper   # manager / (空行) / !glab auth git-credential の順に出れば可
+  ```
+
+  worktree に入ったセッションでは `glab auth git-credential` を含むコマンドが Bash ツールに拒否されるので、この設定と手順 2 の単体確認は
+  worktree の外で行う ([worktree に入ったセッションでは複合 git コマンドが拒否された](../agents/worktree-session-refuses-compound-git-commands.md))
 - **project / group access token は bot ユーザーとして動く**。コミットの author、MR の承認、メンションの扱いが
   人のアカウントと違う。承認まわりの運用に当てる前に確かめる
 - hook から呼ぶスクリプトはこの認証に頼らせない。

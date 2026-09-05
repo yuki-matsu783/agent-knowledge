@@ -1,16 +1,17 @@
 ---
-type: note
-nature: opinion
-title: GitLab のマージリクエストのブランチで worktree に入るなら git で自分で追加してパスで入るのがよいはず (未検証)
+type: how-to
+nature: best-practice
+title: GitLab のマージリクエストのブランチで worktree に入るには git で自分で追加して EnterWorktree に path を渡すべき
 description: >-
-  Works through how to combine Claude Code worktrees with the GitLab flow where the branch already
-  exists on the remote, created by "Create merge request and branch" from an issue. Neither
-  `EnterWorktree` nor `claude --worktree <name>` takes a branch name, so it compares three routes:
-  launching with the merge request number, adding the worktree yourself with git and entering it by
-  path, and reconciling the branch at push time. Use when your team's default workflow starts from a
-  GitLab issue and you want the agent to decide mid-session that it needs isolation. Not for GitHub
-  pull requests beyond the shared `--worktree "#123"` form, and not a verified procedure, since the
-  steps are assembled from documentation and have not been run end to end.
+  Verified procedure for combining Claude Code worktrees with the GitLab flow where the branch already
+  exists on the remote, created from an issue together with its merge request. Neither `EnterWorktree`
+  nor `claude --worktree <name>` takes a branch name, so the branch is chosen with `git fetch` and
+  `git worktree add -B <branch> origin/<branch>` under `.claude/worktrees/`, and the session is moved
+  there with `EnterWorktree` `path`; commits pushed from inside update the existing merge request.
+  Run end to end in the VS Code extension against a self-managed GitLab CE in docker with glab. Use when
+  your team's default workflow starts from a GitLab issue and the agent decides mid-session that it
+  needs isolation. Not for GitHub pull requests beyond the shared `--worktree "#123"` form, and the
+  launch-time `--worktree "#<MR>"` route is documented here but was not run.
 tags: [claude-code, workflow]
 keywords:
   - GitLab
@@ -19,7 +20,10 @@ keywords:
   - MR
   - issue
   - Create merge request and branch
+  - --related-issue
+  - --create-source-branch
   - EnterWorktree
+  - ExitWorktree
   - --worktree
   - worktree add
   - .claude/worktrees
@@ -29,97 +33,129 @@ keywords:
   - baseRef
   - リモートブランチ
   - 既存ブランチ
+  - not the owner of the worktree
 status: stable
+verified_at: 2026-09-05
+stale_after: 2027-03-05
+applies_to: [claude-code@2.1, glab@1.114, gitlab@18.5]
 sources:
   - https://code.claude.com/docs/en/worktrees
   - https://code.claude.com/docs/en/tools-reference
   - https://docs.gitlab.com/user/project/merge_requests/creating_merge_requests/
   - knowledge/agents/parallel-agents-isolated-by-worktree.md
+intervention: tool
 ---
 
-# GitLab のマージリクエストのブランチで worktree に入るなら git で自分で追加してパスで入るのがよいはず (未検証)
+# GitLab のマージリクエストのブランチで worktree に入るには git で自分で追加して EnterWorktree に path を渡すべき
 
-## 噛み合わない点
+## 前提
 
-チームの標準的な流れが「issue を作る → Create merge request and branch でリモートにブランチと
-マージリクエストを作る → ローカルで checkout して作業」だとすると、**作業を始める時点でブランチは
-既にリモートにある**。
+- チームの流れが「issue を作る → issue からマージリクエストとブランチを作る → ローカルで checkout して作業」で、
+  **作業を始める時点でブランチが既にリモートにある**こと
+- Claude Code 2.1 (VS Code 拡張 2.1.261 で確認)。`EnterWorktree` の `path` が「`git worktree list` に載っている既存の worktree」を
+  受け付けることはツールの説明にも書かれている
+- 手元に main checkout があり、`git fetch` と `git push` が非対話で通る認証 (glab の credential helper など) が入っていること。
+  詰まりどころは後述
+- 確認に使ったのは docker の GitLab CE 18.5 (自己管理) と glab 1.114。issue からブランチと MR を作るのは
+  Web UI の「Create merge request and branch」ではなく `glab mr create --related-issue <iid> --create-source-branch` で代用した
 
-ところが [並列で走らせるエージェントは git worktree で隔離する](parallel-agents-isolated-by-worktree.md)
-で使う 2 つの入口は、どちらもブランチ名を受け取らない。`EnterWorktree` も `claude --worktree <name>` も
-分岐元は `worktree.baseRef` が決め、値は `"fresh"` (リモートのデフォルトブランチ) か `"head"` (手元の HEAD)
-の 2 つしかない。新しいブランチを作る前提の設計なので、既にあるブランチに乗る道がそのままでは無い。
+[並列で走らせるエージェントは git worktree で隔離する](parallel-agents-isolated-by-worktree.md) の 2 つの入口 (`EnterWorktree` の `name`、
+`claude --worktree <name>`) はどちらもブランチ名を受け取らず、分岐元は `worktree.baseRef` (`fresh` か `head`) で決まる。
+新しいブランチを作る前提なので、既にあるブランチに乗る道がそのままでは無い。ブランチの指定を git に任せ、隔離への移動だけ Claude Code にやらせる。
 
-## 道は 3 つ
+## 手順
 
-### A. 起動時にマージリクエスト番号を渡す
+1. リモートのブランチ名を確かめる。issue 由来のブランチ名は作り方で変わる (UI は `<iid>-<slug>`、glab は title 由来。
+   [glab の --create-source-branch はブランチ名を title から作る](../workflow/glab-create-source-branch-names-branch-from-title.md))
 
-```sh
-claude --worktree "#123"
-```
+   ```sh
+   git fetch origin
+   git branch -r
+   ```
 
-番号を `#` 付きで渡すか、`https://gitlab.com/group/repo/-/merge_requests/123` の URL を渡す。
-Claude Code が origin からその変更の head をフェッチし、`.claude/worktrees/pr-123` に worktree を作る。
-フェッチ経路は origin のホストで決まり、gitlab.com なら `merge-requests/<番号>/head`、
-自己管理の GitLab を含むその他のホストでは `pull/<番号>/head` を試してから `merge-requests/<番号>/head` に落ちる。
+2. main checkout で、`.claude/worktrees/` の下に既存ブランチを追跡する worktree を作る
 
-`.worktreeinclude` が効くので `.env` のコピーは自動。欠点は**起動時に決めなければならない**ことと、
-VS Code 拡張のチャットパネルからはフラグを渡せないこと。
+   ```sh
+   git worktree add .claude/worktrees/123-slug -B 123-slug origin/123-slug
+   ```
 
-### B. 自分で worktree を足して path で入る
+   `-B` なのでローカルに同名ブランチが無くても作られ、`origin/123-slug` を upstream にする (「set up to track」と出る)。
 
-```sh
-git fetch origin
-git worktree add .claude/worktrees/123-slug -B 123-slug origin/123-slug
-```
+3. エージェントに `EnterWorktree` を `path: .claude/worktrees/123-slug` で呼ばせる。`.claude/worktrees/` の下なので承認プロンプトは出ず、
+   「Entered worktree at ... on branch 123-slug」と返る。以後の Bash の cwd はその worktree、`git branch --show-current` は `123-slug`
 
-そのうえで `EnterWorktree` に `path` として `.claude/worktrees/123-slug` を渡す。`.claude/worktrees/` の
-下にあるパスなので承認プロンプトは出ない。既存ブランチを名指しできるのは git 側だけなので、
-ブランチの指定を git に任せ、隔離への移動だけ Claude Code にやらせる形になる。
+4. 中で普通にコミットし `git push` する。upstream が付いているので引数は要らない。push の応答に
+   「View merge request for 123-slug」と既存 MR の URL が出て、MR の `sha` と `changes_count` が更新される
 
-欠点が 2 つ。`.worktreeinclude` が処理されるのは Claude Code が git で作った worktree だけなので、
-`.env` の持ち込みとポートの差し替えは自分でやる。もう 1 つ、Claude Code が付けるマーカーが無いため
-定期 sweep は消さない。後始末は `git worktree remove` を自分で打つ。
+5. 抜けるときは `ExitWorktree` を `action: "keep"` で呼ぶ。`"remove"` は
+   「This session is not the owner of the worktree ... it either entered a pre-existing worktree via EnterWorktree({path}) ...
+   so this tool will not remove it」と拒否される。マージ後に main checkout で自分で消す
 
-### C. worktree で作ってから push 先を合わせる
-
-`EnterWorktree` に普通に新しい worktree を作らせ、コミットしてから `git push origin HEAD:123-slug` で
-既存のマージリクエストのブランチに載せる。ブランチ名の一致を人が管理することになり、取り違えの余地が残る。
-
-## 既定にするなら B
-
-判断を依頼を読んだ後に置ける道は B だけで、VS Code 拡張のパネルからも使える。A は速いが起動時の決め打ちで、
-[並列で走らせるエージェントは git worktree で隔離する](parallel-agents-isolated-by-worktree.md) の
-「重さが分かってから決める」を捨てることになる。
+   ```sh
+   git worktree remove .claude/worktrees/123-slug
+   ```
 
 ```mermaid
 flowchart TD
-  I[GitLab issue] --> B1[Create merge request and branch]
+  I[GitLab issue] --> B1[issue から MR とブランチを作る]
   B1 --> R[(origin に 123-slug)]
   R --> F[git fetch origin]
   T[セッションで依頼を受ける] --> D{隔離が要るか}
   D -->|いいえ| M[main checkout のまま]
   D -->|はい| F
-  F --> A2[git worktree add .claude/worktrees/123-slug]
+  F --> A2[git worktree add .claude/worktrees/123-slug -B 123-slug origin/123-slug]
   A2 --> E[EnterWorktree path]
   E --> S[環境の作り直し<br/>.env・ポート・依存]
   S --> W[作業・コミット・push]
-  W --> X[ExitWorktree]
+  W --> X[ExitWorktree keep]
   X --> C[マージ後 git worktree remove]
 ```
 
+## 確認方法
+
+- `EnterWorktree` の応答に worktree のパスとブランチ名が出る。Bash で `pwd` と `git branch --show-current` を打つと同じ値になる
+- push 後に `glab api projects/<id>/merge_requests/<iid>` の `sha` が push したコミットになり、`changes_count` が増える
+- `ExitWorktree` の `remove` が上の文言で断られる。`keep` で「Session is now back in <main checkout>」と戻る
+
+## つまずきどころ
+
+- **worktree の中では Bash の git コマンドが単文に制限される。** `pwd; git branch --show-current; git rev-parse ...` のように
+  `;` や `&&` で git をつないだ 1 行は「too complex to verify that it stays inside the worktree」と拒否される。
+  `glab auth git-credential` のように引数に `git` を含む別コマンドも同じ理由で止まる。1 コマンド 1 行に分ける
+  ([worktree に入ったセッションでは複合 git コマンドが拒否された](worktree-session-refuses-compound-git-commands.md))
+- **push で GUI の資格情報ダイアログが開いて止まる。** Windows の Git for Windows はシステム設定の `credential.helper=manager` が先に動くので、
+  リポジトリ設定に glab の helper を足しただけでは順番が後になる。空の helper を 1 つ挟んで連鎖をリセットしてから glab を足す
+  ([エージェントの gh / glab / git 認証は範囲限定トークン 1 本に寄せるべき](../workflow/scoped-token-for-agent-git-cli-auth.md) の「つまずきどころ」)
+- **`.worktreeinclude` は効かない。** 処理されるのは Claude Code が自分で作った worktree だけなので、`.env` の持ち込みとポートの差し替えは自分でやる (ドキュメントの記述。今回の検証では `.worktreeinclude` を置いていない)
+- **定期 sweep も消さない。** Claude Code のマーカーが無いため、後始末は `git worktree remove` を自分で打つ
+- 検証では main checkout をこのリポジトリの中の追跡外ディレクトリに置いた入れ子のリポジトリにした。`ExitWorktree keep` の戻り先は
+  セッションを起こしたディレクトリではなく**その入れ子リポジトリのルート**だった。実運用の「現在のリポジトリの worktree」では起きない
+
+## 他の道
+
+### A. 起動時にマージリクエスト番号を渡す (未実施)
+
+```sh
+claude --worktree "#123"
+```
+
+番号を `#` 付きで渡すか、`https://gitlab.com/group/repo/-/merge_requests/123` の URL を渡す。ドキュメントによると Claude Code が origin から
+その変更の head をフェッチし、`.claude/worktrees/pr-123` に worktree を作る。フェッチ経路は origin のホストで決まり、gitlab.com なら
+`merge-requests/<番号>/head`、自己管理の GitLab を含むその他のホストでは `pull/<番号>/head` を試してから `merge-requests/<番号>/head` に落ちる。
+
+`.worktreeinclude` が効く。欠点は**起動時に決めなければならない**ことと、VS Code 拡張のチャットパネルからはフラグを渡せないこと。
+ターミナルの CLI でしか使えないので、拡張で検証しているこのリポジトリでは実行していない。
+
+### C. worktree で作ってから push 先を合わせる
+
+`EnterWorktree` に普通に新しい worktree を作らせ、コミットしてから `git push origin HEAD:123-slug` で既存の MR のブランチに載せる。
+ブランチ名の一致を人が管理することになり、取り違えの余地が残る。
+
+判断を依頼を読んだ後に置ける道は B (上の手順) だけで、VS Code 拡張のパネルからも使える。
+
 ## 確かめていないこと
 
-- **A がブランチの上に置くのか、切り離した状態にするのか。** ドキュメントは「その変更の head コミットを
-  フェッチして worktree を作る」としか書いていない。そのまま push してマージリクエストが更新されるかは未確認
-- 自己管理の GitLab で `pull/<番号>/head` を先に試す挙動が、失敗を 1 回挟むだけで済むのか
-- **B で手作りした worktree に `EnterWorktree` の `path` を渡したときに受理されるか。** 通常の
-  `git worktree add` なら git メタデータが main checkout に解決されないので通るはずだが、試していない
+- A がブランチの上に置くのか切り離した状態にするのか、そのまま push して MR が更新されるか
+- Web UI の「Create merge request and branch」で作ったブランチ (`<iid>-<slug>` 形式) での同じ手順。glab で作ったブランチでしか通していない
 - ブランチ名に `/` が入るとき (`feature/123-slug`) の worktree ディレクトリ名の扱い
-- 手順全体を実行していない。GitLab 側の設定 (ブランチ名テンプレート、保護ブランチ) の影響も見ていない
-
-## 昇格の目安
-
-- [ ] 粒度が type の定義に収まっている (道を 1 つに絞れば `how-to` になる)
-- [ ] sources に一次情報がある
-- [ ] 実際に issue からマージまで通して applies_to と verified_at を書ける
+- GitLab 側の保護ブランチやブランチ名テンプレートの影響
