@@ -74,7 +74,9 @@ jq が見つからない、stdin の JSON が壊れている、対象ファイ�
 
 ガード系を置けるイベントは限られる。exit 2 が block になるのは PreToolUse、UserPromptSubmit、Stop、SubagentStop、ConfigChange などで、
 SessionStart と PostToolUse では block にならない。PostToolUse はツールが既に走った後なので止められないが、stderr が Claude に渡るので差し戻しには使える。
-逆に stdout がそのままコンテキストに入るのは UserPromptSubmit、UserPromptExpansion、SessionStart、PostModelSwitch の 4 イベントだけで、注入系をそれ以外に置いても内容は Claude に届かない。
+逆に plain な stdout がそのままコンテキストに入るのは UserPromptSubmit、UserPromptExpansion、SessionStart、PostModelSwitch の 4 イベントだけ。
+ただし JSON の `hookSpecificOutput.additionalContext` なら PreToolUse、PostToolUse、PostToolUseFailure、PostToolBatch、Stop、SubagentStop、SubagentStart からも Claude に届く (公式 hooks 文書「Add context for Claude」)。
+注入系をこれらに置くときは stdout ではなく additionalContext で返す。届く先とターン内での位置は [状態を持たない LLM への環境情報は変わる頻度で hook イベントを分けて注入した方がよさそう](split-state-injection-by-staleness.md) を参照。
 
 1 本の hook が両方の役目を持ったら分割する。SessionStart で index を再生成しつつ違反履歴を注入する、のような書き方は、片方の失敗でもう片方が道連れになる。
 
