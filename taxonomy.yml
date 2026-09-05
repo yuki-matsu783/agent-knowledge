@@ -53,10 +53,10 @@ types:
 # 「何についての知見か」をエージェントの構成要素で切る。ディレクトリ名は ID の一部になるので、増やすことはあっても改名しない。
 # 新しい主題は候補が 5 件以上溜まってから足す。1 つの主題が 30 件を超えたら小主題で切るか主題を分ける。
 subjects:
-  skill: skill・コマンド・エージェントが呼ぶスクリプトの設計
-  agent: サブエージェント、並列化、役割分担、worktree による隔離
-  rule: Claude Code の rules そのもの。CLAUDE.md・.claude/rules・memory の書き方、効き方、限界
-  hook: hook の機構 (イベント、入出力、並列、タイムアウト、登録) とガード hook・permissions による制御
+  skills: skill・コマンド・エージェントが呼ぶスクリプトの設計
+  agents: サブエージェント、並列化、役割分担、worktree による隔離
+  rules: Claude Code の rules そのもの。CLAUDE.md・.claude/rules・memory の書き方、効き方、限界
+  hooks: hook の機構 (イベント、入出力、並列、タイムアウト、登録) とガード hook・permissions による制御
   mcp: MCP サーバーとツール名、ツール定義の見え方
   model: モデル挙動。構成要素に依らないモデルの傾向・得手不得手 (観測したモデル名と月を applies_to に残す)
   workflow: 複数の構成要素の組み合わせ、運用手順、決定記録と仕様の置き方、git と VCS ホスティング、transcript の観測、未解決の finding
