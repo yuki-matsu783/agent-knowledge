@@ -6,8 +6,7 @@ description: >-
   Records what `glab mr create --related-issue <iid> --create-source-branch --title "Draft: Resolve
   worktree 手順の検証"` produced against a self-managed GitLab CE 18.5 in docker: the source branch
   was named from the title with non-ASCII characters dropped (`Draft-Resolve-worktree-`), not the
-  `<iid>-<slug>` form the web UI's "Create merge request and branch" button uses, and the merge request
-  title got a second "Draft: " prefix. Use when scripting the issue-to-branch step with glab and the
+  `<iid>-<slug>` form the web UI's "Create merge request and branch" button uses. Use when scripting the issue-to-branch step with glab and the
   branch name must be predictable, or when a worktree or checkout step downstream needs to know the
   branch name. Not for gh, and not measured on gitlab.com or other glab versions.
 tags: [workflow, claude-code]
@@ -18,7 +17,6 @@ keywords:
   - --create-source-branch
   - --source-branch
   - --title
-  - "Draft: Draft:"
   - ブランチ名
   - slug
   - 日本語
@@ -52,7 +50,6 @@ glab mr create -R root/issue114-pages --related-issue 1 --create-source-branch \
 | 項目 | 期待 (Web UI の「Create merge request and branch」相当) | 実際 |
 |---|---|---|
 | ブランチ名 | `1-worktree` のような `<iid>-<slug>` | `Draft-Resolve-worktree-` (title の ASCII 部分を `-` でつなぎ、日本語は落ちて末尾に `-` が残る) |
-| MR の title | `Draft: Resolve "worktree 手順の検証用 issue"` | `Draft: Draft: Resolve worktree 手順の検証` (glab が draft の接頭辞を足し、`--title` の分と二重になる) |
 | MR の description | `Closes #1` | `Closes #1` (空行 2 つの後) |
 | draft | true | true |
 
@@ -62,12 +59,12 @@ glab mr create -R root/issue114-pages --related-issue 1 --create-source-branch \
 
 glab の `--create-source-branch` は、`--source-branch` が無いとき MR の title からブランチ名を生成する。
 issue の iid は使わず、非 ASCII 文字は捨てられる。Web UI のボタンは GitLab 側 (Rails) がブランチ名を `<iid>-<issue title の slug>` で決めるので、
-同じ「issue から MR とブランチ」でも命名規則が違う。`--related-issue` を付けると MR は draft で作られ、title には `Draft: ` が前置される。
+同じ「issue から MR とブランチ」でも命名規則が違う。
 
 ## 回避策
 
 - `--source-branch <iid>-<slug>` を明示して UI と同じ名前にする。後続の `git worktree add` や checkout が名前を予測できる
-- `--title` に `Draft:` を書かない。draft にしたいときは glab に任せる
+- `--related-issue` のとき glab は MR を draft にして title に `Draft: ` を前置するので、`--title` には書かない (書くと二重になる。上の例はそれをやってしまっている)
 - 実際にできたブランチ名は決めつけず `git fetch origin && git branch -r` で読む。
   [GitLab のマージリクエストのブランチで worktree に入る手順](../agents/worktree-on-gitlab-merge-request-branch.md) の 1 手目がこれ
 
