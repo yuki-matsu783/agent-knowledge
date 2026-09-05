@@ -105,6 +105,8 @@ process.exit(1)
 - `ls`、`grep`、`cat` のような探索用のコマンド。ラップすると往復が増えるだけで、出力も短い
 - **迂回できる**。`sh -c`、`node -e`、`python -c` の中に埋めれば hook の文字列一致は外れる。ここまで塞ぐなら `permissions.deny` か sandbox にする。この hook は事故と浪費を減らすためのもので、敵対的な回避への防御ではない
 - 何でもラップすると、Claude が回り道を探して素の shell に逃げる。対象は出力が長いものと危険なものに絞る
+- 壊す git 操作も同じ型で止める。`git push --force`、`git reset --hard`、`git checkout -- .`、`git clean -f`、`git branch -D`、`git worktree remove --force` は生の実行を deny し、
+  push だけはラッパ (例 `pnpm run git:push`) に寄せて `--force` を受け取らない。auto モードで放置する前提では、hook の deny は分類器の判断に依らず必ず効くのが理由
 
 ## トレードオフ
 
