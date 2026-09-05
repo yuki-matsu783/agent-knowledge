@@ -6,7 +6,8 @@
 #   dirs        : この type を置けるトップレベルディレクトリ ("." はリポジトリ直下)
 #   max_lines   : 本文行数の目安。超えると lint が分割を促す warning を出す
 #   lifecycle   : false なら status / verified_at / applies_to / sources の検査を行わない
-#   sources_required     : true なら status が verified のとき sources が 1 件以上必要
+#   status の語彙は stable | deprecated の 2 値 (scripts/lint-frontmatter.ts の STATUSES)
+#   sources_required     : true なら sources が無いと warning (error にはしない)
 #   derived_from_required: true なら derived_from (元 knowledge の ID) が必須
 
 types:
@@ -40,8 +41,8 @@ types:
     dirs: [adr]
     max_lines: 200
   note:
-    description: 未整理のメモ。inbox にのみ置き、整理後に knowledge へ昇格させる
-    dirs: [inbox]
+    description: 検証していないメモ・設計案。確かめられたら concept / pattern などに type を変える
+    dirs: [knowledge]
     max_lines: 200
   slide:
     description: Marp 形式のスライド。knowledge から派生させる
