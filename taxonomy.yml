@@ -77,9 +77,12 @@ subdirs:
     11-Stop: 応答の終わりでの介入
     12-SubagentStart: サブエージェントの起動
     13-SubagentStop: サブエージェントの終了
+    14-StopFailure: API エラーで応答が終わったときの記録と通知
     20-PreToolUse: ツール呼び出し前の判定と拒否
     21-PermissionRequest: 権限の照合と承認要求
     22-PostToolUse: ツール呼び出し後の記録と注入
+    23-PostToolUseFailure: ツール実行の失敗後の記録と注入
+    30-SessionEnd: セッション終了時の後始末と記録
 
 # nature: 知見の性質。「何を主張しているか」を 1 つ選ぶ。type (文書の形) とは別の軸。
 # 判定と title の書き方は .claude/rules/knowledge-authoring.md。
