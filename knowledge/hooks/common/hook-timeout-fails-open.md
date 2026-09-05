@@ -65,7 +65,9 @@ PreToolUse では、判定が無い = 止めない、になる。公式リファ
 
 1. **ガードに使う hook はローカルで完結させる。** lint、パス判定、ファイル読み書きだけにする。所要時間が入力サイズに比例する範囲に収める
 2. **外部通信を入れない。** hook はセッションの同期パスにいる。DNS の失敗、TLS のハンドシェイク待ち、プロキシの詰まりが、そのままセッションの停止と素通りになる
-3. **LLM を呼ぶ hook をガードにしない。** `type: "prompt"` と `type: "agent"` は公式機能だが、レイテンシが読めない点は外部通信と同じで、fail-open と相性が悪い。判定を外したくないなら hook ではなく permission ルールか、Claude 側の指示で担保する
+3. **LLM を呼ぶ hook をガードにしない。** `type: "prompt"` と `type: "agent"` は公式機能だが、レイテンシが読めない点は外部通信と同じで、fail-open と相性が悪い。判定を外したくないなら hook ではなく permission ルールか、Claude 側の指示で担保する。
+   例外は Stop の 2 回目に置くレビューだけ ([Stop の 2 回目は prompt 型 hook で Haiku に最終報告をレビューさせた方がよさそう](../11-Stop/haiku-prompt-hook-reviews-final-report-on-second-stop.md))。
+   素通りしても「レビュー無しで終わる」以上の被害が無く、ガードではなく screening なので fail-open を受け入れられる
 4. **それでも入れるなら、Claude Code の timeout に到達させない。**
    - hook スクリプト側に自前のタイムアウトを置き、`settings.json` の `timeout` より短くする。先に自分でタイムアウトを検知して `exit 2` で塞ぐ。これで fail-open が fail-closed に変わる
    - `settings.json` の `timeout` を**短く明示するだけ**では逆効果になる。打ち切りが fail-open である以上、短くするほど「判定を諦めて通す」確率が上がる。短い `timeout` は上の自前タイムアウトと組にしてはじめて意味を持つ

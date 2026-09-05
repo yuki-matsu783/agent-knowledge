@@ -93,12 +93,14 @@ Claude Code 2.1.260 (VS Code 拡張に同梱の実体) の実装を読むと、S
 ## トレードオフ
 
 - 毎ターン 1 往復増える。差し戻しは応答の終わりごとに起きるので、短い質問応答が続くセッションでは邪魔になる。チケットが存在するときだけ block する条件を付けて絞る
-- 判定をエージェントに預けるので、エージェントが「全部やった」と嘘をつけば通る。hook は読ませたことしか保証しない。客観的に見える項目 (未コミットの変更、worktree の残り) は note の記事のように shell 側で事実として並べて `reason` に混ぜると強くなる。判定させるのではなく事実を渡すのがこの pattern の線
+- 判定をエージェントに預けるので、エージェントが「全部やった」と嘘をつけば通る。hook は読ませたことしか保証しない。客観的に見える項目 (未コミットの変更、worktree の残り) は note の記事のように shell 側で事実として並べて `reason` に混ぜると強くなる。判定させるのではなく事実を渡すのがこの pattern の線。それでも別の目が欲しいなら、2 回目の Stop だけ prompt 型 hook で Haiku に最終報告を読ませる
+  ([Stop の 2 回目は prompt 型 hook で Haiku に最終報告をレビューさせた方がよさそう](haiku-prompt-hook-reviews-final-report-on-second-stop.md))。1 回目の reason に「完了条件を 1 項目ずつ根拠付きで報告に書け」と足しておくと、2 段目が読む材料が揃う
 - LLM に判定させる版 (Qiita、note) に比べて誤 block は無い代わりに、見逃しも止められない。確実に止めたい 1 項目があるなら、それだけを決定的な条件として hook に持たせる
 - block の経路を持つのでガード hook にあたる。ただし判定を持たないぶん、落ちたときは差し戻しが黙って消えやすい。チケットが読めなかったときは reason にその旨を書いて block する側に倒す (fail-closed)
 
 ## 関連
 
+- [Stop の 2 回目は prompt 型 hook で Haiku に最終報告をレビューさせた方がよさそう](haiku-prompt-hook-reviews-final-report-on-second-stop.md) — この差し戻しの後ろに置く 2 段目
 - [hook は注入系とガード系に分かれ失敗時の既定は逆であるべき](../common/injecting-vs-guarding-hooks.md) — この差し戻しをどちらの型として書くか
 - [意味理解を要する判定はエージェントのもので、スクリプトには決定的な判定だけがあるべき](../../skills/scripts/delegate-meaning-to-agent-keep-scripts-decidable.md) — 判定を hook から外す根拠
 - [タスクの切れ目で /compact と /clear をユーザに依頼させた方がよさそう](../22-PostToolUse/ask-user-to-reset-context-at-task-boundaries.md) — 同じく応答の切れ目に介入する話
