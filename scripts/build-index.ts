@@ -108,10 +108,10 @@ if (byTag.size) {
   for (const t of [...byTag.keys()].sort()) md.push(`- **${t}**: ${(byTag.get(t) ?? []).map(link).join(', ')}`);
   md.push('');
 }
-const outdated = entries.filter((e) => fm(e).status === 'outdated');
-if (outdated.length) {
+const deprecated = entries.filter((e) => fm(e).status === 'deprecated');
+if (deprecated.length) {
   md.push('## 無効化された知識', '', '| 旧 | 無効化した側 |', '|---|---|');
-  for (const e of outdated) {
+  for (const e of deprecated) {
     const s = str(fm(e).superseded_by);
     md.push(`| ${link(e)} | ${s ? `[${s}](${s}.md)` : ''} |`);
   }

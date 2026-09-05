@@ -38,7 +38,7 @@ const NAME_ALLOW = new Set(['INDEX.md']);
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 const APPLIES_RE = /^[a-z0-9][a-z0-9.-]*@\S+$/;
 const LINK_RE = /\[[^\]]*\]\(([^)\s]+)(?:\s+"[^"]*")?\)/g;
-const STATUSES = ['draft', 'verified', 'outdated'];
+const STATUSES = ['stable', 'deprecated'];
 // ローカル日付 (UTC だと JST の早朝に前日になる)
 const today = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 10);
 
@@ -81,11 +81,10 @@ for (const rel of files) {
     else if (data.keywords.length < 3 || data.keywords.length > 20) warn(rel, `keywords は 3〜20 個にする (現在 ${data.keywords.length})`);
   } else if (tdef.lifecycle !== false) warn(rel, 'keywords を書く (検索用)');
 
-  // 鮮度: status / verified_at / applies_to / sources / superseded_by
+  // 鮮度: status / verified_at / applies_to / sources / superseded_by (verified_at と sources は任意)
   if (tdef.lifecycle !== false) {
     const status = str(data.status);
     if (!STATUSES.includes(status)) err(rel, `status は ${STATUSES.join(' | ')} のいずれか`);
-    if (status !== 'draft' && data.verified_at === undefined) err(rel, `status が ${status} なら verified_at が必要`);
     if (data.verified_at !== undefined) {
       const v = str(data.verified_at);
       if (!DATE_RE.test(v)) err(rel, 'verified_at は YYYY-MM-DD 形式');
@@ -94,7 +93,7 @@ for (const rel of files) {
     if (data.applies_to !== undefined) {
       if (!isStringList(data.applies_to)) err(rel, 'applies_to は文字列のリストにする');
       else for (const a of data.applies_to) if (!APPLIES_RE.test(a)) err(rel, `applies_to '${a}' は name@version の形式にする`);
-    } else if (status === 'verified' && tdef.sources_required) warn(rel, 'verified なら applies_to に検証したバージョンを書く');
+    } else if (status === 'stable' && tdef.sources_required) warn(rel, 'applies_to に確かめた製品とバージョンを書く');
     if (data.sources !== undefined) {
       if (!isStringList(data.sources)) err(rel, 'sources は文字列のリストにする');
       else for (const s of data.sources) {
@@ -102,13 +101,13 @@ for (const rel of files) {
         if (!existsSync(join(root, s))) err(rel, `sources '${s}' は URL でもリポジトリ内のパスでもない`);
       }
     }
-    if (tdef.sources_required && status === 'verified' && !(isStringList(data.sources) && data.sources.length)) {
-      err(rel, 'verified にするには sources が 1 件以上必要');
+    if (tdef.sources_required && status === 'stable' && !(isStringList(data.sources) && data.sources.length)) {
+      warn(rel, 'sources に出典を 1 件以上書く');
     }
-    if (status === 'outdated') {
-      if (typeof data.superseded_by !== 'string') err(rel, 'outdated なら superseded_by に無効化した側の ID を書く (knowledge か .claude/docs)');
+    if (status === 'deprecated') {
+      if (typeof data.superseded_by !== 'string') err(rel, 'deprecated なら superseded_by に無効化した側の ID を書く (knowledge か .claude/docs)');
       else if (!refExists(data.superseded_by)) err(rel, `superseded_by '${data.superseded_by}' が存在しない`);
-    } else if (data.superseded_by !== undefined) warn(rel, 'superseded_by は outdated のときだけ書く');
+    } else if (data.superseded_by !== undefined) warn(rel, 'superseded_by は deprecated のときだけ書く');
   }
   if (tdef.derived_from_required) {
     if (typeof data.derived_from !== 'string') err(rel, 'derived_from に元の knowledge か .claude/docs のドキュメントの ID を書く');

@@ -4,7 +4,7 @@ import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 
 // lint と index の対象ディレクトリ。.claude/ と templates/ は対象外 (独自の frontmatter を持つため)
-export const SCOPE_DIRS = ['knowledge', 'inbox', 'adr', 'slides'] as const;
+export const SCOPE_DIRS = ['knowledge', 'adr', 'slides'] as const;
 
 export function repoRoot(): string {
   return execFileSync('git', ['rev-parse', '--show-toplevel'], { encoding: 'utf8' }).trim();
