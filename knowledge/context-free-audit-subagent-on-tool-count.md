@@ -96,7 +96,7 @@ LLM を同期パスに置かずに fail-closed のゲートが作れる。
   「強く助言する」が本当に効くのかは試さないと分からない。効かないなら停止モードに倒す
 - **カウンタも監査プロンプトもエージェントが編集できる。** ワーキングツリーの中にあるファイルは全部そう。
   protected paths、permissions.deny、ConfigChange hook の手当てが要る。
-  カウンタと判定ファイルの置き場所 (このリポジトリなら [wip/local/](../adr/0002-wip-directory-for-session-local-files.md)) を
+  カウンタと判定ファイルの置き場所 (このリポジトリなら `wip/local/`) を
   permissions.deny か protected paths の対象にする。置き場所を決めるだけでは守れない
 - **transcript は遅れる。** hook が受け取る `transcript_path` のファイルは非同期に書かれ、直近のやり取りが
   まだ入っていないことがある。「最初のユーザー依頼」を取るには十分だが、「直近 N 件」の材料には向かない。
