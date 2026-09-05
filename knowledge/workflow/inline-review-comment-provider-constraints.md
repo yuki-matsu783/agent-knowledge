@@ -20,7 +20,7 @@ sources:
   - https://github.com/yuki-matsu783/MR-driven-workflow/tree/main/.claude/docs/ddr
 ---
 
-# エージェントからインラインレビューコメントを投稿するときのプロバイダ制約
+# インラインレビューコメントの投稿は GitHub と GitLab で受け付ける行と形式が異なる
 
 ## 対象
 

@@ -19,7 +19,7 @@ sources:
 stale_after: 2027-03-05
 ---
 
-# Bash ツールの description はコンソールに 1 行しか表示されない
+# Bash ツールの description はコンソールに 1 行しか表示されなかった
 
 ## 症状
 

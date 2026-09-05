@@ -12,6 +12,7 @@ tags: [claude-code, security, workflow]
 keywords: [hook, タイムアウト, timeout, fail-open, 素通り, ガード, PreToolUse, exit 2, exit 1, async, asyncRewake, prompt hook, agent hook, 外部通信, 600 秒, 登録ラッパ, trap ERR, 短い timeout は逆効果, permissions.deny は hook に関係なく評価, 多重防御]
 status: stable
 verified_at: 2026-09-05
+stale_after: 2027-03-05
 applies_to: [claude-code@2.1]
 sources:
   - https://code.claude.com/docs/en/hooks
@@ -54,7 +55,7 @@ PreToolUse では、判定が無い = 止めない、になる。公式リファ
 | `agent` | 60 |
 | SessionEnd | 1.5 (hook 全体の共有予算。per-hook `timeout` を長く書くと最大 60 まで上がる) |
 
-`async: true` の command hook には `timeout` が効かない。
+`async: true` の command hook には `timeout` が効かない (`asyncRewake: true` を付けたものには効く)。
 
 打ち切りは**プロセスごと終了させられて出力が捨てられる**ので、hook 側で用意した fail-closed の仕掛けも効かない。
 登録コマンドを `bash guard.sh || printf '{"…deny…"}'` のようにラッパで包んでも、`trap ERR` で deny を出す構えにしても、

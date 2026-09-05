@@ -42,7 +42,7 @@ sources:
   - knowledge/agents/parallel-agents-isolated-by-worktree.md
 ---
 
-# worktree に入るとガード hook の前提が変わる
+# worktree に入ったらガード hook の前提が変わった
 
 [並列で走らせるエージェントは git worktree で隔離する](../../agents/parallel-agents-isolated-by-worktree.md) を採ると、
 hook で組んだガードの足元が動く。ガードは「どのファイルを見るか」「どこに状態を書くか」を暗黙に

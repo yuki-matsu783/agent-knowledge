@@ -15,6 +15,7 @@ tags: [claude-code, context-management, security, observability]
 keywords: [hook, PreToolUse, deny, permissionDecisionReason, ラッパ, wrapper, スクリプト, コンテキスト圧迫, 出力, ログ, logs, gitignore, 危険オプション, --force, 要約, Bash, matcher, 迂回]
 status: stable
 verified_at: 2026-09-05
+stale_after: 2027-03-05
 applies_to: [claude-code@2.1, node@22.15]
 sources:
   - https://code.claude.com/docs/en/hooks
@@ -23,7 +24,7 @@ sources:
 intervention: hook
 ---
 
-# 生のコマンド実行を deny してラッパスクリプトへ誘導する
+# 生のコマンド実行は deny してラッパスクリプトへ誘導した方がよさそう
 
 ## 課題
 

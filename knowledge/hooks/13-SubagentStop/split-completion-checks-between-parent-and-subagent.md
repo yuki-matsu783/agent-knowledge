@@ -21,7 +21,7 @@ sources:
 intervention: hook
 ---
 
-# サブエージェントとメインエージェントの完了条件は共有状態に触るかで分ける
+# サブエージェントとメインエージェントの完了条件は共有状態に触るかで分けるべき
 
 ## 課題
 
@@ -90,4 +90,4 @@ Claude Code 側の制約が 4 つある。前の 3 つは分離を強制する�
 - [Agent ツール周りの hook 入出力はイベントごとにフィールドの有無と命名が異なる](../../agents/agent-tool-hook-fields-reference.md) — SubagentStop の出力が親に届かないこと、親へ返す経路
 - [サブエージェントは既定で background で走り PostToolUse Agent は起動直後に発火する](../../agents/subagent-runs-in-background-by-default.md) — 親側で作業後の検査ができない理由
 - [並列で走らせるエージェントは git worktree で隔離すべき](../../agents/parallel-agents-isolated-by-worktree.md) — 共有状態そのものを分けて競合を消す方向
-- [hook は注入系とガード系に分かれ失敗時の既定は逆であるべき](../common/injecting-vs-guarding-hooks.md) — どちらの差し戻しも注入系として書く
+- [hook は注入系とガード系に分かれ失敗時の既定は逆であるべき](../common/injecting-vs-guarding-hooks.md) — どちらの差し戻しも block の経路を持つガード hook。チケットの節が読めなければ block 側に倒す

@@ -22,7 +22,7 @@ sources:
 intervention: hook
 ---
 
-# API エラーで止まった回は Stop hook が走らないので StopFailure で記録する
+# API エラーで止まった回は Stop hook が走らないので StopFailure で記録した方がよさそう
 
 ## 課題
 

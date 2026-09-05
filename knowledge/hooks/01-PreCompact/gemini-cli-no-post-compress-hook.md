@@ -45,7 +45,7 @@ Claude Code 側の元の構成は次のもの。`SessionStart` の matcher に `
 
 ```json
 { "hooks": { "SessionStart": [
-  { "matcher": "compact", "hooks": [{ "type": "command", "command": ".claude/hooks/reseed.sh" }] }
+  { "matcher": "compact", "hooks": [{ "type": "command", "command": "sh \"${CLAUDE_PROJECT_DIR}/.claude/hooks/reseed.sh\"" }] }
 ] } }
 ```
 

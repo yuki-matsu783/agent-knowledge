@@ -16,10 +16,10 @@ keywords: [文言強化, 機構, ゲート, 記録の欠落, 記録の粒度, HA
 status: stable
 sources:
   - https://github.com/yuki-matsu783/MR-driven-workflow/tree/main/.claude/docs/ddr
-intervention: hook
+intervention: tool
 ---
 
-# ルールの文言強化ではなく記録とゲートで抜けを塞ぐ
+# 抜けを塞ぐのはルールの文言強化ではなく記録とゲートであるべき
 
 ## 課題
 

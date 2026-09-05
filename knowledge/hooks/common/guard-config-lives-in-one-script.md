@@ -18,6 +18,7 @@ tags: [claude-code, security, workflow]
 keywords: [settings.json, PreToolUse, matcher, if フィルタ, best-effort, permissions.deny, rules.toml, 入口 1 本, 二重管理, 設定が散る, 判定の置き場, 正規化, fail-closed, 絶対線, ガード hook, guard-and-guide, git -C, bash -c]
 status: stable
 verified_at: 2026-09-05
+stale_after: 2027-03-05
 applies_to: [claude-code@2.1]
 sources:
   - https://code.claude.com/docs/en/hooks
@@ -26,7 +27,7 @@ sources:
 intervention: hook
 ---
 
-# ガードの判定はスクリプト 1 箇所に集め settings.json には入口だけを置く
+# ガードの判定はスクリプト 1 箇所に集め settings.json には入口だけを置くべき
 
 ## 課題
 

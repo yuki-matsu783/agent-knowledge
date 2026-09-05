@@ -23,7 +23,7 @@ sources:
   - https://github.com/hummer98/cmux-team
 ---
 
-# Claude Code の実行を観測する層を後付けで入れる
+# Claude Code の実行を観測する層は後付けで入れられるはず
 
 ## 思いつき
 

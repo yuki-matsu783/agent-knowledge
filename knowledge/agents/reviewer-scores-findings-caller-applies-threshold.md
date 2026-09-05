@@ -17,6 +17,7 @@ tags: [multi-agent, evaluation, workflow]
 keywords: [レビューエージェント, findings, 確度, confidence, 重大度, severity, 閾値, 呼び出し側で判断, 棄却しない, 構造化出力, 失敗シナリオ, failure scenario, CONFIRMED, PLAUSIBLE, 2 段パイプライン, 検証エージェント, effort level, 誤検知, 投稿上限, ReportFindings]
 status: stable
 verified_at: 2026-09-05
+stale_after: 2027-03-05
 applies_to: [claude-code@2.1]
 sources:
   - https://code.claude.com/docs/en/sub-agents
@@ -25,7 +26,7 @@ sources:
 intervention: tool
 ---
 
-# レビューエージェントは判定せず確度と重大度を付けた findings を返し、閾値と投稿は呼び出し側が持つ
+# レビューエージェントは判定せず確度と重大度を付けた findings を返し、閾値と投稿は呼び出し側が持つべき
 
 ## 課題
 

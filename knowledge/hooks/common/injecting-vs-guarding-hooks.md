@@ -13,6 +13,7 @@ tags: [claude-code, security, workflow]
 keywords: [hook, フェイルセーフ, fail-open, fail-closed, exit 0, exit 2, 握りつぶす, try-except, set -e, 素通り, ガード, 注入, SessionStart, UserPromptSubmit, PreToolUse, PostToolUse, Stop, async, settings.json, 判定不能]
 status: stable
 verified_at: 2026-09-05
+stale_after: 2027-03-05
 applies_to: [claude-code@2.1]
 sources:
   - https://code.claude.com/docs/en/hooks
@@ -22,7 +23,7 @@ sources:
 intervention: hook
 ---
 
-# hook を注入系とガード系に分け、失敗時の既定を逆にする
+# hook は注入系とガード系に分かれ失敗時の既定は逆であるべき
 
 ## 課題
 
@@ -66,7 +67,7 @@ flowchart TD
 jq が見つからない、stdin の JSON が壊れている、対象ファイルが読めない、自前タイムアウトに達した、はどれも「安全だと確認できていない」であって「安全」ではない。
 
 このリポジトリの 2 本がそれぞれの型になっている。`protect-generated.sh` はパスが生成物に一致したら `exit 2` で PreToolUse を止めるだけのガード系で、
-外部通信も `|| true` も無い。`lint-on-edit.sh` は PostToolUse だが、lint が error を返したときも lint 自体が異常終了したときも `exit 2` に落ちる書き方で、ガード系に寄せてある。
+外部通信も `|| true` も無い。`lint-on-edit.sh` は PostToolUse なので止められない誘導 hook だが、lint が error を返したときも lint 自体が異常終了したときも `exit 2` で stderr を Claude に返す書き方にして、「lint が壊れて黙る」失敗だけは握りつぶさない。
 
 ## 適用条件
 

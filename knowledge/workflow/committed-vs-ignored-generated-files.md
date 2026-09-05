@@ -18,7 +18,7 @@ sources:
   - https://github.com/yuki-matsu783/MR-driven-workflow/tree/main/.claude/docs/ddr
 ---
 
-# 生成物を Git 管理下に置くかは人間が直接読むかで決める
+# 生成物を Git 管理下に置くかは人間が直接読むかで決めた方がよさそう
 
 ## 課題
 

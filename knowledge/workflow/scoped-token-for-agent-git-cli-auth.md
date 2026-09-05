@@ -15,6 +15,7 @@ tags: [security, workflow, claude-code]
 keywords: [glab, gh, GITLAB_TOKEN, GH_TOKEN, settings.local.json, env, credential helper, git-credential, project access token, group access token, fine-grained PAT, スコープ, 範囲限定, bot ユーザー, 資格情報, keyring, 平文, gitignore]
 status: stable
 verified_at: 2026-09-05
+stale_after: 2027-03-05
 applies_to: [claude-code@2.1, glab@1.114, gh@2.97, git@2.39]
 sources:
   - https://code.claude.com/docs/en/settings
@@ -22,10 +23,10 @@ sources:
   - https://docs.gitlab.com/user/project/settings/project_access_tokens/
   - https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens
   - https://git-scm.com/docs/gitcredentials
-intervention: hook
+intervention: tool
 ---
 
-# エージェントの gh / glab / git 認証を範囲限定トークン 1 本に寄せる
+# エージェントの gh / glab / git 認証は範囲限定トークン 1 本に寄せるべき
 
 ## 前提
 

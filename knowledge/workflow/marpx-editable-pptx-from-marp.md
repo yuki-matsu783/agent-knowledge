@@ -14,7 +14,7 @@ sources:
   - https://github.com/FukumotoIkuma/marpx
 ---
 
-# marpx で Marp から編集可能な PPTX を作る
+# marpx なら Marp から編集可能な PPTX を作れるはず (未検証)
 
 ## 背景
 

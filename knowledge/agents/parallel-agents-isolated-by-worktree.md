@@ -33,6 +33,7 @@ keywords:
   - 隔離
 status: stable
 verified_at: 2026-09-05
+stale_after: 2027-03-05
 applies_to: [claude-code@2.1]
 sources:
   - https://code.claude.com/docs/en/worktrees
@@ -43,7 +44,7 @@ sources:
 intervention: tool
 ---
 
-# 並列で走らせるエージェントは git worktree で隔離する
+# 並列で走らせるエージェントは git worktree で隔離すべき
 
 ## 課題
 

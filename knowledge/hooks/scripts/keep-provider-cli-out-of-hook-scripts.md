@@ -21,7 +21,7 @@ sources:
 intervention: hook
 ---
 
-# hook から呼ぶスクリプトは gh / glab に依存させず git だけで完結させる
+# hook から呼ぶスクリプトは gh / glab に依存させず git だけで完結させるべき
 
 ## 課題
 

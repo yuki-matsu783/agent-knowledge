@@ -20,7 +20,7 @@ keywords: [index, 一覧, frontmatter, 自動生成]
 | [knowledge/agents/parallel-agents-isolated-by-worktree](knowledge/agents/parallel-agents-isolated-by-worktree.md) | 並列で走らせるエージェントは git worktree で隔離すべき | pattern | best-practice | stable | claude-code, multi-agent, workflow | 2026-09-05 |
 | [knowledge/agents/reviewer-scores-findings-caller-applies-threshold](knowledge/agents/reviewer-scores-findings-caller-applies-threshold.md) | レビューエージェントは判定せず確度と重大度を付けた findings を返し、閾値と投稿は呼び出し側が持つべき | pattern | best-practice | stable | multi-agent, evaluation, workflow | 2026-09-05 |
 | [knowledge/agents/subagent-model-selection-by-orchestrator](knowledge/agents/subagent-model-selection-by-orchestrator.md) | サブエージェントのモデルは定義で固定せず呼び出し側に決めさせた方がよさそう | pattern | heuristic | stable | claude-code, multi-agent, cost | 2026-09-05 |
-| [knowledge/agents/subagent-progress-ui-in-vscode](knowledge/agents/subagent-progress-ui-in-vscode.md) | サブエージェントと全体進捗を VS Code 拡張で可視化しながら実行できた | note | finding | stable | claude-code, multi-agent, observability |  |
+| [knowledge/agents/subagent-progress-ui-in-vscode](knowledge/agents/subagent-progress-ui-in-vscode.md) | サブエージェントと全体進捗を VS Code 拡張で可視化しながら実行できるはず (未検証) | note | opinion | stable | claude-code, multi-agent, observability |  |
 | [knowledge/agents/subagent-runs-in-background-by-default](knowledge/agents/subagent-runs-in-background-by-default.md) | サブエージェントは既定で background で走り PostToolUse Agent は起動直後に発火する | pitfall | fact | stable | claude-code, multi-agent |  |
 | [knowledge/agents/worktree-isolation-not-portable-to-gemini-cli](knowledge/agents/worktree-isolation-not-portable-to-gemini-cli.md) | Claude Code の worktree 隔離は Gemini CLI に移植すると強制が消える | pitfall | fact | stable | claude-code, gemini-cli, workflow | 2026-09-05 |
 | [knowledge/agents/worktree-on-gitlab-merge-request-branch](knowledge/agents/worktree-on-gitlab-merge-request-branch.md) | GitLab のマージリクエストのブランチで worktree に入るなら git で自分で追加してパスで入るのがよいはず (未検証) | note | opinion | stable | claude-code, workflow |  |
@@ -79,7 +79,7 @@ keywords: [index, 一覧, frontmatter, 自動生成]
 
 | ID | title | type | nature | status | tags | verified_at |
 |---|---|---|---|---|---|---|
-| [knowledge/hooks/21-PermissionRequest/permissions-deny-any-allow-all-asymmetry](knowledge/hooks/21-PermissionRequest/permissions-deny-any-allow-all-asymmetry.md) | permissions の deny は ANY、allow は ALL で照合されると読める (未検証) | note | finding | stable | claude-code, security | 2026-09-05 |
+| [knowledge/hooks/21-PermissionRequest/permissions-deny-any-allow-all-asymmetry](knowledge/hooks/21-PermissionRequest/permissions-deny-any-allow-all-asymmetry.md) | permissions の deny は ANY、allow は ALL で照合される | note | fact | stable | claude-code, security | 2026-09-05 |
 
 ## knowledge/hooks/22-PostToolUse
 

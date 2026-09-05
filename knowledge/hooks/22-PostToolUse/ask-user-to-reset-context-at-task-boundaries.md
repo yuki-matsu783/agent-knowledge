@@ -29,6 +29,7 @@ keywords:
   - built-in command
 status: stable
 verified_at: 2026-09-05
+stale_after: 2027-03-05
 applies_to: [claude-code@2.1]
 sources:
   - https://code.claude.com/docs/en/context-window
@@ -38,7 +39,7 @@ sources:
 intervention: hook
 ---
 
-# タスクの切れ目で /compact と /clear をユーザに依頼させる
+# タスクの切れ目で /compact と /clear をユーザに依頼させた方がよさそう
 
 ## 課題
 
@@ -67,7 +68,7 @@ sequenceDiagram
 
 ```json
 { "hooks": { "PostToolUse": [
-  { "matcher": "Bash", "hooks": [{ "type": "command", "command": ".claude/hooks/suggest-context-reset.sh" }] }
+  { "matcher": "Bash", "hooks": [{ "type": "command", "command": "sh \"${CLAUDE_PROJECT_DIR}/.claude/hooks/suggest-context-reset.sh\"" }] }
 ] } }
 ```
 
@@ -96,7 +97,7 @@ let s = ""; process.stdin.on("data", d => s += d).on("end", () => {
 | モデルを介さずユーザに直接見せる | `Stop` | `systemMessage` |
 
 `Stop` の `additionalContext` は transcript に `Stop hook feedback` として出て、会話が継続する。ループ保護は `stop_hook_active` と 8 連続継続の上限。
-トークンを一切使わずに知らせたいだけなら `systemMessage` にする。ただしこちらは Claude が読まないので、応答本文には現れない。
+トークンを一切使わずに知らせたいだけなら `systemMessage` にする。ただしこちらは Claude が読まないので応答本文には現れず、表示も環境依存で、VS Code 拡張の対話 UI では PreToolUse の `systemMessage` が出なかった実測がある ([実測の前に外れたときの縮退が書かれているべき](../../workflow/write-fallback-condition-before-measuring.md))。
 
 依頼文では `/compact` と `/clear` を必ず書き分ける。同じ主題を続けるなら `/compact` (焦点を渡せる: `/compact focus on the auth bug fix`)、別の仕事に移るなら `/clear`。
 

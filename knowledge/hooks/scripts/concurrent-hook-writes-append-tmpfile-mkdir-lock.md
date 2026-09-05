@@ -20,7 +20,7 @@ sources:
 intervention: hook
 ---
 
-# 並行する hook の記録は追記の行長制限と一時ファイルと mkdir ロックで守る
+# 並行する hook の記録は追記の行長制限と一時ファイルと mkdir ロックで守るべき
 
 ## 課題
 

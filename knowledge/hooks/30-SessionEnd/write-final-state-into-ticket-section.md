@@ -23,7 +23,7 @@ sources:
 intervention: hook
 ---
 
-# SessionEnd の機械的な最終状態はチケットの固定節へ上書きし全量は logs に残す
+# SessionEnd の機械的な最終状態はチケットの固定節へ上書きし全量は logs に残した方がよさそう
 
 ## 課題
 

@@ -14,6 +14,7 @@ tags: [claude-code, security, workflow]
 keywords: [permissions.deny, PreToolUse, hook, deny, permissionDecisionReason, additionalContext, 迂回, 回避, git push, 絶対パス, 権限, ガード, matcher, rules.toml, guard-and-guide, 優先順位, defer, チケット]
 status: stable
 verified_at: 2026-09-05
+stale_after: 2027-03-05
 applies_to: [claude-code@2.1, node@22.15]
 sources:
   - https://code.claude.com/docs/en/hooks
@@ -24,7 +25,7 @@ sources:
 intervention: hook
 ---
 
-# 権限は permissions.deny ではなく PreToolUse hook で止める
+# 権限は permissions.deny ではなく PreToolUse hook で止めるべき
 
 ## 課題
 
@@ -57,7 +58,7 @@ flowchart LR
 
 ```json
 { "hooks": { "PreToolUse": [
-  { "matcher": "", "hooks": [{ "type": "command", "command": "node --import tsx scripts/guard.ts", "timeout": 10 }] } ] } }
+  { "matcher": "", "hooks": [{ "type": "command", "command": "node --import tsx \"${CLAUDE_PROJECT_DIR}/scripts/guard.ts\"", "timeout": 10 }] } ] } }
 ```
 
 `matcher` を空にすると全ツールに走る。ツールの振り分けを hook 側に持つと、ルールが 1 箇所に集まり、

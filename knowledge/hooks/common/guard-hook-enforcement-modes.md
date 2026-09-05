@@ -14,6 +14,7 @@ tags: [claude-code, security, observability]
 keywords: [hook, dry-run, ドライラン, 無効化, 環境変数, GUARD_MODE, enforce, off, ログ, JSON Lines, logs, 誤爆, 空振り, 段階導入, PreToolUse, exit 2, systemMessage, disableAllHooks, settings.json, env]
 status: stable
 verified_at: 2026-09-05
+stale_after: 2027-03-05
 applies_to: [claude-code@2.1]
 sources:
   - https://code.claude.com/docs/en/hooks
@@ -22,7 +23,7 @@ sources:
 intervention: hook
 ---
 
-# ガード hook は enforce / dry-run / off の 3 モードで運用する
+# ガード hook は enforce / dry-run / off の 3 モードで運用すべき
 
 ## 課題
 
@@ -45,7 +46,7 @@ intervention: hook
 | モード | 判定 | 出口 | 用途 |
 |---|---|---|---|
 | `enforce` (既定) | する | HIT なら exit 2 | 通常運用 |
-| `dryrun` | する | HIT でも exit 0。`systemMessage` で助言だけ返す | 新しいルールの慣らし |
+| `dryrun` | する | HIT でも exit 0。`additionalContext` で助言だけ返す | 新しいルールの慣らし |
 | `off` | しない | 即 exit 0 | この 1 本だけ切りたいとき |
 
 既定を enforce にする。変数が無い状態が一番強い側になるようにして、設定漏れがガードの消失にならないようにする。
@@ -71,7 +72,7 @@ log "$hit" "$f"
 [ "$hit" = pass ] && exit 0
 
 if [ "$mode" = dryrun ]; then
-  printf '{"systemMessage":"[dry-run] enforce なら止めていた (%s): %s"}\n' "$hit" "$f"
+  printf '{"hookSpecificOutput":{"hookEventName":"PreToolUse","additionalContext":"[dry-run] enforce なら止めていた (%s): %s"}}\n' "$hit" "$f"
   exit 0
 fi
 echo "生成物なので手で編集しない: $f" >&2
@@ -82,7 +83,7 @@ exit 2
 
 1. **判定はモードの外に 1 つだけ置く。** モードが変えるのは判定結果の扱いだけにする。dryrun と enforce で判定コードが分かれると、dry-run で得た結果が本番の保証にならない
 2. **通した回も書く。** `result: "pass"` の行があって初めて、HIT の比率と取りこぼしを後から数えられる。止めた回だけのログは「止めすぎ」しか見えない
-3. **dry-run の助言は `systemMessage` で返す。** exit 0 のときの stderr は debug log 止まりで Claude にも人にも届かない。JSON で返せば transcript に出る。人の判断を挟みたいなら `permissionDecision` を `ask` にする段も置ける
+3. **dry-run の助言は JSON で返す。** exit 0 のときの stderr は debug log 止まりで Claude にも人にも届かない。人に見せる `systemMessage` は、VS Code 拡張の対話 UI では PreToolUse から返しても表示されなかった実測がある ([実測の前に外れたときの縮退が書かれているべき](../../workflow/write-fallback-condition-before-measuring.md)) ので、記録の正はログに置き、助言は `hookSpecificOutput.additionalContext` でエージェントに返す。人の判断を挟みたいなら `permissionDecision` を `ask` にする段も置ける
 4. **ログは JSON Lines で `logs/` に置き、gitignore する。** 絶対パスやコマンド全文が入るのでコミットしない。1 行 1 判定なら `jq` で集計できる ([生のコマンド実行を deny してラッパスクリプトへ誘導する](../20-PreToolUse/command-wrappers-instead-of-raw-bash.md) のログ置き場と揃える)
 
 新しいガードは dryrun で入れる。数日運用してログの `result` を数え、HIT が想定どおりで pass に取りこぼしが無いことを確かめてから enforce に上げる。

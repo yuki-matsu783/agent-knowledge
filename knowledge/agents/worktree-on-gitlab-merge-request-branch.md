@@ -37,7 +37,7 @@ sources:
   - knowledge/agents/parallel-agents-isolated-by-worktree.md
 ---
 
-# GitLab の issue から作ったマージリクエストのブランチで worktree に入る
+# GitLab のマージリクエストのブランチで worktree に入るなら git で自分で追加してパスで入るのがよいはず (未検証)
 
 ## 噛み合わない点
 

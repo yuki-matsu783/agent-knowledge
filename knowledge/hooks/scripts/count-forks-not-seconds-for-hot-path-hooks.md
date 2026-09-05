@@ -19,7 +19,7 @@ sources:
 intervention: hook
 ---
 
-# ホットパスの hook は秒数ではなく fork の回数で予算を決める
+# ホットパスの hook は秒数ではなく fork の回数で予算を決めた方がよさそう
 
 ## 課題
 

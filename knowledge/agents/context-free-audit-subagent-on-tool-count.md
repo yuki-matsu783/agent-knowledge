@@ -22,7 +22,7 @@ sources:
   - knowledge/hooks/20-PreToolUse/protect-guard-config-from-the-agent.md
 ---
 
-# ツール使用回数を閾値にして、文脈を持たない監査サブエージェントを背景で走らせる
+# ツール使用回数を閾値にして文脈を持たない監査サブエージェントを背景で走らせるとよいはず
 
 ## 思いつき
 

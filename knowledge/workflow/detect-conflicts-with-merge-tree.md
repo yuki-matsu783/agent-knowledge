@@ -20,7 +20,7 @@ sources:
 intervention: tool
 ---
 
-# merge-tree で作業ツリーを汚さずにベースブランチとの衝突を検知する
+# ベースブランチとの衝突は merge-tree で作業ツリーを汚さずに検知すべき
 
 ## 前提
 

@@ -18,7 +18,7 @@ sources:
   - https://github.com/yuki-matsu783/MR-driven-workflow/tree/main/.claude/docs/ddr
 ---
 
-# hook の前置フィルタは精密判定の超集合でなければ生 JSON のエスケープで穴が開く
+# hook の前置フィルタで穴が開くのは生 JSON のエスケープで精密判定の超集合でなくなるから
 
 ## 症状
 

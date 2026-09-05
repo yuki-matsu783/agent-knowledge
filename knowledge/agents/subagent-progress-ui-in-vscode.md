@@ -1,7 +1,7 @@
 ---
 type: note
-nature: finding
-title: サブエージェントと全体進捗を VS Code 拡張で可視化しながら実行できた
+nature: opinion
+title: サブエージェントと全体進捗を VS Code 拡張で可視化しながら実行できるはず (未検証)
 description: >-
   Design direction for running Claude Code from a VS Code extension that shows subagent activity and
   overall progress as a live UI, instead of leaving it to terminal scrollback. Compares the two
@@ -25,7 +25,7 @@ sources:
 stale_after: 2027-03-05
 ---
 
-# サブエージェントと全体進捗を VS Code 拡張で可視化しながら実行する
+# サブエージェントと全体進捗を VS Code 拡張で可視化しながら実行できるはず (未検証)
 
 ## 思いつき
 

@@ -19,7 +19,7 @@ sources:
 stale_after: 2027-03-05
 ---
 
-# transcript の usage トークンは過小に記録されることがある
+# transcript の usage トークンが過小に記録されていた
 
 ## 症状
 

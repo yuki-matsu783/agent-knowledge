@@ -1,7 +1,7 @@
 ---
 type: note
-nature: finding
-title: permissions の deny は ANY、allow は ALL で照合されると読める (未検証)
+nature: fact
+title: permissions の deny は ANY、allow は ALL で照合される
 description: >-
   Note on the asymmetric semantics of Claude Code permission rules for compound Bash commands, now stated in
   the official permissions page: `deny` and `ask` apply when any sub-command matches (including subshells,

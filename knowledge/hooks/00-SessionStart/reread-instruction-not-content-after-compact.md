@@ -15,6 +15,7 @@ tags: [claude-code, context-management, prompting]
 keywords: [compact, SKILL.md, 読み直し, 再読み込み, 注入, additionalContext, SessionStart, 要約, 手順の喪失, 再注入の上限, 5000 トークン, CLAUDE.md は再注入される, 判定根拠, ブランチ判定, 二重管理]
 status: stable
 verified_at: 2026-09-05
+stale_after: 2027-03-05
 applies_to: [claude-code@2.1]
 sources:
   - https://code.claude.com/docs/en/hooks
@@ -23,7 +24,7 @@ sources:
 intervention: hook
 ---
 
-# compact 後は「読んだ」認識を信用せず手順書の読み直しを指示で注入する
+# compact 後は「読んだ」認識を信用せず手順書の読み直しを指示で注入した方がよさそう
 
 ## 課題
 

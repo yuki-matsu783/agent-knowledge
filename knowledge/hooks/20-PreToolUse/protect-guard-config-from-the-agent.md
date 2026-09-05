@@ -15,6 +15,7 @@ tags: [claude-code, security, workflow]
 keywords: [settings.json, ConfigChange, managed-settings.json, allowManagedHooksOnly, allowManagedPermissionRulesOnly, protected paths, live reload, file watcher, 自己書き換え, ガード無効化, policy_settings, disableBypassPermissionsMode, decision block, CI]
 status: stable
 verified_at: 2026-09-05
+stale_after: 2027-03-05
 applies_to: [claude-code@2.1]
 sources:
   - https://code.claude.com/docs/en/hooks
@@ -25,7 +26,7 @@ sources:
 intervention: hook
 ---
 
-# ガードの設定と hook スクリプト自身をエージェントから守る
+# ガードの設定と hook スクリプト自身はエージェントから守るべき
 
 ## 課題
 

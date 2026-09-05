@@ -20,7 +20,7 @@ sources:
 intervention: tool
 ---
 
-# .gemini/ を .claude/ からの変換生成物にして Git 管理下に置く
+# .gemini/ は .claude/ からの変換生成物にして Git 管理下に置くべき
 
 ## 課題
 

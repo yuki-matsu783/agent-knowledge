@@ -20,7 +20,7 @@ sources:
 intervention: hook
 ---
 
-# ガード hook にするか誘導 hook にするかは特定可能性と代替経路で決める
+# ガード hook にするか誘導 hook にするかは特定可能性と代替経路で決めた方がよさそう
 
 ## 課題
 

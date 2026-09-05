@@ -14,6 +14,7 @@ tags: [claude-code, context-management, workflow]
 keywords: [compact, SessionStart, matcher, additionalContext, PreCompact, 再注入, 現在地, HANDOFF, 次にやること, しきい値, 8000 バイト, 切り詰めない, fork, 起動要因, hookSpecificOutput]
 status: stable
 verified_at: 2026-09-05
+stale_after: 2027-03-05
 applies_to: [claude-code@2.1]
 sources:
   - https://code.claude.com/docs/en/hooks
@@ -23,7 +24,7 @@ sources:
 intervention: hook
 ---
 
-# compact 後に SessionStart hook で作業コンテキストを再注入する
+# compact 後は SessionStart hook で作業コンテキストを再注入すべき
 
 ## 課題
 
@@ -32,7 +33,7 @@ intervention: hook
 作業継続に要る「現在地」(どのブランチで何をしているか、issue / PR は何番か、次に何をするか) は要約の精度次第で落ち、
 compact 直後のエージェントが誤った前提で再開する。CLAUDE.md・rules・auto memory はメッセージ履歴の外にあり compact 後に
 ディスクから再注入されるが、現在地は git と引き継ぎファイルの側にあってそこには載らない。
-`PreCompact` hook は compact の直前に発火するが `additionalContext` を受け付けず、標準出力もコンテキストへ注入されないので、この用途には使えない。
+`PreCompact` hook は compact の直前に発火するが `additionalContext` を受け付けず、標準出力もコンテキストへ注入されない。compact 後に発火する `PostCompact` も副作用専用で出力は捨てられる。どちらもこの用途には使えない。
 
 ## 解決
 
@@ -49,7 +50,7 @@ SessionStart hook の matcher に `compact` を加え、起動時と同じスク
 
 | 対象 | 注入する | 注入しない |
 |---|---|---|
-| ブランチ / issue / PR / 未解決レビュー件数 | すべて | |
+| ブランチ / issue 番号 / 提供コマンドがローカルに記録した PR 番号とレビュー状態 | すべて | リモートの現在値 (未解決スレッド数、PR の open / closed)。hook は問い合わせない |
 | 引き継ぎファイル (HANDOFF.md 相当) | 「次にやること」節だけ (見出しから次の `## ` の手前まで) | 進捗表、やったこと、迷った内容 |
 | ブランチ固有の作業ファイル (plans / worklog / reports) | ファイル名の一覧 | 中身 |
 
@@ -68,8 +69,8 @@ SessionStart hook の matcher に `compact` を加え、起動時と同じスク
 
 - 効く: 長いセッションで自動 compact が起きる作業、引き継ぎファイルを運用しているリポジトリ
 - `fork` は対象にしない。fork 時は親のコンテキストがそのまま引き継がれ、要約による欠落が起きない
-- 注入に `gh` 等の API 呼び出しを伴う場合、compact のたびに走るコストが理由で除外されがちだが、compact の頻度 (autoCompactWindow 600000 程度) では
-  数回の呼び出しに過ぎず、現在地を失うコストの方が大きい
+- PR 番号やレビュー状態は hook が `gh` / `glab` で取りに行かず、提供コマンドがローカルの進行状態に書いた値を読む。compact のたびに走る hook がリモートへ問い合わせると、
+  CLI の無い環境で止まるか「PR: なし」のような誤情報を注入する ([hook の判定材料はリモートに問い合わせず全実行環境で読めるものだけであるべき](../common/hooks-read-local-state-only.md))
 
 ## トレードオフ
 

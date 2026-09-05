@@ -22,7 +22,7 @@ sources:
 intervention: hook
 ---
 
-# 同じコマンドの失敗は PostToolUseFailure で数えて段階的に介入する
+# 同じコマンドの失敗は PostToolUseFailure で数えて段階的に介入した方がよさそう
 
 ## 課題
 

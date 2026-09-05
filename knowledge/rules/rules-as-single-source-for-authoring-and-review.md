@@ -19,7 +19,7 @@ sources:
   - https://github.com/yuki-matsu783/MR-driven-workflow/tree/main/.claude/docs/ddr
 ---
 
-# rules を固定フォーマットの唯一の正にし、レビューは関心事ごとのサブエージェントが横断的に読む
+# rules を固定フォーマットの唯一の正にし、レビューは関心事ごとのサブエージェントが横断的に読むとよいはず
 
 ## 発端
 

@@ -30,6 +30,7 @@ keywords:
   - availableModels
 status: stable
 verified_at: 2026-09-05
+stale_after: 2027-03-05
 applies_to: [claude-code@2.1]
 sources:
   - https://code.claude.com/docs/en/sub-agents
@@ -37,7 +38,7 @@ sources:
 intervention: tool
 ---
 
-# サブエージェントのモデルは定義で固定せず呼び出し側に決めさせる
+# サブエージェントのモデルは定義で固定せず呼び出し側に決めさせた方がよさそう
 
 ## 課題
 

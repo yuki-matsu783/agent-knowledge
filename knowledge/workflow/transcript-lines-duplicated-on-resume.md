@@ -18,7 +18,7 @@ sources:
 stale_after: 2027-03-05
 ---
 
-# resume すると transcript の行が別ブランチ名で再書き出しされる
+# resume したら transcript の行が別ブランチ名で再書き出しされた
 
 ## 症状
 
