@@ -19,6 +19,7 @@ interface TypeDef {
 interface Taxonomy {
   types: Record<string, TypeDef>;
   subjects: Record<string, string>;
+  subdirs?: Record<string, Record<string, string>>;
   nature: Record<string, string>;
   intervention: Record<string, string>;
   tags: Record<string, string>;
@@ -60,11 +61,18 @@ for (const rel of files) {
   if (!tdef) { err(rel, `type '${type}' は taxonomy.yml に無い`); continue; }
   const topDir = rel.includes('/') ? rel.split('/')[0] : '.';
   if (!tdef.dirs.includes(topDir)) err(rel, `type '${type}' を置けるのは ${tdef.dirs.join(', ')} のみ`);
-  // knowledge は主題ディレクトリ直下に置く (knowledge/<subject>/<slug>.md)。subject の語彙は taxonomy.yml
+  // knowledge は主題ディレクトリの下に置く (knowledge/<subject>/<slug>.md か knowledge/<subject>/<subdir>/<slug>.md)。語彙は taxonomy.yml
   if (topDir === 'knowledge') {
     const parts = rel.split('/');
-    if (parts.length !== 3 || !(parts[1] in taxonomy.subjects)) {
-      err(rel, `knowledge の markdown は主題ディレクトリ直下に置く (knowledge/<subject>/<slug>.md。subject は ${Object.keys(taxonomy.subjects).join(' | ')})`);
+    const subject = parts[1];
+    const subdirs = taxonomy.subdirs?.[subject] ?? {};
+    if (parts.length < 3 || parts.length > 4 || !(subject in taxonomy.subjects)) {
+      err(rel, `knowledge の markdown は主題ディレクトリの下に置く (knowledge/<subject>/<slug>.md。subject は ${Object.keys(taxonomy.subjects).join(' | ')})`);
+    } else if (parts.length === 4 && !(parts[2] in subdirs)) {
+      const allowed = Object.keys(subdirs);
+      err(rel, allowed.length
+        ? `subject '${subject}' の小主題は ${allowed.join(' | ')} のみ (taxonomy.yml の subdirs)`
+        : `subject '${subject}' に小主題は無い。knowledge/${subject}/ の直下に置くか taxonomy.yml の subdirs に足す`);
     }
   }
   const lines = body.trim().split('\n').length;
