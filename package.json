@@ -7,7 +7,7 @@
   "scripts": {
     "lint": "tsx scripts/lint-frontmatter.ts",
     "index": "tsx scripts/build-index.ts",
-    "check": "tsx scripts/lint-frontmatter.ts && tsx scripts/build-index.ts",
+    "check": "tsx scripts/build-index.ts && tsx scripts/lint-frontmatter.ts",
     "slides": "tsx scripts/build-slides.ts",
     "audit": "tsx scripts/audit.ts",
     "typecheck": "tsc --noEmit",
