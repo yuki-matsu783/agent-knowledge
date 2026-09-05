@@ -7,9 +7,10 @@
 #   hook の stderr がそのままエラー表示になるため。
 # - pnpm exec や uv run を挟まず node を直接呼ぶ (Windows では wrapper だけで 3 秒かかる)。
 # - 成功時は何も出力しない。失敗時だけ出力して非ゼロ終了する。
+# - index を lint より先に回す。lint は INDEX.md のリンク先も見るので、ファイルを移した直後に古い INDEX.md で落ちないようにする。
 [ "${CLAUDECODE:-}" = "1" ] || exit 0
 command -v node >/dev/null 2>&1 || { echo "pre-commit: node が PATH に無いためスキップ" >&2; exit 0; }
-out=$(node --import tsx scripts/lint-frontmatter.ts 2>&1) || { printf '%s\n' "$out" >&2; exit 1; }
 out=$(node --import tsx scripts/build-index.ts --quiet 2>&1) || { printf '%s\n' "$out" >&2; exit 1; }
+out=$(node --import tsx scripts/lint-frontmatter.ts 2>&1) || { printf '%s\n' "$out" >&2; exit 1; }
 git add INDEX.md
 exit 0
