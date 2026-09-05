@@ -17,6 +17,7 @@ applies_to: [claude-code@2.1, node@22.15]
 sources:
   - https://code.claude.com/docs/en/hooks
   - https://code.claude.com/docs/en/permissions
+  - https://code.claude.com/docs/en/permission-modes
   - .claude/hooks/protect-generated.sh
 ---
 
@@ -84,7 +85,7 @@ process.stdout.write(JSON.stringify({
 }))
 ```
 
-`permissionDecisionReason` は拒否の理由として Claude に返り、`additionalContext` は system reminder の平文として渡る。前者に「なぜ止めたか」、後者に「何を読み直すか」を分けて入れる。どちらも `hookSpecificOutput` の下に置くこと。トップレベルに書くと黙って無視される。
+`permissionDecisionReason` は拒否の理由として Claude に返り、`additionalContext` は system reminder の平文として渡る。理由が Claude に届くのは `deny` のときだけで、`allow` と `ask` では人に表示されるだけなのに注意する。前者に「なぜ止めたか」、後者に「何を読み直すか」を分けて入れる。どちらも `hookSpecificOutput` の下に置くこと。トップレベルに書くと黙って無視される。
 
 settings.json 側は `matcher` で対象ツールを絞る。
 
@@ -99,7 +100,33 @@ settings.json 側は `matcher` で対象ツールを絞る。
 
 - 範囲がパスの glob やコマンド名で機械的に判定できる。判断が要るなら prompt-based hook や agent-based hook にする
 - PreToolUse は `EndConversation` 以外の全ツールで、全 permission mode で走る。`bypassPermissions` や `--dangerously-skip-permissions` でも deny は効くので、mode 変更で迂回されない
-- 複数の hook が答えたときは deny > defer > ask > allow の順で最も厳しいものが勝ち、`additionalContext` は全 hook 分が連結して渡る
+- 複数の hook が答えたときは最も厳しいものが勝ち、`additionalContext` は全 hook 分が連結して渡る
+
+### 優先順位
+
+明示的な ask と暗示的な ask は強さが逆になる。ここを混ぜると設計を誤る。
+
+| 強さ | 判定 | 性質 |
+|---|---|---|
+| 1 | `permissions.deny` の一致 | 誰も覆せない。hook が `allow` を返しても評価される |
+| 1 | hook の `deny` | 全 permission mode で効く。mode 変更では迂回できない |
+| 2 | **明示的 ask** (`permissions.ask` の一致) | どのモードでも自動承認されない。hook の `allow` でも飛ばせない |
+| 3 | allow (`permissions.allow` または hook の `allow`) | 飛ばせるのは暗示的 ask だけ |
+| 4 | **暗示的 ask** (どのルールにも一致しない) | 一番弱い。allow で消え、モードによっては最初から prompt が出ない |
+
+暗示的 ask は「ルールが無いのでモードの既定に落ちた」状態でしかない。Manual mode ならファイル編集・シェル実行・ネットワークは人に聞くが、auto mode では classifier が人の代わりに判断し、`bypassPermissions` では素通りする。守らせたいものを暗示的 ask に任せない。止めたいなら deny、必ず人に聞かせたいなら明示的 ask を書く。
+
+### defer は使わない
+
+hook の合成順に出てくる `defer` はこの序列とは別物で、拒否ではなく**保留**。`claude -p` の非対話実行でだけ有効で、ツール呼び出しを transcript に残したままプロセスを `stop_reason: "tool_deferred"` で終える。Agent SDK のアプリが自前の UI で承認を集め、resume して続きを走らせるための値。
+
+ガードには使わない。理由は 3 つある。
+
+- **対話セッションでは効かない。** 警告を出して無視されるので、同じ hook が実行環境によって止めたり止めなかったりする
+- **理由が消える。** `defer` では `permissionDecisionReason` も `additionalContext` も `updatedInput` も捨てられる。「拒否と一緒に理由を注入する」というこのパターンの狙いと正面から矛盾する
+- **条件が読めない。** 1 ターンに複数のツール呼び出しがあると無視される。Claude が何本まとめて呼ぶかは制御できない
+
+止めたいなら `deny`、必ず人に聞かせたいなら明示的 ask を使う。`defer` は「呼び出し元アプリに承認 UI を作る」ときだけの値で、権限設計の道具ではない。
 
 効かないのは次のとき。
 
