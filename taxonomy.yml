@@ -56,6 +56,7 @@ types:
 # keywords は自由記述なので、ここに無い語はそちらに書く。
 tags:
   claude-code: Claude Code CLI の機能・設定・skills・hooks
+  gemini-cli: Gemini CLI の機能・設定・hooks
   agent-sdk: Claude Agent SDK でのエージェント構築
   claude-api: Messages API・モデル・料金・SDK
   mcp: MCP サーバーとクライアントの設計・実装
