@@ -97,7 +97,7 @@ let s = ""; process.stdin.on("data", d => s += d).on("end", () => {
 | モデルを介さずユーザに直接見せる | `Stop` | `systemMessage` |
 
 `Stop` の `additionalContext` は transcript に `Stop hook feedback` として出て、会話が継続する。ループ保護は `stop_hook_active` と 8 連続継続の上限。
-トークンを一切使わずに知らせたいだけなら `systemMessage` にする。ただしこちらは Claude が読まないので応答本文には現れず、表示も環境依存で、VS Code 拡張の対話 UI では PreToolUse の `systemMessage` が出なかった実測がある ([実測の前に外れたときの縮退が書かれているべき](../../workflow/write-fallback-condition-before-measuring.md))。
+トークンを一切使わずに知らせたいだけなら `systemMessage` にする。ただしこちらは Claude が読まないので応答本文には現れず、表示も環境依存。VS Code 拡張の対話 UI では、Stop と PreToolUse から無条件に返した `systemMessage` がどちらも表示されなかった (2026-09-05、Claude Code 2.1 で再実測。初出は [実測の前に外れたときの縮退が書かれているべき](../../workflow/write-fallback-condition-before-measuring.md))。拡張でユーザに確実に見せる経路は、Claude に依頼文を書かせる `additionalContext` の方になる。
 
 依頼文では `/compact` と `/clear` を必ず書き分ける。同じ主題を続けるなら `/compact` (焦点を渡せる: `/compact focus on the auth bug fix`)、別の仕事に移るなら `/clear`。
 

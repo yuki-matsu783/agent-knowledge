@@ -83,7 +83,7 @@ exit 2
 
 1. **判定はモードの外に 1 つだけ置く。** モードが変えるのは判定結果の扱いだけにする。dryrun と enforce で判定コードが分かれると、dry-run で得た結果が本番の保証にならない
 2. **通した回も書く。** `result: "pass"` の行があって初めて、HIT の比率と取りこぼしを後から数えられる。止めた回だけのログは「止めすぎ」しか見えない
-3. **dry-run の助言は JSON で返す。** exit 0 のときの stderr は debug log 止まりで Claude にも人にも届かない。人に見せる `systemMessage` は、VS Code 拡張の対話 UI では PreToolUse から返しても表示されなかった実測がある ([実測の前に外れたときの縮退が書かれているべき](../../workflow/write-fallback-condition-before-measuring.md)) ので、記録の正はログに置き、助言は `hookSpecificOutput.additionalContext` でエージェントに返す。人の判断を挟みたいなら `permissionDecision` を `ask` にする段も置ける
+3. **dry-run の助言は JSON で返す。** exit 0 のときの stderr は debug log 止まりで Claude にも人にも届かない。人に見せる `systemMessage` は、VS Code 拡張の対話 UI では PreToolUse から返しても表示されない (2026-09-05 に Claude Code 2.1 で無条件に返すプローブ hook を登録して再実測。Stop からも表示されなかった。初出は [実測の前に外れたときの縮退が書かれているべき](../../workflow/write-fallback-condition-before-measuring.md)) ので、記録の正はログに置き、助言は `hookSpecificOutput.additionalContext` でエージェントに返す。人の判断を挟みたいなら `permissionDecision` を `ask` にする段も置ける
 4. **ログは JSON Lines で `logs/` に置き、gitignore する。** 絶対パスやコマンド全文が入るのでコミットしない。1 行 1 判定なら `jq` で集計できる ([生のコマンド実行を deny してラッパスクリプトへ誘導する](../20-PreToolUse/command-wrappers-instead-of-raw-bash.md) のログ置き場と揃える)
 
 新しいガードは dryrun で入れる。数日運用してログの `result` を数え、HIT が想定どおりで pass に取りこぼしが無いことを確かめてから enforce に上げる。
