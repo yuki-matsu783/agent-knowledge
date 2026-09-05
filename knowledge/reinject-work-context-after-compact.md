@@ -12,8 +12,12 @@ description: >-
 tags: [claude-code, context-management, workflow]
 keywords: [compact, SessionStart, matcher, additionalContext, PreCompact, 再注入, 現在地, HANDOFF, 次にやること, しきい値, 8000 バイト, 切り詰めない, fork, 起動要因, hookSpecificOutput]
 status: stable
+verified_at: 2026-09-05
+applies_to: [claude-code@2.1]
 sources:
   - https://code.claude.com/docs/en/hooks
+  - https://code.claude.com/docs/en/context-window
+  - https://code.claude.com/docs/en/best-practices
   - https://github.com/yuki-matsu783/MR-driven-workflow/tree/main/.claude/docs/ddr
 ---
 
@@ -21,18 +25,23 @@ sources:
 
 ## 課題
 
-`/compact` (自動・手動) は会話履歴を要約するが、何を残すかは指定できない。作業継続に要る「現在地」
-(どのブランチで何をしているか、issue / PR は何番か、次に何をするか) が要約の精度次第で落ち、compact 直後のエージェントが
-誤った前提で再開する。`PreCompact` hook は compact の直前に発火するが `additionalContext` を受け付けず、標準出力も
-コンテキストへ注入されないので、この用途には使えない。
+`/compact` (自動・手動) は会話履歴を構造化した要約に置き換える。`/compact <指示>` や CLAUDE.md の
+「When compacting, always preserve ...」で要約の焦点は指定できる (公式の best-practices が勧める手) が、残るのは要約であって、
+作業継続に要る「現在地」(どのブランチで何をしているか、issue / PR は何番か、次に何をするか) は要約の精度次第で落ち、
+compact 直後のエージェントが誤った前提で再開する。CLAUDE.md・rules・auto memory はメッセージ履歴の外にあり compact 後に
+ディスクから再注入されるが、現在地は git と引き継ぎファイルの側にあってそこには載らない。
+`PreCompact` hook は compact の直前に発火するが `additionalContext` を受け付けず、標準出力もコンテキストへ注入されないので、この用途には使えない。
 
 ## 解決
 
 SessionStart hook の matcher に `compact` を加え、起動時と同じスクリプトで現在地を注入する。
 
 ```json
-{ "hooks": { "SessionStart": [ { "matcher": "startup|resume|clear|compact", "hooks": [ { "type": "command", "command": "bash .claude/hooks/session-start.sh" } ] } ] } }
+{ "hooks": { "SessionStart": [ { "matcher": "startup|resume|clear|compact", "hooks": [ { "type": "command", "command": "sh \"${CLAUDE_PROJECT_DIR}/.claude/hooks/session-start.sh\"" } ] } ] } }
 ```
+
+パスは `${CLAUDE_PROJECT_DIR}` で絶対指定する (公式の推奨)。bare `bash` の相対パスは Windows で WSL のスタブに解決されうる
+([Windows では hook の "bash" が WSL のスタブに解決されて無言で動かない](bash-hook-resolves-to-wsl-stub-on-windows.md))。
 
 注入するものを設計時に絞る。ファイルの中身は原則注入しない。
 

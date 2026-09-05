@@ -12,7 +12,7 @@ tags: [claude-code, security, workflow]
 keywords: [hook, フェイルセーフ, fail-open, fail-closed, exit 0, exit 2, 握りつぶす, try-except, set -e, 素通り, ガード, 注入, SessionStart, UserPromptSubmit, PreToolUse, PostToolUse, Stop, async, settings.json, 判定不能]
 status: stable
 verified_at: 2026-09-05
-applies_to: [claude-code@2.1.235]
+applies_to: [claude-code@2.1]
 sources:
   - https://code.claude.com/docs/en/hooks
   - https://zenn.dev/zaico/articles/d6b882c78fe4b3
@@ -72,7 +72,7 @@ jq が見つからない、stdin の JSON が壊れている、対象ファイ�
 
 ガード系を置けるイベントは限られる。exit 2 が block になるのは PreToolUse、UserPromptSubmit、Stop、SubagentStop、ConfigChange などで、
 SessionStart と PostToolUse では block にならない。PostToolUse はツールが既に走った後なので止められないが、stderr が Claude に渡るので差し戻しには使える。
-逆に stdout がそのままコンテキストに入るのは UserPromptSubmit、SessionStart、PostModelSwitch の 3 イベントだけで、注入系をそれ以外に置いても内容は Claude に届かない。
+逆に stdout がそのままコンテキストに入るのは UserPromptSubmit、UserPromptExpansion、SessionStart、PostModelSwitch の 4 イベントだけで、注入系をそれ以外に置いても内容は Claude に届かない。
 
 1 本の hook が両方の役目を持ったら分割する。SessionStart で index を再生成しつつ違反履歴を注入する、のような書き方は、片方の失敗でもう片方が道連れになる。
 

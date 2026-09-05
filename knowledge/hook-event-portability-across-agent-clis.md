@@ -12,7 +12,7 @@ tags: [claude-code, security, workflow]
 keywords: [ConfigChange, FileChanged, Gemini CLI, Antigravity, BeforeTool, PreToolUse, AfterTool, 移植性, 互換, hook イベント, hooks.json, .gemini/settings.json, decision deny, exit 2, 最小公倍数, 共通部分]
 status: stable
 verified_at: 2026-09-05
-applies_to: [claude-code@2.1, gemini-cli@0.58, antigravity-cli@1.1.25]
+applies_to: [claude-code@2.1, gemini-cli@0.58, antigravity-cli@1.1]
 sources:
   - https://code.claude.com/docs/en/hooks
   - https://geminicli.com/docs/hooks/reference/

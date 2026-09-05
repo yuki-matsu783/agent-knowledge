@@ -11,7 +11,7 @@ description: >-
   boundary (quoted splitting, aliases, and variables are out of scope), and not for Python environments,
   where a shlex-based tokenizer is simpler.
 tags: [claude-code, security, workflow]
-keywords: [PreToolUse, tool_input.command, コマンド位置, 正規化, 部分一致, 縮退, fail-closed, ブロック側, eval, xargs, bash -c, ヒアドキュメント, 誤検知, 素通り, 純粋 bash, fork 0 回, 8192 バイト, 二乗コスト, 回帰観点]
+keywords: [PreToolUse, tool_input.command, コマンド位置, 正規化, 部分一致, 縮退, fail-closed, ブロック側, eval, xargs, bash -c, ヒアドキュメント本文は実行位置でない, 誤検知, 素通り, 純粋 bash, fork 0 回, 8192 バイト, 回帰観点, クォートで割れた語, 特定できない]
 status: stable
 sources:
   - https://code.claude.com/docs/en/hooks
@@ -36,7 +36,11 @@ sources:
 
 1. **正規化**: バックスラッシュエスケープ (`\git` のような alias 迂回書式) を解決し、大文字小文字を揃える。ダブルクォート内の `$( )` と
    バッククォートはコードとして展開し直す
-2. **コマンド位置でのトークン走査**: `;` `&&` `||` `|` で切ったセグメントの先頭、`env` `sudo` `-C /repo` `--git-dir x` などを飛ばした先の語だけを見る
+2. **コマンド位置でのトークン走査**: `;` `&&` `||` `|` で切ったセグメントの先頭、`env` `sudo` `-C /repo` `--git-dir x` などを飛ばした先の語だけを見る。
+   クォートで割れた語 (`git 'commit'`) はサブコマンドを「特定できない」として拒否側に倒し、クォートを剥がして `commit` と解釈しない
+   (剥がし始めると `git $(echo commit)` まで追う羽目になる)。
+   ヒアドキュメントの本文は bash が決して実行しない位置なので、そこを「実行体を特定できない段」として数えない。数えると、
+   本文に禁止語が含まれるだけで縮退の拒否が発火する (後継プロジェクトで登録 3 回目に踏んだ)
 3. **保守的フォールバック**: 静的に読めない入力は従来の部分一致 (ブロック側) へ縮退する。対象は次の 3 つ
    - 文字列をコードとして受け取る実行系 (`eval` `xargs` `find` `bash -c` 等) がコマンド位置にある。`bash` 単体は正規のラッパー呼び出し
      (`bash scripts/create-commit.sh`) を止めてしまうので、`-c` 等のコード指定オプション併用時だけ対象にする
@@ -60,12 +64,14 @@ git bash の fork コストが桁で大きいことを見込んで fork 0 回を
 
 - 効く: 「エージェントが普通に書いたコマンド文字列を正しく分類する」こと。既定動作を確実な方向へ倒す仕組み
 - 効かない: 敵対的な安全境界。意図的な文字列分割 (`git "com""mit"`)、変数展開、alias 経由は対象外で、完全なシェルパーサ (数千行) を書いても守れる範囲は広がらない
-- `settings.json` の `if` フィルタは変えない。緩めると発火が増える方向で、照合規則 (前方一致か部分一致か) が未解明のまま設定を変えない
+- `settings.json` の hook に `if` を足さない。公式は `if` を best-effort と明記しており、照合は「最初の `*` より前を書いたとおり」なので
+  `Bash(git commit *)` は `git -C /repo commit`、`/usr/bin/git commit`、`bash -c "git commit"` に一致しない。前置フィルタが精密判定の超集合にならず、
+  この判定に届かない入力ができる ([ガードの判定はスクリプト 1 箇所に集め settings.json には入口だけを置く](guard-config-lives-in-one-script.md))
 
 ## トレードオフ
 
 - 得る: 20 ケースの実測が 13/20 → 20/20 (誤検知 6 件・検知漏れ 1 件が消え、`git -C /repo commit` の素通りも直った)
-- 失う: 縮退時 (長い 1 行・読めない実行体・古い bash) と `if` フィルタでは部分一致が残るので、回避ルールを一律には削除できない
+- 失う: 縮退時 (長い 1 行・読めない実行体・古い bash) には部分一致が残るので、回避ルールを一律には削除できない
 - 敵対的レビューで 2 件の機能後退が見つかった。行継続 (`git \`+改行+`commit`) とグローバルオプション (`git --git-dir /x/.git commit`)。
   自分で用意した検証表は「変更前に誤検知していたもの」中心で、「変更前に正しく検知できていたもの」が薄かった。
   **判定を狭める変更では、狭めた結果こぼれるものを先に列挙する**

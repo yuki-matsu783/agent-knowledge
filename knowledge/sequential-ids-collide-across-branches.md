@@ -11,7 +11,7 @@ description: >-
   "semantic conflict" keeps recurring after merges. Not for content conflicts that git does detect, and not
   a general argument against numbered ADRs in a single-writer repository.
 tags: [workflow, meta]
-keywords: [連番, 採番, 衝突, semantic conflict, git が報告しない, ADR, DDR, 改番, 参照追従漏れ, issue 番号ベース, ゼロ埋め, 辞書順, 枝番, 中央採番, 単調増加カウンタ]
+keywords: [連番, 採番, 衝突, semantic conflict, git が報告しない, ADR, DDR, 改番, 参照追従漏れ, issue 番号ベース, ゼロ埋め, 辞書順, 枝番, 中央採番, 単調増加カウンタ, worktree, 本流だけが採番, 種類が違えば衝突せず合流]
 status: stable
 sources:
   - https://github.com/yuki-matsu783/MR-driven-workflow/tree/main/.claude/docs/ddr
@@ -46,6 +46,14 @@ sources:
 - 重複検知の機構は残す。旧形式のファイル同士、あるいは同一 issue を 2 ブランチで並行して進めた場合の枝番衝突は新方式でも残る
   ([detect-conflicts-with-merge-tree.md](detect-conflicts-with-merge-tree.md))
 
+**同じ issue の中で worktree を並列にすると、枝番でも同じ衝突が起きる。** 後継プロジェクトの実測では、2 つの作業ツリーがどちらも
+`0011` を採り、種類が違ったので `0011-design.md` と `0011-investigation.md` という別名になり、`git merge` は衝突せず成功して
+同じ番号のチケットが 2 枚並んだ。番号で 1 枚を引く処理は先に当たった方を返し、一覧には同じ番号が 2 回載る。人が気づく機会が無い。
+ここでの解は**採番する場所を 1 つ (本流のチェックアウト) に限る**こと。並列するのは番号が決まった後の実施チケットだけで、
+番号を新しく採るのは直列に本流を走る計画の作業なので、作業ツリーでの新規作成を拒否して本流で作るよう案内すれば重複は構造的に起きない。
+複合キーや ULID への変更、合流時の重複検査、採番時に他の作業ツリーを走査する案は、番号体系への波及・事後検知・同時作成の競合の点で割に合わない。
+本流かどうかは `.git` がディレクトリかファイルかで分かる (git を呼ばない)。
+
 却下した案: 採番をマージ直前まで遅延させる (窓が狭まるだけで無くならず、レビュー後に改番で差分が動く)。担当者ごとに番号レンジを割る (中央の合意が要る点で issue 番号と同じで、枯渇の再割り当てが運用コストとして残る)。
 
 既存の連番を全件改番するかは判断が要る。併存すると以後すべての読み書きで「どちらの方式か」を意識し続けるので、追従漏れのリスクを一度だけ引き受けて改番する方が安い。
@@ -54,8 +62,10 @@ sources:
 ## 再現条件
 
 エージェントが feature ブランチごとに決定記録を 1 件以上追加し、複数ブランチが並行する運用。単一の書き手が main へ直接コミットするなら起きない。
+同一ブランチでも、git worktree で複数の作業ツリーが同時にファイルを採番すると同じことが起きる。
 
 ## 関連
 
 - [merge-tree で作業ツリーを汚さずにベースブランチとの衝突を検知する](detect-conflicts-with-merge-tree.md)。番号重複を直接調べる検知の作り方
 - [設計書の隣に決定ログを置く](decision-log-beside-design-docs.md)。決定記録を置く場所の話。こちらはその ID の話
+- [並列で走らせるエージェントは git worktree で隔離する](parallel-agents-isolated-by-worktree.md)。worktree 並列で採番が本流限定になる理由

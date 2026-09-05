@@ -12,7 +12,7 @@ tags: [claude-code, workflow]
 keywords: [Grep, Glob, ripgrep, gitignore, 除外, 検索されない, No files found, dist, node_modules, 生成物, --no-ignore, hidden]
 status: stable
 verified_at: 2026-09-05
-applies_to: [claude-code@2.1.235, ripgrep@14.1.1]
+applies_to: [claude-code@2.1, ripgrep@14.1]
 sources:
   - https://github.com/BurntSushi/ripgrep/blob/master/GUIDE.md
 ---

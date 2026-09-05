@@ -13,7 +13,7 @@ tags: [claude-code, security, observability]
 keywords: [hook, dry-run, ドライラン, 無効化, 環境変数, GUARD_MODE, enforce, off, ログ, JSON Lines, logs, 誤爆, 空振り, 段階導入, PreToolUse, exit 2, systemMessage, disableAllHooks, settings.json, env]
 status: stable
 verified_at: 2026-09-05
-applies_to: [claude-code@2.1.235]
+applies_to: [claude-code@2.1]
 sources:
   - https://code.claude.com/docs/en/hooks
   - https://code.claude.com/docs/en/settings

@@ -46,7 +46,7 @@ hooks リファレンス (2026-09 時点) を見る限り、次の構成なら�
 ```mermaid
 flowchart LR
   T[ツール呼び出し] --> P[PostToolUse hook<br/>async + asyncRewake]
-  P --> C[カウンタ更新<br/>wip/local/tooluse.json]
+  P --> C[カウンタ更新<br/>logs/tooluse.json]
   C -->|閾値未満| E[exit 0]
   C -->|閾値超| R[監査サブエージェントを起動<br/>文脈なし]
   R -->|問題なし| E
@@ -56,7 +56,9 @@ flowchart LR
 - **カウンタ**: `PostToolUse` か `PostToolBatch` の `command` hook。stdin の JSON から `session_id` を取り、
   セッションごとのカウンタファイルを更新する。ここはローカル完結なので速い
 - **背景実行**: `async: true` を付ける。async な hook には timeout が効かないので、監査に何秒かかっても
-  セッションは止まらない。ただし `async` / `asyncRewake` は `command` type にしか無い。
+  セッションは止まらない。**ただし `asyncRewake: true` にすると timeout は効く** (公式に明記。既定 600 秒)。
+  助言モードで asyncRewake を使うなら、hook 自体は監査プロセスを起こして即終了させ、判定は別経路で返すか、
+  `timeout` を監査の所要時間より長く明示する。`async` / `asyncRewake` は `command` type にしか無い。
   `type: "agent"` の hook は同期で、既定 timeout 60 秒。監査役をこちらで書くとセッションが待たされる。
   監査本体は `command` hook から `claude -p` のようなヘッドレス実行を子プロセスで起こす形になる
 
@@ -73,7 +75,7 @@ flowchart LR
 | 向き | 人が見ているセッション、誤検知を許せる場面 | 無人の長時間セッション、書き込みを含む作業 |
 
 停止モードの要点は、**判定の生成と判定の適用を分ける**こと。監査役 (遅い、LLM を呼ぶ) は背景に置いたまま、
-`wip/local/audit-verdict.json` のようなファイルに結論と理由を書く。ゲート側の `PreToolUse` hook は
+`logs/audit-verdict.json` のようなファイルに結論と理由を書く。ゲート側の `PreToolUse` hook は
 そのファイルの有無を見て中身を stderr に出して `exit 2` するだけで、ローカル完結で速い。
 [hook はタイムアウトすると素通りする](hook-timeout-fails-open.md) の回避策 1 と 6 にそのまま沿う。
 LLM を同期パスに置かずに fail-closed のゲートが作れる。
@@ -96,7 +98,7 @@ LLM を同期パスに置かずに fail-closed のゲートが作れる。
   「強く助言する」が本当に効くのかは試さないと分からない。効かないなら停止モードに倒す
 - **カウンタも監査プロンプトもエージェントが編集できる。** ワーキングツリーの中にあるファイルは全部そう。
   protected paths、permissions.deny、ConfigChange hook の手当てが要る。
-  カウンタと判定ファイルの置き場所 (このリポジトリなら `wip/local/`) を
+  カウンタと判定ファイルの置き場所 (このリポジトリなら `logs/`) を
   permissions.deny か protected paths の対象にする。置き場所を決めるだけでは守れない
 - **transcript は遅れる。** hook が受け取る `transcript_path` のファイルは非同期に書かれ、直近のやり取りが
   まだ入っていないことがある。「最初のユーザー依頼」を取るには十分だが、「直近 N 件」の材料には向かない。

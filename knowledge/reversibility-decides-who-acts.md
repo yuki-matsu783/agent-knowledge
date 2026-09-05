@@ -10,7 +10,7 @@ description: >-
   session. Use when two documents disagree about who creates the PR, or when sessions reach different end
   states from the same flow. Not for permission enforcement in hooks, and not for read-only operations.
 tags: [workflow, security]
-keywords: [可逆性, 取り消せるか, Draft PR, マージ, 明示指示, main を変えない, revert, squash merge, 他人の issue への通知, 既読は戻せない, ハーネスの指示, システムプロンプト, 再現性, AskUserQuestion, 決め打ち]
+keywords: [可逆性, 取り消せるか, Draft PR, マージ, 明示指示, main を変えない, revert, squash merge, 他人の issue への通知, 既読は戻せない, ハーネスの指示, システムプロンプト, 再現性, AskUserQuestion, 決め打ち, ヘッドレス, claude -p, 既定で進む, defer, ask を deny に]
 status: stable
 sources:
   - https://github.com/yuki-matsu783/MR-driven-workflow/tree/main/.claude/docs/ddr
@@ -54,6 +54,18 @@ PR の作成はレビューを始めるための場を用意する操作にす�
 3. 応答を待てない非対話セッションでは PR を作らずに止め、**「作成していないこと」「作成には明示指示が要ること」を最終応答に明示する**。黙って反映しただけで終わらない
 
 確認が要るのは新規作成だけ。既存 PR の更新はハーネスの指示の対象外として扱う。
+
+### ヘッドレスで応答が無いとき
+
+同じ基準がヘッドレス (`claude -p` など、ユーザーが応答できない実行形態) の倒し方も決める。
+合意が取れないからと「候補を報告してセッションを終える」と、その地点で必ず止まり、次のセッションが再開しても何をすべきか決まっていない。
+後継プロジェクトはこれを「既定の提案どおりに決めて記録し、進む」へ反転させた。既定が「この MR で対応する」なら、
+それを採ることは提示されればユーザーが選んだであろう選択肢を選ぶことに等しく、MR コメントに記録が残るので後から差し戻せる。
+既定で進めないのは**取り消せない外部への副作用**だけ (別 issue の起票は他人が見る場所への書き込みで、消しても通知は残る)。
+「止まる価値があるのは取り消せない副作用だけ」という 1 行で、対話でもヘッドレスでも同じ表が使える。
+
+なお hook の `permissionDecision` には `ask` の代わりに使える `defer` があるが、`-p` で親プロセスに判断を委ねる統合向けの値で、
+対話セッションでは警告を出して無視される。ヘッドレスで「確認を通してしまう」ことを防ぐには `ask` を `deny` に置き換える方が確実。
 
 ## 適用条件
 
