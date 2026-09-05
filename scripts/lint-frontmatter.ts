@@ -25,6 +25,8 @@ const root = repoRoot();
 const taxonomy = parse(readFileSync(join(root, 'taxonomy.yml'), 'utf8')) as Taxonomy;
 const files = listMarkdown(root, SCOPE_DIRS, ['INDEX.md']);
 const ids = new Set(files.map(toId));
+// superseded_by / derived_from の参照先。scope 内の ID か、リポジトリ内に実在する markdown の ID (.claude/docs/ など)
+const refExists = (id: string): boolean => ids.has(id) || existsSync(join(root, `${id}.md`));
 
 const errors: string[] = [];
 const warnings: string[] = [];
@@ -104,13 +106,13 @@ for (const rel of files) {
       err(rel, 'verified にするには sources が 1 件以上必要');
     }
     if (status === 'outdated') {
-      if (typeof data.superseded_by !== 'string') err(rel, 'outdated なら superseded_by に無効化した側の knowledge の ID を書く');
-      else if (!ids.has(data.superseded_by)) err(rel, `superseded_by '${data.superseded_by}' が存在しない`);
+      if (typeof data.superseded_by !== 'string') err(rel, 'outdated なら superseded_by に無効化した側の ID を書く (knowledge か .claude/docs)');
+      else if (!refExists(data.superseded_by)) err(rel, `superseded_by '${data.superseded_by}' が存在しない`);
     } else if (data.superseded_by !== undefined) warn(rel, 'superseded_by は outdated のときだけ書く');
   }
   if (tdef.derived_from_required) {
-    if (typeof data.derived_from !== 'string') err(rel, 'derived_from に元の knowledge の ID を書く');
-    else if (!ids.has(data.derived_from)) err(rel, `derived_from '${data.derived_from}' が存在しない`);
+    if (typeof data.derived_from !== 'string') err(rel, 'derived_from に元の knowledge か .claude/docs のドキュメントの ID を書く');
+    else if (!refExists(data.derived_from)) err(rel, `derived_from '${data.derived_from}' が存在しない`);
   }
 
   // リンク: 相対パスのみ。wikilink とルート絶対パスは禁止
