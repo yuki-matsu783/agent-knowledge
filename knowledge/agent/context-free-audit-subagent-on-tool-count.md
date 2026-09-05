@@ -1,7 +1,7 @@
 ---
 type: note
 nature: opinion
-title: ツール使用回数を閾値にして文脈を持たない監査サブエージェントを背景で走らせるとよいと思う
+title: ツール使用回数を閾値にして文脈を持たない監査サブエージェントを背景で走らせるとよいはず
 description: >-
   Idea for a "hall monitor" subagent that runs out of band: a PostToolUse command hook counts tool
   calls into a state file, and once the count crosses a threshold it spawns a reviewer that has none

@@ -1,7 +1,7 @@
 ---
 type: note
 nature: opinion
-title: Claude Code の実行を観測する層は後付けで入れられると思う
+title: Claude Code の実行を観測する層は後付けで入れられるはず
 description: >-
   Survey of ways to make a Claude Code session observable from the outside, so an operator can tell
   what it is doing, whether it is looping, and where the tokens went. Compares the four data sources

@@ -1,7 +1,7 @@
 ---
 type: note
 nature: opinion
-title: 設計書の隣に決定ログを置くとよいと思う
+title: 設計書の隣に決定ログを置くとよいはず
 description: >-
   Proposes keeping an append-only decision log in the same directory as the design documents it
   explains, so that an agent editing the design later can see why the current shape was chosen and

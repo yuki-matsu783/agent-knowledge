@@ -16,14 +16,14 @@ keywords: [index, 一覧, frontmatter, 自動生成]
 |---|---|---|---|---|---|---|
 | [knowledge/agent/adversarial-review-in-isolated-subagent](knowledge/agent/adversarial-review-in-isolated-subagent.md) | 敵対的レビューは独立コンテキストの読み取り専用サブエージェントに切り出すべき | pattern | best-practice | stable | claude-code, multi-agent, evaluation |  |
 | [knowledge/agent/agent-tool-hook-fields-reference](knowledge/agent/agent-tool-hook-fields-reference.md) | Agent ツール周りの hook 入出力はイベントごとにフィールドの有無と命名が異なる | reference | fact | stable | claude-code, multi-agent, observability |  |
-| [knowledge/agent/context-free-audit-subagent-on-tool-count](knowledge/agent/context-free-audit-subagent-on-tool-count.md) | ツール使用回数を閾値にして文脈を持たない監査サブエージェントを背景で走らせるとよいと思う | note | opinion | stable | claude-code, multi-agent, workflow |  |
+| [knowledge/agent/context-free-audit-subagent-on-tool-count](knowledge/agent/context-free-audit-subagent-on-tool-count.md) | ツール使用回数を閾値にして文脈を持たない監査サブエージェントを背景で走らせるとよいはず | note | opinion | stable | claude-code, multi-agent, workflow |  |
 | [knowledge/agent/parallel-agents-isolated-by-worktree](knowledge/agent/parallel-agents-isolated-by-worktree.md) | 並列で走らせるエージェントは git worktree で隔離すべき | pattern | best-practice | stable | claude-code, multi-agent, workflow | 2026-09-05 |
 | [knowledge/agent/reviewer-scores-findings-caller-applies-threshold](knowledge/agent/reviewer-scores-findings-caller-applies-threshold.md) | レビューエージェントは判定せず確度と重大度を付けた findings を返し、閾値と投稿は呼び出し側が持つべき | pattern | best-practice | stable | multi-agent, evaluation, workflow | 2026-09-05 |
 | [knowledge/agent/subagent-model-selection-by-orchestrator](knowledge/agent/subagent-model-selection-by-orchestrator.md) | サブエージェントのモデルは定義で固定せず呼び出し側に決めさせた方がよさそう | pattern | heuristic | stable | claude-code, multi-agent, cost | 2026-09-05 |
 | [knowledge/agent/subagent-progress-ui-in-vscode](knowledge/agent/subagent-progress-ui-in-vscode.md) | サブエージェントと全体進捗を VS Code 拡張で可視化しながら実行できた | note | finding | stable | claude-code, multi-agent, observability |  |
 | [knowledge/agent/subagent-runs-in-background-by-default](knowledge/agent/subagent-runs-in-background-by-default.md) | サブエージェントは既定で background で走り PostToolUse Agent は起動直後に発火する | pitfall | fact | stable | claude-code, multi-agent |  |
 | [knowledge/agent/worktree-isolation-not-portable-to-gemini-cli](knowledge/agent/worktree-isolation-not-portable-to-gemini-cli.md) | Claude Code の worktree 隔離は Gemini CLI に移植すると強制が消える | pitfall | fact | stable | claude-code, gemini-cli, workflow | 2026-09-05 |
-| [knowledge/agent/worktree-on-gitlab-merge-request-branch](knowledge/agent/worktree-on-gitlab-merge-request-branch.md) | GitLab のマージリクエストのブランチで worktree に入るなら git で自分で追加してパスで入るのがよいと思う (未検証) | note | opinion | stable | claude-code, workflow |  |
+| [knowledge/agent/worktree-on-gitlab-merge-request-branch](knowledge/agent/worktree-on-gitlab-merge-request-branch.md) | GitLab のマージリクエストのブランチで worktree に入るなら git で自分で追加してパスで入るのがよいはず (未検証) | note | opinion | stable | claude-code, workflow |  |
 
 ## knowledge/hook
 
@@ -80,12 +80,12 @@ keywords: [index, 一覧, frontmatter, 自動生成]
 |---|---|---|---|---|---|---|
 | [knowledge/rule/ask-user-to-reset-context-at-task-boundaries](knowledge/rule/ask-user-to-reset-context-at-task-boundaries.md) | タスクの切れ目で /compact と /clear をユーザに依頼させた方がよさそう | pattern | heuristic | stable | claude-code, context-management, workflow | 2026-09-05 |
 | [knowledge/rule/close-gaps-with-mechanism-not-wording](knowledge/rule/close-gaps-with-mechanism-not-wording.md) | 抜けを塞ぐのはルールの文言強化ではなく記録とゲートであるべき | pattern | principle | stable | claude-code, workflow |  |
-| [knowledge/rule/decision-log-beside-design-docs](knowledge/rule/decision-log-beside-design-docs.md) | 設計書の隣に決定ログを置くとよいと思う | note | opinion | stable | workflow, context-management |  |
+| [knowledge/rule/decision-log-beside-design-docs](knowledge/rule/decision-log-beside-design-docs.md) | 設計書の隣に決定ログを置くとよいはず | note | opinion | stable | workflow, context-management |  |
 | [knowledge/rule/push-cross-cutting-decisions-down-to-individual-specs](knowledge/rule/push-cross-cutting-decisions-down-to-individual-specs.md) | 横断で決めた規則は個別の仕様まで降ろすべき | pattern | best-practice | stable | workflow, meta |  |
 | [knowledge/rule/reinject-work-context-after-compact](knowledge/rule/reinject-work-context-after-compact.md) | compact 後は SessionStart hook で作業コンテキストを再注入すべき | pattern | best-practice | stable | claude-code, context-management, workflow | 2026-09-05 |
 | [knowledge/rule/reread-instruction-not-content-after-compact](knowledge/rule/reread-instruction-not-content-after-compact.md) | compact 後は「読んだ」認識を信用せず手順書の読み直しを指示で注入した方がよさそう | pattern | heuristic | stable | claude-code, context-management, prompting | 2026-09-05 |
 | [knowledge/rule/reversibility-decides-who-acts](knowledge/rule/reversibility-decides-who-acts.md) | エージェントに任せる操作と人間承認が要る操作の線引きは可逆性で決めるべき | pattern | principle | stable | workflow, security |  |
-| [knowledge/rule/rules-as-single-source-for-authoring-and-review](knowledge/rule/rules-as-single-source-for-authoring-and-review.md) | rules を固定フォーマットの唯一の正にし、レビューは関心事ごとのサブエージェントが横断的に読むとよいと思う | note | opinion | stable | claude-code, evaluation, workflow |  |
+| [knowledge/rule/rules-as-single-source-for-authoring-and-review](knowledge/rule/rules-as-single-source-for-authoring-and-review.md) | rules を固定フォーマットの唯一の正にし、レビューは関心事ごとのサブエージェントが横断的に読むとよいはず | note | opinion | stable | claude-code, evaluation, workflow |  |
 
 ## knowledge/skill
 
@@ -105,9 +105,9 @@ keywords: [index, 一覧, frontmatter, 自動生成]
 | [knowledge/workflow/generate-gemini-assets-from-claude-assets](knowledge/workflow/generate-gemini-assets-from-claude-assets.md) | .gemini/ は .claude/ からの変換生成物にして Git 管理下に置くべき | pattern | best-practice | stable | gemini-cli, claude-code, workflow |  |
 | [knowledge/workflow/grep-tool-skips-gitignored-files](knowledge/workflow/grep-tool-skips-gitignored-files.md) | Grep ツールは .gitignore に載ったファイルを検索しない | pitfall | fact | stable | claude-code, workflow | 2026-09-05 |
 | [knowledge/workflow/inline-review-comment-provider-constraints](knowledge/workflow/inline-review-comment-provider-constraints.md) | インラインレビューコメントの投稿は GitHub と GitLab で受け付ける行と形式が異なる | reference | fact | stable | claude-code, tool-use, workflow |  |
-| [knowledge/workflow/marpx-editable-pptx-from-marp](knowledge/workflow/marpx-editable-pptx-from-marp.md) | marpx なら Marp から編集可能な PPTX を作れると思う (未検証) | note | opinion | stable | workflow, meta |  |
+| [knowledge/workflow/marpx-editable-pptx-from-marp](knowledge/workflow/marpx-editable-pptx-from-marp.md) | marpx なら Marp から編集可能な PPTX を作れるはず (未検証) | note | opinion | stable | workflow, meta |  |
 | [knowledge/workflow/ntfs-junction-is-not-a-git-symlink](knowledge/workflow/ntfs-junction-is-not-a-git-symlink.md) | NTFS ジャンクションは git にリンクとして扱われず中身が丸ごとコミットされる | pitfall | fact | stable | workflow, gemini-cli, claude-code |  |
-| [knowledge/workflow/observability-layer-for-claude-code](knowledge/workflow/observability-layer-for-claude-code.md) | Claude Code の実行を観測する層は後付けで入れられると思う | note | opinion | stable | claude-code, observability, cost, security |  |
+| [knowledge/workflow/observability-layer-for-claude-code](knowledge/workflow/observability-layer-for-claude-code.md) | Claude Code の実行を観測する層は後付けで入れられるはず | note | opinion | stable | claude-code, observability, cost, security |  |
 | [knowledge/workflow/plan-file-path-is-reused-on-reentry](knowledge/workflow/plan-file-path-is-reused-on-reentry.md) | Plan モードへ再突入したら同じ plan ファイルパスが提示され続けた | pitfall | finding | stable | claude-code, workflow |  |
 | [knowledge/workflow/scoped-token-for-agent-git-cli-auth](knowledge/workflow/scoped-token-for-agent-git-cli-auth.md) | エージェントの gh / glab / git 認証は範囲限定トークン 1 本に寄せるべき | how-to | best-practice | stable | security, workflow, claude-code | 2026-09-05 |
 | [knowledge/workflow/sequential-ids-collide-across-branches](knowledge/workflow/sequential-ids-collide-across-branches.md) | 連番 ID はブランチ並行で必ず衝突し git はそれを報告しない | pitfall | fact | stable | workflow, meta |  |

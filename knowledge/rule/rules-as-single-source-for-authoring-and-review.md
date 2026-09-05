@@ -1,7 +1,7 @@
 ---
 type: note
 nature: opinion
-title: rules を固定フォーマットの唯一の正にし、レビューは関心事ごとのサブエージェントが横断的に読むとよいと思う
+title: rules を固定フォーマットの唯一の正にし、レビューは関心事ごとのサブエージェントが横断的に読むとよいはず
 description: >-
   Design idea for review criteria in an agent-maintained repository: instead of a second checklist layer
   (REVIEW-POINTS.md per directory), give .claude/rules a fixed per-concern format (coding conventions,
