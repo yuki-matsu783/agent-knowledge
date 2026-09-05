@@ -10,12 +10,13 @@ description: >-
   that Grep cannot find. Not for permission denials, ripgrep regex syntax errors, or the
   separate question of which files the agent is allowed to read.
 tags: [claude-code, workflow]
-keywords: [Grep, Glob, ripgrep, gitignore, 除外, 検索されない, No files found, dist, node_modules, 生成物, --no-ignore, hidden]
+keywords: [Grep, Glob, ripgrep, gitignore, 除外, 検索されない, No files found, dist, node_modules, 生成物, --no-ignore, hidden, CLAUDE_CODE_GLOB_NO_IGNORE, CLAUDE_CODE_GLOB_HIDDEN]
 status: stable
 verified_at: 2026-09-05
 applies_to: [claude-code@2.1, ripgrep@14.1]
 sources:
   - https://github.com/BurntSushi/ripgrep/blob/master/GUIDE.md
+  - https://code.claude.com/docs/en/env-vars
 stale_after: 2027-03-05
 ---
 
@@ -61,6 +62,11 @@ Grep ツールの実体は ripgrep で、既定の無視規則がそのまま効
 `path` を渡す方法には注意点がある。ripgrep はコマンドラインで明示したパスそのものには無視規則を適用しないが、
 その配下の走査には適用する。`wip/*` で無視している構成なら、`path: wip/local` は見つかるが
 `path: wip` は見つからない。
+
+Glob ツール側には環境変数がある。公式 env-vars ページ (2026-09 時点) は `CLAUDE_CODE_GLOB_NO_IGNORE=1` で「globbing 時の `.gitignore` フィルタを無効にする」、
+`CLAUDE_CODE_GLOB_HIDDEN=1` で「ドットで始まる隠しファイルを含める」と書いている。この文面は Glob が既定で gitignore を適用すると読めるが、
+上の実測 (2.1.235) では Glob は無視されたファイルも返した。文書と実測のどちらが現行版で正しいかは確かめていないので、
+Glob の挙動に頼るときはその版で `**/probe*` のような 1 回の実測を挟む。
 
 エージェントに探させる前提の生成物を `.gitignore` に入れるなら、置き場所を決める時点でこの非対称を織り込む。
 このリポジトリが `wip/local/` を「追跡しないが `git status` には出す」設計にしているのも同じ発想で、

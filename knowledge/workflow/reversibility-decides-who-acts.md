@@ -15,6 +15,7 @@ keywords: [可逆性, 取り消せるか, Draft PR, マージ, 明示指示, mai
 status: stable
 sources:
   - https://github.com/yuki-matsu783/MR-driven-workflow/tree/main/.claude/docs/ddr
+  - https://code.claude.com/docs/en/hooks
 intervention: human
 ---
 
@@ -68,6 +69,11 @@ PR の作成はレビューを始めるための場を用意する操作にす�
 
 なお hook の `permissionDecision` には `ask` の代わりに使える `defer` があるが、`-p` で親プロセスに判断を委ねる統合向けの値で、
 対話セッションでは警告を出して無視される。ヘッドレスで「確認を通してしまう」ことを防ぐには `ask` を `deny` に置き換える方が確実。
+
+`deny` ではなく「既定の提案どおりに決めて進む」を機械的にやる手も公式にある。PreToolUse hook が `AskUserQuestion` に対して `permissionDecision: "allow"` と
+`updatedInput` (元の `questions` をそのまま返し、質問文をキーに選んだ答えを `answers` に入れる) を返すと、ツールは人に聞かずにその答えで進む
+(`"allow"` だけでは足りない。公式 hooks リファレンス 2026-09 時点)。hook が「最初の選択肢を選ぶ」と決め打ちにすれば、上の「既定で進む」を
+エージェントの判断ではなく hook の規則として固定できる。当リポジトリでは試していない。
 
 ## 適用条件
 

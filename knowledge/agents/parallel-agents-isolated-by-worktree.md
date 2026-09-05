@@ -178,7 +178,7 @@ worktree とブランチの両方が消える。`git worktree remove` を自分�
 
 失うもの。
 
-- **環境構築が worktree の数だけ要る。** ディスクも増える
+- **環境構築が worktree の数だけ要る。** ディスクも増える。[`worktree.symlinkDirectories` で減らせる](share-dependency-dirs-across-worktrees-by-symlink.md)が Windows では効かないことがある
 - **hook のガードの前提が変わる。** スクリプトの解決先と状態ファイルの置き場が worktree で割れる。
   [worktree に入るとガード hook の前提が変わる](../hooks/common/hook-guards-under-worktree-isolation.md)
 - **状態が共有されない。** 並列で得た結果を集める手段を別に用意する

@@ -22,6 +22,7 @@ sources:
   - https://code.claude.com/docs/en/hooks
   - https://code.claude.com/docs/en/sub-agents
   - https://github.com/anthropics/claude-code/issues/46076
+  - https://code.claude.com/docs/en/agent-view
 stale_after: 2027-03-05
 ---
 
@@ -119,6 +120,16 @@ flowchart LR
 [ツール使用回数を閾値にした監査サブエージェント](context-free-audit-subagent-on-tool-count.md)
 でも当たっている。あちらは遅れが致命的なので hook でカウンタを持つ側に倒したが、
 こちらは遅れても構わない用途なので反対側に倒れる。
+
+## 公式の Agent View と /tasks は別のものを見ている
+
+公式にも進捗の画面はあるが、ここで欲しいものとは対象が違う (公式 agent-view ページ、2026-09 時点、research preview)。
+
+- **Agent View** (`claude agents`、空のプロンプトで `←`) は**背景セッション**の一覧。何が走り、何が入力待ちで、何が終わったかを行で見せる。
+  ただし「セッションが起こしたサブエージェントとチームメイトは別の行として載らない」と明記されている。このノートが埋めたい穴 (サブエージェントの内部) はそのまま残る
+- **`/tasks`** は Claude 自身のタスクリスト (チェックリスト)。背景化したセッションに付いて回るが、サブエージェントの進捗ではない
+
+どちらも文書は CLI の画面として書かれていて、VS Code 拡張でどう見えるかは書かれていない。未確認。
 
 ## 試すなら
 

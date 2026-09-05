@@ -78,7 +78,9 @@ SessionStart の時点では計画がまだ無いので、タスク固有の検�
 - 「コマンド」をどこまで抜き出すか。計画に書かれていない暗黙のコマンド (lint、フォーマッタ) を拾えるか
 - 手順書を読ませるだけで後続のサブエージェントのエラーが実際に減るか、減るとしてどのくらいか
 - 初期化サブエージェント 1 回分のトークンと時間が、各サブエージェントの手戻りより安いか
-- worktree ごとの `pnpm install` をどこに組み込むのがよいか (初期化サブエージェント、EnterWorktree の直後、WorktreeCreate hook)
+- worktree ごとの `pnpm install` をどこに組み込むのがよいか (初期化サブエージェント、EnterWorktree の直後、WorktreeCreate hook)。
+  `worktree.symlinkDirectories` で main checkout の `node_modules` を張れば組み込み自体が要らなくなるが、
+  [Windows では特権が無いと黙って効かない](share-dependency-dirs-across-worktrees-by-symlink.md)
 
 ## 昇格の目安
 
