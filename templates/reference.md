@@ -5,7 +5,7 @@ description: >-   # 英語。What / Use when ... / Not for ... を 2〜4 文で 
   
 tags: []             # taxonomy.yml の語彙から 2〜4 個
 keywords: []         # 検索用の語を 3〜20 個
-status: draft        # draft | verified | outdated
+status: stable       # stable | deprecated
 verified_at:         # YYYY-MM-DD (verified にするとき)
 applies_to: []       # 例 claude-code@2.1
 sources: []          # 一次情報の URL

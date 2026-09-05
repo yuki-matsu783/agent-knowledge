@@ -5,7 +5,7 @@ description: >-   # 英語。What / Use when ... / Not for ... を 2〜4 文で 
   
 tags: []             # taxonomy.yml の語彙から 1〜4 個
 keywords: []         # 検索用の語を 3〜20 個
-status: draft        # inbox の note は常に draft
+status: stable
 sources: []          # 分かっている範囲で
 ---
 
@@ -13,11 +13,14 @@ sources: []          # 分かっている範囲で
 
 自由に書く。
 
-## 昇格チェック
+## 確かめていないこと
 
-knowledge/ へ移すときに確認する (.claude/rules/knowledge-authoring.md「昇格条件」)。
+何が未確認かを書く。ここが埋まっているうちは type を `note` のままにする。
 
-- [ ] type を決めた (concept / how-to / reference / pattern / pitfall)
+## 昇格の目安
+
+(.claude/rules/knowledge-authoring.md「note を昇格させる」)。満たしたら type を変える。ファイルは動かさない。
+
+- [ ] 粒度が type の定義に収まっている (concept / how-to / reference / pattern / pitfall)
 - [ ] sources に一次情報がある
-- [ ] applies_to に検証したバージョンがある
-- [ ] 実際に試して verified_at を書ける
+- [ ] 実際に試して applies_to と verified_at を書ける
