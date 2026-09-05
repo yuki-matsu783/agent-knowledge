@@ -14,7 +14,7 @@ description: >-
   reviewer prompt, and the false-positive rate are all unverified.
 tags: [claude-code, multi-agent, workflow]
 keywords: [wip, 風紀委員, 監査, ドリフト, 目的逸脱, ルール違反, PostToolUse, PreToolUse, async, asyncRewake, exit 2, 判定ファイル, 助言モード, 停止モード, transcript_path, tool 使用回数, 閾値, claude -p, 長時間セッション, サブエージェント]
-status: draft
+status: stable
 sources:
   - https://code.claude.com/docs/en/hooks
   - knowledge/hook-timeout-fails-open.md
@@ -75,14 +75,14 @@ flowchart LR
 停止モードの要点は、**判定の生成と判定の適用を分ける**こと。監査役 (遅い、LLM を呼ぶ) は背景に置いたまま、
 `wip/local/audit-verdict.json` のようなファイルに結論と理由を書く。ゲート側の `PreToolUse` hook は
 そのファイルの有無を見て中身を stderr に出して `exit 2` するだけで、ローカル完結で速い。
-[hook はタイムアウトすると素通りする](../knowledge/hook-timeout-fails-open.md) の回避策 1 と 6 にそのまま沿う。
+[hook はタイムアウトすると素通りする](hook-timeout-fails-open.md) の回避策 1 と 6 にそのまま沿う。
 LLM を同期パスに置かずに fail-closed のゲートが作れる。
 
 決めていないこと。
 
 - **判定ファイルをいつ消すか。** 止めた時点で消すと、本体が理由を読んでユーザーに確認して続行できる。
   ユーザーが消すまで残すとロックが強くなるが、エージェント自身が消せてしまう
-  ([ガードの設定と hook 自身をエージェントから守る](../knowledge/protect-guard-config-from-the-agent.md) と同じ問題)
+  ([ガードの設定と hook 自身をエージェントから守る](protect-guard-config-from-the-agent.md) と同じ問題)
 - **何を止めるか。** 全ツールを止めると状況確認もできなくなる。`Edit|Write|Bash` だけ matcher で止め、
   読み取りは通すほうが、本体がユーザーに説明する材料を集められる
 - **モードの置き場所。** settings.json に書くとエージェントが書き換えられる。環境変数か managed settings に寄せる
@@ -115,9 +115,9 @@ LLM を同期パスに置かずに fail-closed のゲートが作れる。
 3. 当たるようになってから助言モード (`asyncRewake`) を付ける
 4. 助言が無視されるなら停止モード (判定ファイル + `PreToolUse`) を足す
 
-## 昇格チェック
+## 昇格の目安
 
-knowledge/ へ移すときに確認する (.claude/rules/knowledge-authoring.md「昇格条件」)。
+これが揃ったら type を `note` から変える (.claude/rules/knowledge-authoring.md「note を昇格させる」)。ファイルは動かさない。
 
 - [ ] type を決めた → 課題と解決の組なので `pattern` になる見込み
 - [ ] sources に一次情報がある → hooks リファレンスはある

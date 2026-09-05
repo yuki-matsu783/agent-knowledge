@@ -13,7 +13,7 @@ description: >-
   not an implementation: nothing here is built or measured.
 tags: [claude-code, multi-agent, observability]
 keywords: [可視化, 進捗, サブエージェント, VS Code 拡張, webview, ダッシュボード, hook, 遅延, クリティカルパス, JSONL, transcript, tail, 監視, オーケストレーション, 承認プロンプト, TUI, UI, claude-code-park, Claude Code Agent Monitor]
-status: draft
+status: stable
 sources:
   - https://github.com/t-soda/claude-code-park
   - https://github.com/hoangsonww/Claude-Code-Agent-Monitor
@@ -72,7 +72,7 @@ Park が読み取り専用に振り切っているのは、この性質を取っ
 - **hook 固有のイベントは見えない。** PreToolUse での拒否、Notification、権限の判定結果は落ちる。
   これらが要ると分かったときに初めて hook を検討する
 - **承認 UI は作らない。** 承認をこちらで受けるには結局 hook で待たせることになり、
-  [hook はタイムアウトすると素通りする](../knowledge/hook-timeout-fails-open.md) にぶつかる。
+  [hook はタイムアウトすると素通りする](hook-timeout-fails-open.md) にぶつかる。
   fail-open するゲートは承認 UI として成立しない。承認はターミナルに残す
 
 ## 設計の当て
@@ -127,9 +127,9 @@ flowchart LR
 3. 起動と停止を足す。統合ターミナル経由。承認は端末に任せたまま
 4. hook は、2 と 3 で足りないと分かった項目が出てから、その項目に限って検討する
 
-## 昇格チェック
+## 昇格の目安
 
-knowledge/ へ移すときに確認する (.claude/rules/knowledge-authoring.md「昇格条件」)。
+これが揃ったら type を `note` から変える (.claude/rules/knowledge-authoring.md「note を昇格させる」)。ファイルは動かさない。
 
 - [ ] type を決めた → 課題と解決の組なので `pattern` になる見込み。
       データ源の 2 択と「観測は本業のクリティカルパスに置かない」だけ切り出すなら `concept`

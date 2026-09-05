@@ -8,7 +8,7 @@ description: >-
   marp-cli already covers, and not yet verified in this repository.
 tags: [workflow, meta]
 keywords: [marpx, pptx, PowerPoint, Marp, marp-cli, --pptx, --pptx-editable, LibreOffice, Playwright, python-pptx, uv, 編集可能]
-status: draft
+status: stable
 sources:
   - https://github.com/FukumotoIkuma/marpx
 ---
@@ -53,9 +53,11 @@ uv run marpx your-slide.md -o output.pptx
 - slide-make skill は HTML 出力まで。PPTX が必要になった時点で marpx を試し、`templates/marp-theme.css` で崩れる箇所があれば記録する
 - Python ツールなので uv で扱う (CLAUDE.md の方針どおり)
 
-## 昇格チェック
+## 昇格の目安
 
-- [ ] type を決めた (how-to になる見込み)
+これが揃ったら type を `note` から変える (.claude/rules/knowledge-authoring.md「note を昇格させる」)。
+
+- [ ] 粒度が type の定義に収まっている (how-to になる見込み)
 - [ ] sources に一次情報がある (README のみ。実行結果の記録が必要)
 - [ ] applies_to に検証したバージョンがある
 - [ ] 実際に試して verified_at を書ける

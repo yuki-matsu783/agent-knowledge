@@ -13,7 +13,7 @@ description: >-
   none of the three tools below has been run here.
 tags: [claude-code, observability, cost, security]
 keywords: [可視化, 観測, ブラックボックス, OpenTelemetry, テレメトリ, トレース, span, Grafana, Jaeger, トークン消費, コスト, 無限ループ, コンテキスト圧縮, compaction, claude-devtools, cmux, JSONL, transcript, レダクション, OTEL_LOG_TOOL_DETAILS]
-status: draft
+status: stable
 sources:
   - https://code.claude.com/docs/en/monitoring-usage
   - https://qiita.com/nogataka/items/fb28c739d4c4c7f55029
@@ -137,9 +137,9 @@ Bash の子プロセスに `TRACEPARENT` が伝播するので、ビルドやテ
 - **観測を入れて何を変えるか決めていない。** 見えるようになっただけでは何も直らない。
   2 で取ったコストを見て CLAUDE.md を削る、くらいまで先に決めておかないとダッシュボードが飾りになる
 
-## 昇格チェック
+## 昇格の目安
 
-knowledge/ へ移すときに確認する (.claude/rules/knowledge-authoring.md「昇格条件」)。
+これが揃ったら type を `note` から変える (.claude/rules/knowledge-authoring.md「note を昇格させる」)。ファイルは動かさない。
 
 - [ ] type を決めた → OTel の設定は `reference`、データ源 4 つの選び方は `concept` に分かれる見込み。
       1 ファイルにまとめない
