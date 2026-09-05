@@ -2,7 +2,7 @@
 //   同じオプションの繰り返しは OR、異なるオプション同士は AND。type/tag/keyword は大文字小文字を無視した
 //   完全一致、path/text は部分一致。--text はキー名ではなく値だけを対象にする。
 //   matched は --limit で打ち切る前の件数。該当 0 件でも終了コードは 0。
-// 使い方: pnpm search [オプション]
+// 使い方: pnpm run search [オプション] (run を省くと pnpm 組み込みの npm 検索になる)
 //   --type <値> --tag <値> --keyword <値> --path <部分文字列> --text <部分文字列>
 //   --status <値> --since <YYYY-MM-DD> --until <YYYY-MM-DD> (mtime で絞る)
 //   --sort path|mtime|type|title  --reverse  --limit <N>
@@ -34,7 +34,7 @@ interface Options {
 }
 
 function usage(): never {
-  console.error(`usage: pnpm search [options]
+  console.error(`usage: pnpm run search [options]
   --type <v> --tag <v> --keyword <v> --status <v>   完全一致 (大文字小文字を無視)。同じ option の繰り返しは OR
   --path <s> --text <s>                            部分一致
   --since <date> --until <date>                    mtime で絞る
