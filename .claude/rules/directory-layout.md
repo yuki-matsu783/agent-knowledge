@@ -39,7 +39,7 @@ subject の一覧と説明は taxonomy.yml の `subjects` が正。「何につ�
 | `skills` | skill・コマンド・エージェントが呼ぶスクリプトの設計 |
 | `agents` | サブエージェント、並列化、役割分担、worktree による隔離 |
 | `rules` | Claude Code の rules そのもの。CLAUDE.md・.claude/rules・memory の書き方、効き方、限界 |
-| `hooks` | hook の機構 (イベント、入出力、並列、タイムアウト、登録) とガード hook・permissions による制御 |
+| `hooks` | hook の仕組み (イベント、入出力、並列、タイムアウト、登録) と、ガード hook・permissions による制御 |
 | `mcp` | MCP サーバーとツール名、ツール定義の見え方 |
 | `model` | モデル挙動。構成要素に依らないモデルの傾向 |
 | `workflow` | 複数の構成要素の組み合わせ、運用手順、決定記録と仕様の置き方、git と VCS ホスティング、transcript の観測、未解決の finding |
@@ -58,16 +58,16 @@ subject の一覧と説明は taxonomy.yml の `subjects` が正。「何につ�
 | subject | subdir |
 |---|---|
 | `skills` | `scripts` (エージェントが呼ぶスクリプトの書き方) |
-| `hooks` | `common` (イベントに依らない機構と設計)、`scripts` (hook スクリプトの書き方)、`00-SessionStart` `01-PreCompact` `10-UserPromptSubmit` `11-Stop` `12-SubagentStart` `13-SubagentStop` `20-PreToolUse` `21-PermissionRequest` `22-PostToolUse` |
+| `hooks` | `common` (イベントに依らない仕組みと設計)、`scripts` (hook スクリプトの書き方)、`00-SessionStart` `01-PreCompact` `10-UserPromptSubmit` `11-Stop` `12-SubagentStart` `13-SubagentStop` `20-PreToolUse` `21-PermissionRequest` `22-PostToolUse` |
 
 - hooks はどのイベントの話かで切る。イベント名は Claude Code の表記に合わせるので、ここだけディレクトリ名が kebab-case ではない。2 桁の prefix はライフサイクル順に並べるためのもの
-- 2 つ以上のイベントにまたがる知見と、イベントに依らない機構 (登録、タイムアウト、並列実行、運用モード) は `common`。sh と jq の書き方そのものは `scripts`
+- 2 つ以上のイベントにまたがる知見と、イベントに依らない仕組み (登録、タイムアウト、並列実行、運用モード、ガード・誘導・自動化の語彙) は `common`。sh と jq の書き方そのものは `scripts`
 - 該当する知見がまだ無い subdir はディレクトリを作らない (git は空ディレクトリを持てない)。taxonomy.yml に語彙だけ載せておき、1 件目を書くときに作る
 
 ## wip/ と logs/ の分け方
 
 セッション中にローカルで完結するものは `/tmp` やリポジトリ外の一時ディレクトリではなくリポジトリ内に置く。
-外に置くと消し忘れと引き継ぎ漏れが起きるため。置き場所は「人の作業の途中物」か「機構が自分のために残す記録」かで分ける。
+外に置くと消し忘れと引き継ぎ漏れが起きるため。置き場所は「人の作業の途中物」か「hook とスクリプトが自分のために残す記録」かで分ける。
 
 | 置き場所 | 中身 | git |
 |---|---|---|
