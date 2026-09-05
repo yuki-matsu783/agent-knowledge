@@ -4,7 +4,7 @@
 # pnpm exec を挟まず node を直接呼ぶ (Windows では pnpm exec だけで約 3 秒かかる)。
 f=$(jq -r '.tool_input.file_path // empty' | tr '\\' '/')
 case "$f" in
-  */knowledge/*.md | knowledge/*.md | */inbox/*.md | inbox/*.md | */adr/*.md | adr/*.md | */slides/*.md | slides/*.md | *taxonomy.yml) ;;
+  */knowledge/*.md | knowledge/*.md | */slides/*.md | slides/*.md | *taxonomy.yml) ;;
   *) exit 0 ;;
 esac
 out=$(node --import tsx scripts/lint-frontmatter.ts 2>&1) && exit 0
