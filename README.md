@@ -5,8 +5,7 @@
 ## 構成
 
 ```
-knowledge/     確定した知識 (concept / how-to / reference / pattern / pitfall)
-inbox/         未整理メモ (note)
+knowledge/     知識 (concept / how-to / reference / pattern / pitfall / note)
 adr/           運用・設計の決定記録
 slides/        Marp markdown と生成 HTML
 templates/     各 type の雛形と Marp テーマ
