@@ -9,12 +9,15 @@ description: >-
   boxes, a 5x2 table, code blocks, and page numbers came out as native shapes with zero fallback
   images. Covers the two things that made the first run fail: marpx shells out to `npx
   @marp-team/marp-cli@4.2.3` with a 60 second timeout, so the first download must be done beforehand,
-  and rich crashes on cp932 when printing the failure mark unless PYTHONUTF8=1 is set. Use when a
+  and rich crashes on cp932 when printing the failure mark unless PYTHONUTF8=1 is set. Also covers
+  embedding images such as an archify diagram: on Windows only a data URI reaches the PPTX, because
+  relative paths resolve against marpx's temp HTML, Marp rejects file:/// URLs, and marpx mis-resolves
+  file:///C:/ paths; and the run must have stdin closed (`</dev/null`) or npx blocks. Use when a
   deck built with slide-make must be delivered as .pptx. Not for HTML or PDF output, which marp-cli
   already covers. The shape tree was inspected with python-pptx and the result was opened in
   PowerPoint on Windows and judged fine for this repository's theme; other themes are not covered.
 tags: [workflow, meta]
-keywords: [marpx, pptx, PowerPoint, Marp, marp-cli, --pptx, --pptx-editable, LibreOffice, Playwright, python-pptx, uv, npx, PYTHONUTF8, cp932, UnicodeEncodeError, marp-cli timed out, --theme, 編集可能, ネイティブ表]
+keywords: [marpx, pptx, PowerPoint, Marp, marp-cli, --pptx-editable, Playwright, python-pptx, uv, npx, PYTHONUTF8, cp932, marp-cli timed out, --theme, 編集可能, 画像, archify, data URI, Image file not found, stdin]
 status: stable
 verified_at: 2026-09-05
 stale_after: 2027-03-05
@@ -63,14 +66,15 @@ marpx (0.1.0、commit 316ba66、2026-03) は Marp の HTML を Chromium (Playwri
    npx -y @marp-team/marp-cli@4.2.3 --version
    ```
 
-3. UTF-8 を強制して変換する。テーマは CSS ファイルのパスで渡す
+3. UTF-8 を強制し、**stdin を閉じて**変換する。テーマは CSS ファイルのパスで渡す
 
    ```sh
    export PYTHONUTF8=1 PYTHONIOENCODING=utf-8
-   uv run marpx -v --theme ../../templates/marp-theme.css ../../slides/marp-html-slides-from-markdown.md -o out/deck.pptx
+   uv run marpx -v --theme ../../templates/marp-theme.css ../../slides/marp-html-slides-from-markdown.md -o out/deck.pptx </dev/null
    ```
 
    8 枚のデッキで 25 秒。`-v` を付けるとスライドごとに「Slide N: 3 native, 0 fallback elements」と出るので、画像に落ちた要素があればここで分かる。
+   `</dev/null` の理由は「つまずきどころ」の npx の項。調べたいときは `--keep-temp` で marp-cli の HTML を残す。
 
 ## 確認方法
 
@@ -98,8 +102,37 @@ for i, s in enumerate(p.slides, 1):
 
 サイズは 13.33 x 7.5 インチ (16:9)。fallback (画像化) は 0 件。スピーカーノートは元のデッキに無いので未確認。
 
+## 図や画像を貼る (archify の構成図を例に)
+
+画像は PPTX では PICTURE になる (編集不可)。問題は「どう書けば marpx まで届くか」で、Marp の画像記法 (先頭に `!`、角括弧に `w:900` などの幅指定、丸括弧にパス) の
+丸括弧に何を書くかを Windows で試した結果は次のとおり。lint がリンクとして検査するので、ここでは丸括弧の中身だけを書く。
+
+| 丸括弧の中 | 結果 | 理由 |
+|---|---|---|
+| `diagram.png` (md と同じ場所への相対パス) | 落ちる (警告も無し) | marpx は marp-cli の HTML を `%TEMP%\marpx_*` に書き、そこから Playwright で読む。相対パスは temp 基準になり画像が無い |
+| `C:/Users/.../diagram.png` | 落ちる。`WARNING Image file not found: file:///C:/Users/...` | ブラウザは正しく `file:///C:/...` に解決するが、marpx が `urlparse().path` の `/C:/Users/...` をそのまま `Path` にして存在判定するので Windows では見つからない (`pptx_builder/image.py`)。Linux / macOS なら `/home/...` は通るはず (未確認) |
+| `/C:/Users/.../diagram.png` | 同上 | 同上 |
+| `file:///C:/Users/.../diagram.png` | 本文に markdown がそのまま文字で出る | Marp (markdown-it) が `file:` スキームを画像として認めない |
+| `data:image/png;base64,...` | **通る。** PICTURE 2392x1342 px、9.4 x 5.3 インチ | データが HTML に埋まるので場所の問題が消える |
+
+data URI で貼る。128 KB の PNG で md は 170 KB、変換は 34 秒。
+
+```sh
+{ printf '![w:900](data:image/png;base64,'; base64 -w0 diagram.png; printf ')\n'; } >> deck.md
+```
+
+archify の図の PNG は CLI (`archify render` など) には export サブコマンドが無く、書き出しはビューアのボタン。無人で取るなら
+`pnpm diagrams` で作った HTML を Playwright で開き、一番大きい `svg` 要素を `device_scale_factor=2` でスクリーンショットする。
+UI の枠が入らず図と凡例だけが撮れた (`single-agent-tool-loop` テンプレートで 1195 x 669 CSS px)。marpx の venv に Playwright が入っているので追加の道具は要らない。
+SVG のまま貼る道は `rsvg-convert` が要り、Windows には無いので試していない。
+
 ## つまずきどころ
 
+- **npx が返らず、marpx の 60 秒 timeout も効かない。** Claude Code の Bash ツールから前面で `timeout 170 uv run marpx ...` と走らせると、
+  marp-cli の段階で止まり、`timeout` に殺された瞬間に HTML が書かれた (temp の HTML の更新時刻が kill の時刻と一致)。npx が stdin を待っていたと読める。
+  marpx 側の 60 秒 timeout は `cmd.exe` (npx.CMD) を殺すだけで孫の node がパイプを握るため、`communicate` が返らない。
+  `</dev/null` を付けるか、Bash ツールの `run_in_background` で走らせると 20 秒で通る。`npm_config_yes=true` では直らなかった。
+  [Bash ツールの stdin は /dev/null だった](claude-code-bash-tool-stdin-is-dev-null.md) という実測とは食い違うので、何を待っていたかは未解明
 - **失敗の本当の理由が見えない。** 失敗時に rich が「✗」を出そうとして、Windows のコンソールが cp932 だと
   `UnicodeEncodeError: 'cp932' codec can't encode character '✗'` で落ち、本来のエラー文が消える。`PYTHONUTF8=1` を先に付ける。
   1 回目の失敗の実体もこれで隠れた (再現条件から marp-cli の timeout と判断したが、文言は取れていない)
