@@ -28,6 +28,30 @@ paths:
 
 タイトルが「〜と〜」で繋がるなら分割する。目安を超えると lint が warning を出す。
 
+## 性質 (nature) と title の形
+
+`nature` は「何を主張しているか」。type (文書の形) とは別に 1 つ選ぶ。語彙は taxonomy.yml の `nature`。
+title の日本語は nature に寄せ、読めば性質が分かる形にする。
+
+| nature | 選ぶ条件 | title の形 |
+|---|---|---|
+| `fact` 事実 | 公式文書に書いてあるか、再現できる実測がある。議論の余地が少ない | 「A は B である」「A すると B になる」 (言い切る) |
+| `finding` 発見・観察 | 1 環境・1 回の観察。まだ一般化していない | 「A したら B になった」「A は B だった」 (過去形) |
+| `insight` 洞察 | 症状の背後のメカニズムを説明している | 「A なのは B だから」 |
+| `heuristic` 経験則 | だいたい効くが例外がある。適用条件が本文にある | 「A は B にした方がよさそう」 |
+| `best-practice` ベストプラクティス | こうすべき、と言える確立した推奨 | 「A は B すべき」「A せず B すべき」 |
+| `principle` 規範・原則 | 価値判断を含み、個別の技術を超えて言える指針 | 「A は B であるべき」「A は B で決めるべき」 |
+| `opinion` 意見・好み | 属人的な主張、未検証の設計案 | 「A は B とよいと思う」。未検証なら末尾に「(未検証)」 |
+
+title の形が nature と食い違っていたら (opinion なのに言い切っている、heuristic なのに「すべき」)、nature か title のどちらかが間違っている。
+
+- 判定は主張の中心 1 つで行う。pitfall は症状・原因・回避策を持つが、中心が「こうなる」なら fact か finding、「なぜ」なら insight
+- 根拠の強さは nature ではなく `sources` `applies_to` と本文が持つ。別プロジェクトの記録だけが根拠なら本文にそう書き、fact にしない (finding か heuristic)
+- type との対応の目安: reference → fact、how-to → best-practice、note → finding か opinion。pattern は heuristic / best-practice / principle のどれか、pitfall は fact / finding / insight のどれか
+- 対策を主題にする知見 (pattern / how-to) には `intervention` で対策の層 (prompt / tool / hook / human) も書く。「prompt で効かず hook にした」という経緯は本文の課題かトレードオフに残す
+- 製品の版で変わりうる挙動 (既定値、UI の見え方、hook のフィールド) には `stale_after` を書く。目安は verified_at から 6 か月。過ぎたら knowledge-audit で確かめ直す
+- モデル挙動 (subject `model`) の知見は `applies_to` にモデル名と観測月を書く (例 `claude-opus-4-6@2026-09`)。モデル更新で無効になりやすいので `stale_after` も書く
+
 ## 鮮度のライフサイクル
 
 status は 2 値しかない。書いた時点で `stable`、置き換わったら `deprecated`。
@@ -53,6 +77,8 @@ stable ──(新しい知識で置き換え)──> deprecated
 1. 粒度が type の定義に収まっている (上の「粒度」の表)
 2. `sources` に一次情報 (公式ドキュメント、リポジトリ、仕様) がある
 3. 実際に試して `applies_to` と `verified_at` を書ける
+
+昇格したら `nature` も見直す (finding → fact、opinion → heuristic など)。
 
 ## 出典
 

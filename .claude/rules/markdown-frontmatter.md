@@ -16,7 +16,10 @@ OKF (Open Knowledge Format、<https://okf.md/spec/>) のフィールド定義に
 
 | キー | 必須 | 説明 |
 |---|---|---|
-| `type` | 必須 | 種別。taxonomy.yml の `types` に定義した値のみ。type ごとに置けるディレクトリが決まる |
+| `type` | 必須 | 種別 (文書の形)。taxonomy.yml の `types` に定義した値のみ。type ごとに置けるディレクトリが決まる |
+| `nature` | 必須 (拡張、knowledge のみ) | 知見の性質 (何を主張しているか)。taxonomy.yml の `nature` から 1 つ: `fact` 事実 / `finding` 発見・観察 / `insight` 洞察 / `heuristic` 経験則 / `best-practice` ベストプラクティス / `principle` 規範・原則 / `opinion` 意見・好み。判定と title の形は knowledge-authoring.md |
+| `intervention` | 任意 (拡張) | 対策をどの層で打つか。taxonomy.yml の `intervention` から 1 つ: `prompt` / `tool` / `hook` / `human`。対策を主題にする知見 (pattern / how-to) につける |
+| `stale_after` | 任意 | この日を過ぎたら確かめ直す (YYYY-MM-DD)。製品の版で変わりうる挙動に書く。OKF v0.2 のキー。lint と `pnpm audit` が期限切れを知らせる |
 | `title` | 推奨 | 人間が読む名前。日本語でよい |
 | `description` | **必須** | 一番力を入れるキー。英語で、何の知識か・いつ適用するか・いつ適用しないかを書く (下記「description の書き方」) |
 | `resource` | 任意 | 対応する外部リソースを一意に識別する URI。無ければキーごと省略する |
@@ -29,7 +32,7 @@ OKF (Open Knowledge Format、<https://okf.md/spec/>) のフィールド定義に
 | `superseded_by` | 条件付き必須 (拡張) | status が deprecated のとき、無効化した側の ID (knowledge か `.claude/docs/`) |
 | `derived_from` | slide のみ必須 (拡張) | スライドの元になった knowledge か `.claude/docs/` のドキュメントの ID |
 
-ID はリポジトリルートからの相対パスから `.md` を除いたもの (例 `knowledge/tool-definition-design`)。
+ID はリポジトリルートからの相対パスから `.md` を除いたもの (例 `knowledge/mcp/tool-definition-design`)。
 
 ## description の書き方
 
@@ -55,6 +58,7 @@ description: >-
 ```yaml
 ---
 type: pitfall
+nature: insight
 title: ツール定義の description が長すぎると選択精度が落ちる
 description: >-
   Explains why tool descriptions longer than a few hundred words make Claude pick the wrong tool,

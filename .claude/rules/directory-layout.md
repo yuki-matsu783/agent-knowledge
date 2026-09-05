@@ -3,7 +3,7 @@
 ## ディレクトリ
 
 ```
-knowledge/     # 知識はすべてここ。主題ディレクトリは当面作らず直下に置く (20 件を超えたら主題で切る)
+knowledge/     # 知識はすべてここ。主題ディレクトリ (taxonomy.yml の subjects) の直下に置く。knowledge/ 直下には置かない
 slides/        # Marp 形式の markdown (type: slide) と生成した HTML
 templates/     # 各 type の雛形と Marp テーマ
 scripts/       # lint・index・slides・audit (TypeScript、tsx で実行、pnpm)
@@ -29,8 +29,26 @@ INDEX.md       # 自動生成の一覧。手で編集しない
 - `10_spec/<slug>.md` — 外部インタフェースに加えて内部の挙動と設計判断を書く
 - 書き方の規約は [repo-docs.md](repo-docs.md)。requirement に内部の記述を混ぜないこと
 
-主題分類は tags が担う。ディレクトリを主題で切るのは knowledge/ が 20 件を超えてからにする。
-切ったときはディレクトリ名も ID の一部になるので、リンクと superseded_by と derived_from を合わせて更新する。
+## knowledge/ の主題ディレクトリ
+
+knowledge の markdown は `knowledge/<subject>/<slug>.md` に置く。直下には置かない (lint が error にする)。
+subject の一覧と説明は taxonomy.yml の `subjects` が正。「何についての知見か」をエージェントの構成要素で切る。
+
+| subject | 入るもの |
+|---|---|
+| `skill` | skill・コマンド・エージェントが呼ぶスクリプトの設計 |
+| `agent` | サブエージェント、並列化、役割分担、worktree による隔離 |
+| `rule` | CLAUDE.md・rules・指示とコンテキストの設計、決定記録と仕様の置き方 |
+| `hook` | hook の機構 (イベント、入出力、並列、タイムアウト、登録) とガード hook・permissions による制御 |
+| `mcp` | MCP サーバーとツール名、ツール定義の見え方 |
+| `model` | モデル挙動。構成要素に依らないモデルの傾向 |
+| `workflow` | 複数の構成要素の組み合わせ、運用手順、git と VCS ホスティング、transcript の観測、未解決の finding |
+
+- 1 つの知見は 1 つの subject に置く。迷ったら「その知見を活かすとき何を書き換えるか」で決める (hook スクリプトなら hook、CLAUDE.md なら rule)。どれにも収まらない組み合わせは workflow
+- 横断的な分類 (security、cost、observability など) は tags が担う。subject と tags が重なってもよい
+- 新しい subject は候補が 5 件以上溜まってから taxonomy.yml に足す。1 つの subject が 30 件を超えたら小主題で切るか subject を分ける
+- ディレクトリ名は ID の一部になる。ファイルを移すときは本文のリンク、sources のパス、superseded_by と derived_from を合わせて更新する (lint が検出する)。subject は増やしても改名しない
+- `knowledge/diagrams/` は subject ではなく archify の図の置き場
 
 ## wip/ と logs/ の分け方
 
@@ -67,7 +85,7 @@ ID = リポジトリルートからの相対パスから `.md` を除いたも�
 
 ## リンク
 
-- 本文内の相互リンクは相対パスの markdown リンクのみ (`[title](../knowledge/foo.md)`)
+- 本文内の相互リンクは相対パスの markdown リンクのみ (同じ subject なら `[title](foo.md)`、別の subject なら `[title](../rule/foo.md)`)
 - wikilink `[[...]]` とルート絶対パス `/knowledge/foo.md` は使わない (lint が error にする)
 - リンク先の存在は lint が検査する
 

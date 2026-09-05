@@ -101,7 +101,7 @@ skill 側はこれを LibreOffice の `recalc.py` で埋めているが、この
 2. 変換する。markdown は表ごとに 1 シート、直前の見出しがシート名になる。
 
    ```sh
-   pnpm xlsx INDEX.md knowledge/deny-by-hook-not-permissions.md -o out/index.xlsx
+   pnpm xlsx INDEX.md knowledge/hook/deny-by-hook-not-permissions.md -o out/index.xlsx
    pnpm xlsx knowledge/data/results.csv -o out/results.xlsx
    ```
 

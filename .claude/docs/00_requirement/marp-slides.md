@@ -60,7 +60,7 @@ flowchart LR
 
 ## 適用範囲外
 
-- 編集可能な PPTX は作れない。`--pptx` は各スライドを画像にする。代替は [marpx のメモ](../../../knowledge/marpx-editable-pptx-from-marp.md)
+- 編集可能な PPTX は作れない。`--pptx` は各スライドを画像にする。代替は [marpx のメモ](../../../knowledge/workflow/marpx-editable-pptx-from-marp.md)
 - 図は表か箇条書きにする。mermaid のコードブロックは描画されない
 - HTML 出力だけならブラウザ不要。PDF / PPTX / 画像出力は Chromium が要る
 

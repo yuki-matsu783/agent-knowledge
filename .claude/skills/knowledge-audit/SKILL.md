@@ -17,14 +17,15 @@ knowledge/ の鮮度を点検し、status を正しい状態に戻す手順。
    ```sh
    pnpm audit --days 90
    ```
-   verified_at が古いもの、applies_to が無いもの、sources が無いものが表になる。日数は用途に応じて変える。
+   verified_at が古いもの、applies_to が無いもの、sources が無いもの、`stale_after` を過ぎたものが表になる。日数は用途に応じて変える。
+   `stale_after` は「製品の版で変わりうる挙動」に書いた確かめ直す日なので、日数に関わらず優先して見る。
 
 2. **候補ごとに判断する。** 本文と `sources` を読み、現行バージョンで再確認する。判断は 3 択。
-   - **まだ正しい** → `verified_at` を今日に更新し、`applies_to` に確認したバージョンを追加する。本文は必要な箇所だけ直す
+   - **まだ正しい** → `verified_at` を今日に更新し、`applies_to` に確認したバージョンを追加する。`stale_after` があれば 6 か月後に更新する。本文は必要な箇所だけ直す
    - **一部が古い** → 本文を直し、`verified_at` を更新する。変更の経緯は git に任せる
    - **もう成り立たない** → 新しい知識を knowledge-add で作り、古い方を `status: deprecated` + `superseded_by: <新 ID>` にする。本文冒頭に「この知識は superseded_by の知識により無効」と 1 行加える。ファイルは削除しない
 
-3. **`note` を昇格させる。** 昇格の目安 (.claude/rules/knowledge-authoring.md) を満たせるなら type を concept / how-to / reference / pattern / pitfall に変える。ファイルは動かさない。
+3. **`note` を昇格させる。** 昇格の目安 (.claude/rules/knowledge-authoring.md) を満たせるなら type を concept / how-to / reference / pattern / pitfall に変え、`nature` も見直す (finding → fact など)。ファイルは動かさない。
 
 4. **検査する。** `pnpm check` を通す。`superseded_by` の参照先が存在しないと error になる。
 

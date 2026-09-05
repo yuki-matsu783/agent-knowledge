@@ -92,8 +92,8 @@ git commit -m "<prefix>: <日本語の説明>"
 
 ```
 コミット1: docs: hook でツール操作を止める知見を 2 件追加
-  - knowledge/ticket-scoped-deny-hook.md
-  - knowledge/hook-timeout-fails-open.md
+  - knowledge/hook/ticket-scoped-deny-hook.md
+  - knowledge/hook/hook-timeout-fails-open.md
   - INDEX.md
 コミット2: chore: taxonomy.yml に observability タグを追加
   - taxonomy.yml

@@ -120,5 +120,5 @@ built_from: slides/marp-html-slides-from-markdown
 
 - `theme:` に指定した名前が `@theme` と一致しないと、警告なしで default テーマになる
 - mermaid のコードブロックは描画されない。図は表か箇条書きにする
-- `--pptx` は各スライドを画像にするので、編集可能な PPTX にはならない。代替は [marpx のメモ](../../../knowledge/marpx-editable-pptx-from-marp.md)
+- `--pptx` は各スライドを画像にするので、編集可能な PPTX にはならない。代替は [marpx のメモ](../../../knowledge/workflow/marpx-editable-pptx-from-marp.md)
 - HTML 先頭の frontmatter はコメント形式なので、lint の対象にはならない。`built_from` を頼りに元を辿る
