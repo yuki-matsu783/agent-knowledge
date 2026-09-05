@@ -11,7 +11,7 @@ description: >-
   which no lexer resolves.
 tags: [claude-code, security, workflow]
 keywords: [shlex, トークン, 字句解析, 正規表現, 誤爆, 誤検知, すり抜け, PreToolUse, hook, tool_input.command, punctuation_chars, comments, posix, ValueError, fail-open, git push, sh -c, 引用符, コメント]
-status: verified
+status: stable
 verified_at: 2026-09-05
 applies_to: [python@3.12, claude-code@2.1]
 sources:

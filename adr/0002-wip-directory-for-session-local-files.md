@@ -8,10 +8,10 @@ description: >-
   stray log cannot be committed by mistake. Use when a hook, script, or agent needs somewhere to
   write state during a session, or when deciding whether a working file belongs in git. Not for
   generated artifacts such as INDEX.md, index.jsonl, or built slides, which keep their existing
-  homes, and not for knowledge content, which goes to knowledge/ or inbox/.
+  homes, and not for knowledge content, which goes to knowledge/.
 tags: [meta, workflow]
 keywords: [wip, gitignore, 作業ファイル, セッション, フラグ, カウンタ, ログ, チケット, tickets, local, 一時ファイル, scratchpad, TMPDIR, SCOPE_DIRS, 引き継ぎ]
-status: verified
+status: stable
 verified_at: 2026-09-05
 sources:
   - .claude/rules/directory-layout.md
@@ -46,9 +46,9 @@ wip/*
 ```
 
 - `wip/local/` は追跡されないので clone 直後には存在しない。書く側が `mkdir -p wip/local` してから書く
-- `wip/` は lint と index の対象外 (`scripts/lib/repo.ts` の `SCOPE_DIRS` は knowledge / inbox / adr / slides)。
+- `wip/` は lint と index の対象外 (`scripts/lib/repo.ts` の `SCOPE_DIRS` は knowledge / adr / slides)。
   frontmatter は要らない
-- チケットが終わったら `wip/tickets/` の中身を消すか、残す価値があるなら knowledge か inbox へ移す
+- チケットが終わったら `wip/tickets/` の中身を消すか、残す価値があるなら knowledge へ移す
 
 ## 却下した案
 
@@ -67,4 +67,4 @@ wip/*
 - hook とスクリプトが状態を持つときの書き先は `wip/local/`。パスは相対ではなくリポジトリルート基準で解決する
 - `wip/local/` を守りたいガード (エージェントに消させたくないフラグ) は、置いただけでは守れない。
   permissions.deny か protected paths を併せて掛ける ([ガードの設定と hook 自身をエージェントから守る](../knowledge/protect-guard-config-from-the-agent.md))
-- `wip/tickets/` に置いたメモは知識ではない。knowledge/ の昇格条件を満たしたものだけを inbox/ か knowledge/ へ移す
+- `wip/tickets/` に置いたメモは知識ではない。残す価値があるものだけを knowledge/ へ移す

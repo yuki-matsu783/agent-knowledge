@@ -26,7 +26,7 @@ keywords:
   - コンテキスト希薄化
   - Skill tool
   - built-in command
-status: verified
+status: stable
 verified_at: 2026-09-05
 applies_to: [claude-code@2.1]
 sources:

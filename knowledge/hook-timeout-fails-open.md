@@ -9,7 +9,7 @@ description: >-
   matcher or JSON output schema problems, and not for permission rules configured outside hooks.
 tags: [claude-code, security, workflow]
 keywords: [hook, タイムアウト, timeout, fail-open, 素通り, ガード, PreToolUse, exit 2, exit 1, async, asyncRewake, prompt hook, agent hook, 外部通信, settings.json, 600 秒]
-status: verified
+status: stable
 verified_at: 2026-09-05
 applies_to: [claude-code@2.1.235]
 sources:

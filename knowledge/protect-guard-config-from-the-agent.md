@@ -12,7 +12,7 @@ description: >-
   restore a file that was already written to disk.
 tags: [claude-code, security, workflow]
 keywords: [settings.json, ConfigChange, managed-settings.json, allowManagedHooksOnly, allowManagedPermissionRulesOnly, protected paths, live reload, file watcher, 自己書き換え, ガード無効化, policy_settings, disableBypassPermissionsMode, decision block, CI]
-status: verified
+status: stable
 verified_at: 2026-09-05
 applies_to: [claude-code@2.1]
 sources:

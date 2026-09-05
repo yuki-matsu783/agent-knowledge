@@ -24,7 +24,7 @@ keywords:
   - フラグファイル
   - additionalContext
   - hook が発火しない
-status: verified
+status: stable
 verified_at: 2026-09-05
 applies_to: [gemini-cli@0.58, claude-code@2.1]
 sources:

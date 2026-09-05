@@ -10,7 +10,7 @@ description: >-
   and not for timeout tuning, which is covered separately.
 tags: [claude-code, security, workflow]
 keywords: [hook, フェイルセーフ, fail-open, fail-closed, exit 0, exit 2, 握りつぶす, try-except, set -e, 素通り, ガード, 注入, SessionStart, UserPromptSubmit, PreToolUse, PostToolUse, Stop, async, settings.json, 判定不能]
-status: verified
+status: stable
 verified_at: 2026-09-05
 applies_to: [claude-code@2.1.235]
 sources:

@@ -12,7 +12,7 @@ description: >-
   permissions.deny or a sandbox when the goal is hard isolation.
 tags: [claude-code, context-management, security, observability]
 keywords: [hook, PreToolUse, deny, permissionDecisionReason, ラッパ, wrapper, スクリプト, コンテキスト圧迫, 出力, ログ, logs, gitignore, 危険オプション, --force, 要約, Bash, matcher, 迂回]
-status: verified
+status: stable
 verified_at: 2026-09-05
 applies_to: [claude-code@2.1, node@22.15]
 sources:

@@ -10,7 +10,7 @@ description: >-
   in the skills and rules.
 tags: [meta, workflow]
 keywords: [規約, frontmatter, taxonomy, ディレクトリ, 相対パス, Marp, tsx, pnpm, uv, outdated, superseded_by, index.jsonl, ADR]
-status: verified
+status: stable
 verified_at: 2026-09-05
 sources:
   - https://okf.md/spec/

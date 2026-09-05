@@ -10,7 +10,7 @@ description: >-
   repository to someone new. Not a reference for marp-cli options beyond the ones used here.
 tags: [workflow, meta]
 keywords: [Marp, marp-cli, スライド, HTML, テーマ, ワークフロー]
-status: verified
+status: stable
 verified_at: 2026-09-05
 derived_from: .claude/docs/10_spec/marp-slides
 sources:

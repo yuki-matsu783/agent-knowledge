@@ -11,7 +11,7 @@ description: >-
   not for scope decisions that need judgment rather than a string or path match.
 tags: [claude-code, security, workflow]
 keywords: [permissions.deny, PreToolUse, hook, deny, permissionDecisionReason, additionalContext, 迂回, 回避, git push, 絶対パス, 権限, ガード, matcher, rules.toml, guard-and-guide, 優先順位, defer, チケット]
-status: verified
+status: stable
 verified_at: 2026-09-05
 applies_to: [claude-code@2.1, node@22.15]
 sources:

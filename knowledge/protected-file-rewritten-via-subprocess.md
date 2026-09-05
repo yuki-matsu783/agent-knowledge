@@ -11,7 +11,7 @@ description: >-
   choosing what to deny in the first place.
 tags: [claude-code, security, observability]
 keywords: [permissions.deny, Edit, Write, NotebookEdit, MultiEdit, PostToolUse, Stop hook, matcher, リダイレクト, サブプロセス, sandbox, filesystem.denyWrite, 保護, 書き換え, 生成物, git status, サブエージェント, 監視]
-status: verified
+status: stable
 verified_at: 2026-09-05
 applies_to: [claude-code@2.1]
 sources:
