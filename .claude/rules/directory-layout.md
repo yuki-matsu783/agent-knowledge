@@ -50,6 +50,20 @@ subject の一覧と説明は taxonomy.yml の `subjects` が正。「何につ�
 - ディレクトリ名は ID の一部になる。ファイルを移すときは本文のリンク、sources のパス、superseded_by と derived_from を合わせて更新する (lint が検出する)。subject は増やしても改名しない
 - `knowledge/diagrams/` は subject ではなく archify の図の置き場
 
+### 小主題 (subdir)
+
+件数が増えた subject は 1 段だけ小主題で切る (`knowledge/<subject>/<subdir>/<slug>.md`)。2 段より深くしない。
+語彙は taxonomy.yml の `subdirs` が正で、そこに無い名前は lint が error にする。
+
+| subject | subdir |
+|---|---|
+| `skills` | `scripts` (エージェントが呼ぶスクリプトの書き方) |
+| `hooks` | `common` (イベントに依らない機構と設計)、`scripts` (hook スクリプトの書き方)、`00-SessionStart` `01-PreCompact` `10-UserPromptSubmit` `11-Stop` `12-SubagentStart` `13-SubagentStop` `20-PreToolUse` `21-PermissionRequest` `22-PostToolUse` |
+
+- hooks はどのイベントの話かで切る。イベント名は Claude Code の表記に合わせるので、ここだけディレクトリ名が kebab-case ではない。2 桁の prefix はライフサイクル順に並べるためのもの
+- 2 つ以上のイベントにまたがる知見と、イベントに依らない機構 (登録、タイムアウト、並列実行、運用モード) は `common`。sh と jq の書き方そのものは `scripts`
+- 該当する知見がまだ無い subdir はディレクトリを作らない (git は空ディレクトリを持てない)。taxonomy.yml に語彙だけ載せておき、1 件目を書くときに作る
+
 ## wip/ と logs/ の分け方
 
 セッション中にローカルで完結するものは `/tmp` やリポジトリ外の一時ディレクトリではなくリポジトリ内に置く。

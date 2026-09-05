@@ -26,6 +26,8 @@ knowledge/ に markdown を追加・更新する手順。規約は .claude/rules
    type ごとの粒度は .claude/rules/knowledge-authoring.md の表に従う。タイトルが「〜と〜」になるなら分割する。
    置き場所は主題ディレクトリ `knowledge/<subject>/`。subject は taxonomy.yml の `subjects` (skills / agents / rules / hooks / mcp / model / workflow) から、
    「その知見を活かすとき何を書き換えるか」で 1 つ選ぶ。どれにも収まらない組み合わせは workflow。knowledge/ 直下には置かない (lint が error にする)。
+   subject に小主題 (taxonomy.yml の `subdirs`) があるならそこまで選ぶ。hooks はどのイベントの話かで切り (`20-PreToolUse` など)、
+   イベントにまたがるものは `common`、sh と jq の書き方そのものは `scripts`。skills でスクリプトの書き方を書くなら `skills/scripts`。
 
 3. **雛形をコピーする。** `templates/<type>.md` を `knowledge/<subject>/<kebab-case>.md` にコピーする。ファイル名は ASCII kebab-case の名詞句。
 
