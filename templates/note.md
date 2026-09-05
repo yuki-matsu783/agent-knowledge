@@ -1,5 +1,6 @@
 ---
 type: note
+nature:              # fact | finding | insight | heuristic | best-practice | principle | opinion (taxonomy.yml、判定は .claude/rules/knowledge-authoring.md)
 title:               # 仮の名前でよい
 description: >-   # 英語。What / Use when ... / Not for ... を 2〜4 文で (規約: .claude/rules/markdown-frontmatter.md)
   

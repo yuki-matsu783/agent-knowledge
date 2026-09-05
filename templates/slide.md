@@ -10,7 +10,7 @@ tags: []             # 元 knowledge と同じでよい
 keywords: []         # 検索用の語を 3〜20 個
 status: stable       # 元 knowledge と同じにする
 verified_at:         # 元 knowledge と同じにする
-derived_from:        # 元 knowledge の ID (例 knowledge/foo)
+derived_from:        # 元 knowledge の ID (例 knowledge/hook/foo)
 sources: []          # 元 knowledge の sources
 ---
 

@@ -1,4 +1,4 @@
-# type と tags の統制語彙。lint (scripts/lint-frontmatter.mjs) がこのファイルを参照する。
+# type / subjects / nature / intervention / tags の統制語彙。lint (scripts/lint-frontmatter.ts) がこのファイルを参照する。
 # 語彙を増やすときはここに追加してからファイル側で使う。
 #
 # types.<name>:
@@ -48,6 +48,37 @@ types:
     description: 自動生成される一覧。手で編集しない
     dirs: ["."]
     lifecycle: false
+
+# subjects: knowledge/ の主題ディレクトリ。knowledge の markdown は必ずこのどれかの直下に置く (knowledge/<subject>/<slug>.md)。
+# 「何についての知見か」をエージェントの構成要素で切る。ディレクトリ名は ID の一部になるので、増やすことはあっても改名しない。
+# 新しい主題は候補が 5 件以上溜まってから足す。1 つの主題が 30 件を超えたら小主題で切るか主題を分ける。
+subjects:
+  skill: skill・コマンド・エージェントが呼ぶスクリプトの設計
+  agent: サブエージェント、並列化、役割分担、worktree による隔離
+  rule: CLAUDE.md・rules・指示とコンテキストの設計、決定記録と仕様の置き方
+  hook: hook の機構 (イベント、入出力、並列、タイムアウト、登録) とガード hook・permissions による制御
+  mcp: MCP サーバーとツール名、ツール定義の見え方
+  model: モデル挙動。構成要素に依らないモデルの傾向・得手不得手 (観測したモデル名と月を applies_to に残す)
+  workflow: 複数の構成要素の組み合わせ、運用手順、git と VCS ホスティング、transcript の観測、未解決の finding
+
+# nature: 知見の性質。「何を主張しているか」を 1 つ選ぶ。type (文書の形) とは別の軸。
+# 判定と title の書き方は .claude/rules/knowledge-authoring.md。
+nature:
+  fact: 事実 (Fact)。「A である」。検証可能で議論の余地が少ない。公式文書か再現できる実測で裏付けがある
+  finding: 発見・観察 (Finding / Observation)。「やってみたらこうなった」。単発の経験でまだ一般化されていない
+  insight: 洞察 (Insight)。「なぜそうなるか」の理解。発見の背後にあるメカニズム
+  heuristic: 経験則 (Heuristic / Rule of thumb)。「だいたいこうすると上手くいく」。確率的で例外がある
+  best-practice: ベストプラクティス (Best practice)。「こうすべき」。集団で合意された、または確立した推奨
+  principle: 規範・原則 (Principle / Norm)。「こうあるべき」。価値判断を含む、より一般化された指針
+  opinion: 意見・好み (Opinion / Preference)。「自分はこう思う」。属人的で未検証、検証不要のもの
+
+# intervention: 対策をどの層で打つか (任意)。対策を主題にする知見 (pattern / how-to) につける。
+# 下に行くほど確実だが硬い。「prompt で効かなかったので hook にした」という経緯は本文に書く。
+intervention:
+  prompt: プロンプト・指示・rules の文言で解決する。軽いが確率的
+  tool: ツール・skill・スクリプトで構造化して渡す
+  hook: hook・permissions で強制する。確実だが硬い
+  human: 人間のレビューや承認を挟む。最終手段
 
 # tags: 横断的な主題分類。kebab-case。ファイルには 2〜4 個つける。
 # keywords は自由記述なので、ここに無い語はそちらに書く。
