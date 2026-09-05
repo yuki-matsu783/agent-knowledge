@@ -9,6 +9,7 @@ adr/           # このリポジトリの運用・設計の決定記録 (type: a
 slides/        # Marp 形式の markdown (type: slide) と生成した HTML
 templates/     # 各 type の雛形と Marp テーマ
 scripts/       # lint・index・slides・audit (TypeScript、tsx で実行、pnpm)
+wip/           # セッション中の作業ファイル。tickets/ だけコミットし、それ以外は追跡しない
 taxonomy.yml   # type と tags の統制語彙
 INDEX.md       # 自動生成の一覧。手で編集しない
 .claude/rules  # 規約 (常時読み込み)
@@ -31,6 +32,22 @@ INDEX.md       # 自動生成の一覧。手で編集しない
 
 主題分類は tags が担う。ディレクトリを主題で切るのは knowledge/ が 20 件を超えてからにする。
 切ったときはディレクトリ名も ID の一部になるので、リンクと superseded_by と derived_from を合わせて更新する。
+
+## wip/ の中の分け方
+
+セッション中にローカルで完結するもの (hook が持つカウンタ、フラグ、ログ、途中の下書き) は `/tmp` や
+リポジトリ外の一時ディレクトリではなく `wip/` に置く。`git status` に現れないと消し忘れと引き継ぎ漏れが起きるため。
+
+| 置き場所 | 中身 | git |
+|---|---|---|
+| `wip/tickets/` | 作業中チケットの情報 (要件メモ、調査ログ、TODO) | コミットする |
+| `wip/local/` | フラグ用ファイル、カウンタ、ログ、実行の中間出力 | 追跡しない |
+
+- `.gitignore` は `wip/*` で全部無視し `!wip/tickets/` だけ戻す。既定が「push しない」側なので、
+  `wip/` 直下に置いたログを取り違えてコミットすることがない
+- `wip/local/` はコミットされないので clone 直後には存在しない。書く側が `mkdir -p wip/local` してから書く
+- `wip/` は lint と index の対象外 (scripts/lib/repo.ts の `SCOPE_DIRS`)。frontmatter は要らない
+- チケットが終わったら `wip/tickets/` の中身を消すか、残す価値があるなら knowledge か inbox へ移す
 
 ## ファイル名
 
