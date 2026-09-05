@@ -71,4 +71,4 @@ SessionStart hook が組み立てる注入テキストの**末尾**に、次の�
 ## 関連
 
 - [compact 後に SessionStart hook で作業コンテキストを再注入する](reinject-work-context-after-compact.md)。「現在地」の再注入。こちらは「手順」
-- [タスクの切れ目で /compact と /clear をユーザに依頼させる](../rule/ask-user-to-reset-context-at-task-boundaries.md)
+- [タスクの切れ目で /compact と /clear をユーザに依頼させる](ask-user-to-reset-context-at-task-boundaries.md)

@@ -80,6 +80,6 @@ SessionStart hook の matcher に `compact` を加え、起動時と同じスク
 ## 関連
 
 - [compact 後は「読んだ」認識を信用せず手順書の読み直しを指示で注入する](reread-instruction-not-content-after-compact.md)
-- [タスクの切れ目で /compact と /clear をユーザに依頼させる](../rule/ask-user-to-reset-context-at-task-boundaries.md)。境界で compact させる側。こちらは compact 後の回復側
+- [タスクの切れ目で /compact と /clear をユーザに依頼させる](ask-user-to-reset-context-at-task-boundaries.md)。境界で compact させる側。こちらは compact 後の回復側
 - [Gemini CLI には圧縮後に発火する hook が無い](gemini-cli-no-post-compress-hook.md)。同じことを Gemini CLI でやろうとしたときの制約
 - [Claude Code の transcript JSONL は /compact を挟んでも追記専用である](../workflow/transcript-jsonl-is-append-only-across-compact.md)

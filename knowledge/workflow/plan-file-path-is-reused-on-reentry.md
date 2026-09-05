@@ -57,4 +57,4 @@ Claude Code、2026-08 時点。`.claude/settings.json` の `"defaultMode": "plan
 
 ## 関連
 
-- [タスクの切れ目で /compact と /clear をユーザに依頼させる](../rule/ask-user-to-reset-context-at-task-boundaries.md)。セッションを切る運用と、issue 単位の計画判定の組み合わせ
+- [タスクの切れ目で /compact と /clear をユーザに依頼させる](../hook/ask-user-to-reset-context-at-task-boundaries.md)。セッションを切る運用と、issue 単位の計画判定の組み合わせ
