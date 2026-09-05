@@ -63,6 +63,6 @@ issue 番号の prefix パターン一致にする。非決定性は、それに
 
 ## 関連
 
-- [エージェントに任せる操作と人間承認が要る操作の線引きは可逆性で決める](../rule/reversibility-decides-who-acts.md)
+- [エージェントに任せる操作と人間承認が要る操作の線引きは可逆性で決める](../workflow/reversibility-decides-who-acts.md)
 - [エージェントが呼ぶスクリプトは無言で成功してはならない](agent-scripts-must-not-succeed-silently.md)。切り捨てを通知するのも同じ原則
 - [merge-tree で作業ツリーを汚さずにベースブランチとの衝突を検知する](../workflow/detect-conflicts-with-merge-tree.md)

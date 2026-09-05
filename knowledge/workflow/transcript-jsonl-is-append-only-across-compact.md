@@ -81,4 +81,4 @@ hook のペイロード (`Stop` / `PostToolUse` 等) にトークン数やコス
 - [resume すると transcript の行が別ブランチ名で再書き出しされる](transcript-lines-duplicated-on-resume.md)
 - [user 行の message.content は配列とは限らない](transcript-user-content-may-be-string.md)
 - [Claude Code の実行を観測する層を後付けで入れる](observability-layer-for-claude-code.md)。4 つの観測源のうち JSONL の詳細がこの知識
-- [compact 後に SessionStart hook で作業コンテキストを再注入する](../rule/reinject-work-context-after-compact.md)。compact が消すのはモデルへ送る側で、ファイル側ではない
+- [compact 後に SessionStart hook で作業コンテキストを再注入する](../hook/reinject-work-context-after-compact.md)。compact が消すのはモデルへ送る側で、ファイル側ではない

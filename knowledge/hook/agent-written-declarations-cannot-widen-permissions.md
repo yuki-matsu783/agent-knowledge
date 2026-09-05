@@ -56,4 +56,4 @@ intervention: hook
 
 - [コマンドが約束する保証はコミット済みの版を自分で読んで担保する](../workflow/enforce-guarantee-by-reading-committed-version.md)。エージェントの書き込みを信頼しない同じ構図
 - [削除は保護 glob が対象で始まるかで判定し配下を列挙しない](judge-deletes-by-protected-glob-prefix.md)。宣言に明示された対象だけ通す判定の例
-- [エージェントに任せる操作と人間承認が要る操作の線引きは可逆性で決める](../rule/reversibility-decides-who-acts.md)。リモート書き込みのうち何を人に残すか
+- [エージェントに任せる操作と人間承認が要る操作の線引きは可逆性で決める](../workflow/reversibility-decides-who-acts.md)。リモート書き込みのうち何を人に残すか

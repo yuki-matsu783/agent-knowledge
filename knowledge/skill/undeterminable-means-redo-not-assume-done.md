@@ -63,4 +63,4 @@ intervention: tool
 
 - [エージェントが呼ぶスクリプトは無言で成功してはならない](agent-scripts-must-not-succeed-silently.md)。「進んだことにする」が無言の成功になる
 - [jq の --slurpfile は副入力が壊れていると呼び出し全体を失敗させ stdin の解析まで失う](../hook/jq-slurpfile-fails-whole-call-on-broken-side-input.md)。jq のもう 1 つの罠
-- [エージェントに任せる操作と人間承認が要る操作の線引きは可逆性で決める](../rule/reversibility-decides-who-acts.md)。取り消せるかで倒す向きを決める同じ軸
+- [エージェントに任せる操作と人間承認が要る操作の線引きは可逆性で決める](../workflow/reversibility-decides-who-acts.md)。取り消せるかで倒す向きを決める同じ軸
