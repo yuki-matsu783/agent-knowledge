@@ -40,5 +40,10 @@
   },
   "env": {
     "ARCHIFY_UPDATE_CHECK_DISABLED": "1"
+  },
+  "autoMemoryEnabled": false,
+  "attribution": {
+    "commit": "",
+    "pr": ""
   }
 }
