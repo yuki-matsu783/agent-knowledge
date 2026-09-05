@@ -7,7 +7,7 @@ description: >-
   autofilter, column widths), the type coercion rules, and the encoding and sheet-name limits. Use
   when generating, fixing, or modifying workbook output here. Not for deciding whether xlsx is the
   right deliverable (see the requirement) and not for reading existing spreadsheets.
-status: verified
+status: stable
 verified_at: 2026-09-05
 applies_to: [uv@0.12.9, python@3.12.11, openpyxl@3.1.5, anthropics-skills-xlsx@2026-09]
 sources:

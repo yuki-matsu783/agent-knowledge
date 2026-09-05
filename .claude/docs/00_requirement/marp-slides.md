@@ -7,7 +7,7 @@ description: >-
   with, and which formats are out of scope. The happy path is drawn as small mermaid flows. Use when
   deciding how to present a knowledge file or when judging whether the pipeline still meets its
   requirements. Not for procedures or internal behavior (see the spec).
-status: verified
+status: stable
 verified_at: 2026-09-05
 applies_to: [marp-cli@4.5.0, node@22.15]
 sources:
@@ -60,7 +60,7 @@ flowchart LR
 
 ## 適用範囲外
 
-- 編集可能な PPTX は作れない。`--pptx` は各スライドを画像にする。代替は [marpx のメモ](../../../inbox/marpx-editable-pptx-from-marp.md)
+- 編集可能な PPTX は作れない。`--pptx` は各スライドを画像にする。代替は [marpx のメモ](../../../knowledge/marpx-editable-pptx-from-marp.md)
 - 図は表か箇条書きにする。mermaid のコードブロックは描画されない
 - HTML 出力だけならブラウザ不要。PDF / PPTX / 画像出力は Chromium が要る
 

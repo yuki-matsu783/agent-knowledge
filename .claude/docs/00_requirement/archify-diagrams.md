@@ -7,7 +7,7 @@ description: >-
   artifacts live, and which diagrams belong to mermaid instead. The happy path is drawn as small
   mermaid flows. Use when deciding whether a diagram belongs here or when judging whether the
   pipeline still meets its requirements. Not for procedures or internal behavior (see the spec).
-status: verified
+status: stable
 verified_at: 2026-09-05
 applies_to: [archify@2.17.0-dev.1, node@22.15]
 sources:

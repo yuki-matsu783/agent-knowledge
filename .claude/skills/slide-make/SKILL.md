@@ -4,7 +4,7 @@ description: >-
   Create a Marp markdown deck in slides/ derived from an existing knowledge file and build it to a
   PowerPoint-like HTML with this repository's theme. Use when the user asks for slides, a presentation,
   or an HTML deck about a topic already captured under knowledge/. Not for writing the knowledge itself
-  (use knowledge-add) and not for exporting to PPTX (see the marpx note in inbox/).
+  (use knowledge-add) and not for exporting to PPTX (see the marpx note in knowledge/).
 ---
 
 # slide-make
@@ -50,4 +50,4 @@ knowledge/ の内容から Marp スライドを作り、HTML を生成する手�
 
 ## PPTX が必要なとき
 
-marp-cli の `--pptx` は各スライドが画像になり編集できない。編集可能な PPTX が要る場合は inbox/marpx-editable-pptx-from-marp.md を参照 (Python + uv の外部ツール、未検証)。
+marp-cli の `--pptx` は各スライドが画像になり編集できない。編集可能な PPTX が要る場合は knowledge/marpx-editable-pptx-from-marp.md を参照 (Python + uv の外部ツール、未検証)。

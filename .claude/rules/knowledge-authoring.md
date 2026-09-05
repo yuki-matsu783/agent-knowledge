@@ -1,7 +1,6 @@
 ---
 paths:
   - "knowledge/**/*.md"
-  - "inbox/**/*.md"
   - "adr/**/*.md"
 ---
 
@@ -15,7 +14,7 @@ paths:
 
 - 業務由来の知見は書かない。顧客名・社内固有名詞・案件の内容はこのリポジトリに入れない
 - このリポジトリ自身の道具 (skill・スクリプト・pnpm コマンド) の説明は書かない。要件は `.claude/docs/00_requirement/`、仕様は `.claude/docs/10_spec/` に置く
-- 出典で裏付けできない推測を verified にしない。推測は draft のまま inbox/ に置く
+- 推測を確かめた事実として書かない。確かめていないものは type を `note` にし、本文に何を確かめていないかを書く
 
 ## 粒度 (type 別)
 
@@ -33,27 +32,29 @@ paths:
 
 ## 鮮度のライフサイクル
 
+status は 2 値しかない。書いた時点で `stable`、置き換わったら `deprecated`。
+
 ```
-draft ──(出典を揃えて検証)──> verified ──(新しい知識で置き換え)──> outdated
-  ^                              |
-  └──────(再検証で古いと判明)──────┘
+stable ──(新しい知識で置き換え)──> deprecated
 ```
 
-- **draft**: 書きかけ、または未検証。inbox/ の note は常に draft
-- **verified**: `verified_at` の日に `applies_to` のバージョンで確認した。`sources` が 1 件以上ある
-- **outdated**: 無効化された。ファイルは削除せず残し、`superseded_by` に無効化した側の ID を書く。本文冒頭に「この知識は superseded_by の知識により無効」と 1 行加える
+- **stable**: 現役。確かめた度合いは status ではなく `type` と本文が持つ。まだ試していないなら type を `note` にし、何を確かめていないかを本文に書く
+- **deprecated**: 無効化された。ファイルは残し、`superseded_by` に無効化した側の ID を書く。本文冒頭に「この知識は superseded_by の知識により無効」と 1 行加える
 
-再検証したら本文を直し `verified_at` を更新する。変更の経緯は git が持つので本文に履歴は書かない。
+`verified_at` `applies_to` `sources` は任意。書いてあれば `pnpm audit` が古さを見る材料にする。
+書かないことを咎めない。ここは検証を通す場ではなく知識を貯める場なので、
+出典が無いという理由で記録をためらう方が損になる。
 
-## inbox から knowledge への昇格条件
+内容を確かめ直したら本文を直し `verified_at` を更新する。変更の経緯は git が持つので本文に履歴は書かない。
 
-以下が揃ったら knowledge/ に移して status を verified にする。
+## note を昇格させる
 
-1. type が note 以外に決まっている
-2. `sources` に一次情報 (公式ドキュメント、リポジトリ、仕様) が 1 件以上ある
-3. `applies_to` に検証したバージョンがある
-4. tags が taxonomy.yml の語彙で 2〜4 個ついている
-5. 実際に試して `verified_at` を書ける
+`note` は「まだ確かめていない」印。次が揃ったら type を `concept` / `how-to` / `reference` /
+`pattern` / `pitfall` のどれかに変える。ファイルは動かさない (ID が変わらない)。
+
+1. 粒度が type の定義に収まっている (上の「粒度」の表)
+2. `sources` に一次情報 (公式ドキュメント、リポジトリ、仕様) がある
+3. 実際に試して `applies_to` と `verified_at` を書ける
 
 ## 出典
 
@@ -70,4 +71,4 @@ draft ──(出典を揃えて検証)──> verified ──(新しい知識で
 ## 関連付け
 
 - 関連する knowledge には相対パスでリンクする (pattern から pitfall へ、how-to から concept へ)
-- 既存の知識を上書きするときは、新しいファイルを作り、古い方を outdated にして `superseded_by` を書く。上書き編集で古い知識を消さない
+- 既存の知識を上書きするときは、新しいファイルを作り、古い方を deprecated にして `superseded_by` を書く。上書き編集で古い知識を消さない

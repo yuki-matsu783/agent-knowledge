@@ -40,7 +40,7 @@ description: >-
 
 ### 2. `pnpm check` を通す
 
-knowledge/ inbox/ adr/ slides/ taxonomy.yml のどれかが変わっているなら必ず実行する。error が残っている状態でコミットしない。
+knowledge/ adr/ slides/ taxonomy.yml のどれかが変わっているなら必ず実行する。error が残っている状態でコミットしない。
 INDEX.md は生成物なので手で直さない。`pnpm check` が更新したぶんは、その知識ファイルと同じコミットに含める
 (`.githooks/pre-commit` が有効なら自動でステージされるが、有効でない環境でも落ちないよう明示的に `git add INDEX.md` してよい)。
 
@@ -48,7 +48,7 @@ INDEX.md は生成物なので手で直さない。`pnpm check` が更新した�
 
 | prefix | このリポジトリでの対象 |
 |---|---|
-| `docs` | knowledge/ inbox/ adr/ slides/ README.md の本文 |
+| `docs` | knowledge/ adr/ slides/ README.md の本文 |
 | `ai-asset` | `.claude/` 配下 (rules / skills / hooks / settings.json) と CLAUDE.md。エージェント向けの指示は docs ではなくこちら |
 | `feat` | scripts/ への機能追加 |
 | `fix` | scripts/ や hook のバグ修正 |

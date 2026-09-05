@@ -1,7 +1,6 @@
 ---
 paths:
   - "knowledge/**/*.md"
-  - "inbox/**/*.md"
   - "adr/**/*.md"
   - "slides/**/*.md"
   - "templates/**/*.md"
@@ -24,11 +23,11 @@ OKF (Open Knowledge Format、<https://okf.md/spec/>) のフィールド定義に
 | `resource` | 任意 | 対応する外部リソースを一意に識別する URI。無ければキーごと省略する |
 | `tags` | 必須 | 横断的な主題分類。taxonomy.yml の `tags` にある語のみ。kebab-case、2〜4 個 |
 | `keywords` | 推奨 (拡張) | 検索用の自由記述。本文の特徴的な語を 3〜20 個。日本語可 |
-| `status` | 必須 (拡張) | `draft` / `verified` / `outdated` |
-| `verified_at` | 条件付き必須 (拡張) | 最後に内容を検証した日 (YYYY-MM-DD)。status が draft 以外なら必須 |
-| `applies_to` | 推奨 (拡張) | 検証した製品とバージョン。`name@version` 形式のリスト (例 `claude-code@2.1`) |
-| `sources` | 条件付き必須 (拡張) | 出典 URL またはリポジトリ内パスのリスト。knowledge/ 配下で verified にするには 1 件以上必要 |
-| `superseded_by` | 条件付き必須 (拡張) | status が outdated のとき、無効化した側の ID (knowledge か `.claude/docs/`) |
+| `status` | 必須 (拡張) | `stable` / `deprecated` の 2 値。書いた時点で `stable` |
+| `verified_at` | 任意 (拡張) | 最後に内容を確かめた日 (YYYY-MM-DD)。書いてあれば `pnpm audit` が古さの判定に使う |
+| `applies_to` | 任意 (拡張) | 確かめた製品とバージョン。`name@version` 形式のリスト (例 `claude-code@2.1`) |
+| `sources` | 任意 (拡張) | 出典 URL またはリポジトリ内パスのリスト。knowledge/ で無いと warning が出るが error にはしない |
+| `superseded_by` | 条件付き必須 (拡張) | status が deprecated のとき、無効化した側の ID (knowledge か `.claude/docs/`) |
 | `derived_from` | slide のみ必須 (拡張) | スライドの元になった knowledge か `.claude/docs/` のドキュメントの ID |
 
 ID はリポジトリルートからの相対パスから `.md` を除いたもの (例 `knowledge/tool-definition-design`)。
@@ -65,7 +64,7 @@ description: >-
   wording outside tool schemas.
 tags: [tool-use, prompting]
 keywords: [ツール定義, description, 長さ, 呼び分け, 精度]
-status: verified
+status: stable
 verified_at: 2026-09-05
 applies_to: [claude-api@2026-09]
 sources:

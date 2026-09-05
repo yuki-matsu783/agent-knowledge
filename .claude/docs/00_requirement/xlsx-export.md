@@ -7,7 +7,7 @@ description: >-
   workbook must satisfy. The happy path is drawn as small mermaid flows. Use when deciding how to
   deliver tabular data or when judging whether the pipeline still meets its requirements. Not for
   implementation choices, library rationale, or internal behavior (see the spec).
-status: verified
+status: stable
 verified_at: 2026-09-05
 applies_to: [uv@0.12.9, python@3.12.11, openpyxl@3.1.5, anthropics-skills-xlsx@2026-09]
 sources:

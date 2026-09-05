@@ -12,7 +12,7 @@
 
 ## 必ず守ること
 
-- knowledge/ inbox/ adr/ slides/ の markdown を作る・直すときは skill を使う: 追加は `knowledge-add`、スライドは `slide-make`、鮮度点検は `knowledge-audit`
+- knowledge/ adr/ slides/ の markdown を作る・直すときは skill を使う: 追加は `knowledge-add`、スライドは `slide-make`、鮮度点検は `knowledge-audit`
 - 規約は .claude/rules/ にある。frontmatter は markdown-frontmatter.md、配置と命名は directory-layout.md、本文の書き方は knowledge-authoring.md
 - このリポジトリの道具の説明は knowledge/ に書かない。要件は .claude/docs/00_requirement/、仕様は .claude/docs/10_spec/。requirement は外から観測できることだけを EARS 形式で書き、内部の挙動と設計判断は spec に置く。規約は .claude/rules/repo-docs.md
 - type と tags の語彙は taxonomy.yml が正。無い語は使わず、必要なら taxonomy.yml に追加してから使う

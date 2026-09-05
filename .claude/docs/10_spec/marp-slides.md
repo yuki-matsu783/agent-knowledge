@@ -7,7 +7,7 @@ description: >-
   the generated HTML head with a comment-form frontmatter carrying built_from. Use when building,
   fixing, or modifying slide generation here. Not for deciding whether slides are the right format
   (see the requirement) and not for Marp's VS Code extension workflow.
-status: verified
+status: stable
 verified_at: 2026-09-05
 applies_to: [marp-cli@4.5.0, node@22.15]
 sources:
@@ -120,5 +120,5 @@ built_from: slides/marp-html-slides-from-markdown
 
 - `theme:` に指定した名前が `@theme` と一致しないと、警告なしで default テーマになる
 - mermaid のコードブロックは描画されない。図は表か箇条書きにする
-- `--pptx` は各スライドを画像にするので、編集可能な PPTX にはならない。代替は [marpx のメモ](../../../inbox/marpx-editable-pptx-from-marp.md)
+- `--pptx` は各スライドを画像にするので、編集可能な PPTX にはならない。代替は [marpx のメモ](../../../knowledge/marpx-editable-pptx-from-marp.md)
 - HTML 先頭の frontmatter はコメント形式なので、lint の対象にはならない。`built_from` を頼りに元を辿る

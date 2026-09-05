@@ -7,7 +7,7 @@ description: >-
   the project-local archify binary, how it interprets the JSON result and exit code, and the
   coordinate limits each diagram kind enforces. Use when creating, fixing, or modifying diagram
   generation here. Not for deciding whether a diagram needs archify at all (see the requirement).
-status: verified
+status: stable
 verified_at: 2026-09-05
 applies_to: [archify@2.17.0-dev.1, node@22.15]
 sources:
