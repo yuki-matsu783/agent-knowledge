@@ -113,5 +113,5 @@ process.exit(1)
 
 ## 関連
 
-- [チケットの frontmatter を根拠に範囲外の操作を deny する](ticket-scoped-deny-hook.md)。deny の理由文をコンテキストへ戻す使い方は同じ。あちらは触ってよい場所、こちらは叩いてよいコマンドを決める
+- [権限は permissions.deny ではなく PreToolUse hook で止める](deny-by-hook-not-permissions.md)。このパターンの一般形。deny の理由文に代替を書いて誘導する考え方はそちらにまとめてある
 - [タイムアウトした hook はガードにならず素通りする](hook-timeout-fails-open.md)。この hook も timeout すると素通りするので、判定は `jq` の文字列一致だけに留め、`timeout` を短く明示する
