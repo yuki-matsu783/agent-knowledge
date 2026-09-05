@@ -24,7 +24,7 @@ OKF (Open Knowledge Format、<https://okf.md/spec/>) のフィールド定義に
 | `keywords` | 推奨 (拡張) | 検索用の自由記述。本文の特徴的な語を 3〜20 個。日本語可 |
 | `status` | 必須 (拡張) | `stable` / `deprecated` の 2 値。書いた時点で `stable` |
 | `verified_at` | 任意 (拡張) | 最後に内容を確かめた日 (YYYY-MM-DD)。書いてあれば `pnpm audit` が古さの判定に使う |
-| `applies_to` | 任意 (拡張) | 確かめた製品とバージョン。`name@version` 形式のリスト (例 `claude-code@2.1`) |
+| `applies_to` | 任意 (拡張) | 確かめた製品とバージョン。`name@version` 形式のリスト (例 `claude-code@2.1`)。バージョンは major.minor まで書き、パッチは書かない |
 | `sources` | 任意 (拡張) | 出典 URL またはリポジトリ内パスのリスト。knowledge/ で無いと warning が出るが error にはしない |
 | `superseded_by` | 条件付き必須 (拡張) | status が deprecated のとき、無効化した側の ID (knowledge か `.claude/docs/`) |
 | `derived_from` | slide のみ必須 (拡張) | スライドの元になった knowledge か `.claude/docs/` のドキュメントの ID |
