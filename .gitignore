@@ -16,3 +16,6 @@ templates/archify/preview/
 # それ以外 (フラグ・カウンタ・ログ) は追跡しない
 wip/*
 !wip/tickets/
+
+# hook とスクリプトが自分のために残す記録 (判定ログ、カウンタ、状態)。ローカル限り
+logs/
