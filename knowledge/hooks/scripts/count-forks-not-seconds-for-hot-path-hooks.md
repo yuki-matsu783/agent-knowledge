@@ -5,17 +5,23 @@ title: ホットパスの hook は秒数ではなく fork の回数で予算を�
 description: >-
   A pattern for keeping PreToolUse guards that run on every tool call fast enough that they never hit
   the fail-open timeout: replace the untestable target "under one second" with a countable budget of
-  external processes (only `jq`, at most twice per hook), resolve the repository root by walking up
-  from BASH_SOURCE instead of `git rev-parse`, take timestamps with bash's `printf '%(...)T'`, pass fixed-path
-  side inputs into the single stdin-parsing `jq` call, and let library functions receive already-parsed
-  values rather than open files themselves, then assert the count in tests with a PATH shim that tallies
-  invocations. Use when a hook's latency is measured in forks (Git Bash, ~95 ms each, multiplied by the
-  number of parallel hooks). Not for advisory hooks that run after a tool succeeded, which may call git.
+  external processes (only `jq`, normally once and at most twice per hook), resolve the repository root
+  from `CLAUDE_PROJECT_DIR` or by walking up from BASH_SOURCE instead of `git rev-parse`, take timestamps
+  with bash's `printf '%(...)T'`, build session-scoped side-input paths from `CLAUDE_CODE_SESSION_ID` so
+  every side input rides along in the single stdin-parsing `jq` call, and let library functions receive
+  already-parsed values rather than open files themselves, then assert the count in tests with a PATH shim
+  that tallies invocations. Use when a hook's latency is measured in forks (Git Bash, ~95 ms each,
+  multiplied by the number of parallel hooks). Not for advisory hooks that run after a tool succeeded,
+  which may call git.
 tags: [claude-code, cost, workflow]
-keywords: [ホットパス, hook, fork, 外部プロセス, jq, 2 回, git rev-parse, BASH_SOURCE, 上向き探索, printf %T, make_counting_path, 回数を数える, 1 秒以内, Git Bash 95ms, 並列 5 本, --rawfile, 副入力, session_id]
+keywords: [ホットパス, hook, fork, 外部プロセス, jq, 2 回, git rev-parse, BASH_SOURCE, printf %T, make_counting_path, 回数を数える, 1 秒以内, Git Bash 95ms, 並列 5 本, --rawfile, 副入力, session_id, CLAUDE_CODE_SESSION_ID, CLAUDE_PROJECT_DIR, CLAUDE_CODE_CHILD_SESSION]
 status: stable
+verified_at: 2026-09-05
+stale_after: 2027-03-05
+applies_to: [claude-code@2.1]
 sources:
   - https://code.claude.com/docs/en/hooks
+  - https://code.claude.com/docs/en/env-vars
 intervention: hook
 ---
 
@@ -33,11 +39,14 @@ Git Bash では外部プロセス 1 回が約 95 ms で、[同一イベントの
 
 「1 秒以内」は目安として残し、**検査できる上限**を併記する。
 
-- **起動してよい外部プロセスは `jq` だけ、呼び出しは最大 2 回。** `git` / `date` / `sed` / `find` / `cat` を本体から呼ばない
-  - 1 回目: stdin の hook 入力と、**パスが stdin に依存しない副入力** (上限設定など固定パスの JSON) を `--rawfile` で相乗りさせて読む
-  - 2 回目: **`session_id` に依存するパス**の副入力 (セッションごとの承認の記憶など)。`session_id` は stdin を解析して初めて分かり、公式に環境変数で渡す手段が無いので 1 回目に混ぜられない。要る hook だけが呼ぶ
-  - 「次に別の設定が要ったら 3 回」にはならない。固定パスの副入力はいくつ増えても 1 回目に相乗りできる。2 回目は実行基盤の性質から出る最小の回数で、内訳を固定しておけば上限は制約として働き続ける
-- リポジトリルートは `${BASH_SOURCE[0]}` から `.claude` を持つ親を上向きに探す (fork なし)。`git rev-parse` は読み込み行の最終手段としてだけ使う
+- **起動してよい外部プロセスは `jq` だけ、呼び出しは普段 1 回、最大 2 回。** `git` / `date` / `sed` / `find` / `cat` を本体から呼ばない
+  - 1 回目: stdin の hook 入力と、**副入力** (上限設定など固定パスの JSON、セッションごとの承認の記憶など) を `--rawfile` で相乗りさせて読む。
+    セッションごとのファイルのパスは環境変数 `CLAUDE_CODE_SESSION_ID` から組める。Claude Code は hook プロセスにこの変数を注入し、値は stdin の `session_id` と同じ
+    (VS Code 拡張 2.1.261 で PreToolUse hook の環境を書き出して確認。`CLAUDE_PROJECT_DIR` `CLAUDE_PID` `CLAUDE_CODE_CHILD_SESSION` `CLAUDE_EFFORT` も同時に入っていた)。
+    stdin を解析する前にパスが決まるので、副入力はすべて 1 回目に混ぜられる
+  - 2 回目: `CLAUDE_CODE_SESSION_ID` が無い環境 (この変数より古い版、[他のエージェント CLI](../common/hook-event-portability-across-agent-clis.md)) への後退用。stdin から `session_id` を取り出してからセッションごとの副入力を読む。要る hook だけが呼ぶ
+  - 「次に別の設定が要ったら 3 回」にはならない。副入力はいくつ増えても 1 回目に相乗りできる。2 回目は環境変数が無いときの後退で、内訳を固定しておけば上限は制約として働き続ける
+- リポジトリルートは `CLAUDE_PROJECT_DIR` を使う (hook プロセスに注入される)。無ければ `${BASH_SOURCE[0]}` から `.claude` を持つ親を上向きに探す (fork なし)。`git rev-parse` は読み込み行の最終手段としてだけ使う
 - 時刻は bash 組み込みの `printf '%(%Y-%m-%dT%H:%M:%S)T'` で取る
 - パス照合とコマンド分割は純 bash で書く
 - **ライブラリの読み込み関数はファイルを開かない。** 共通ライブラリが既に取り出した値を受け取って詰め替えるだけにする。パスを引数に取る形を残すと、実装者が善意でそこで `jq` を呼び、テストが落ちてから気づく。純 bash で読める frontmatter だけは例外

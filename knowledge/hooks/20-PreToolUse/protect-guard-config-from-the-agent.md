@@ -71,12 +71,13 @@ prompt で「このセッション中は .claude の編集を許す」を選ぶ�
 { "permissions": { "deny": [
   "Edit(./.claude/settings.json)",
   "Edit(./.claude/settings.local.json)",
-  "Edit(./.claude/hooks/**)",
-  "Write(./.claude/hooks/**)"
+  "Edit(./.claude/hooks/**)"
 ] } }
 ```
 
 deny は最優先で、hook が `allow` を返しても覆せない。Edit の deny は Claude のファイルツールに加え、Bash で認識されるファイルコマンド (`cat` `sed` など) にも効く。
+`Write(./.claude/hooks/**)` のように Write にパスを付けたルールは書かない。パス付きルールで参照されるのは `Edit(path)` と `Read(path)` だけで、`Write` `NotebookEdit` `MultiEdit` のパス付きルールは deny に書いても一度も参照されず起動時に warning が出る (公式 permissions 文書、v2.1.210 以降)。
+新規作成も `Edit(path)` の deny が止める ([Edit/Write を deny してもスクリプト経由でファイルは書き換わる](protected-file-rewritten-via-subprocess.md))。
 ただしこの deny 自体が守りたいファイルの中にある。ファイルごと差し替えられれば終わりなので、これは 1 層目でしかない。
 
 ### 3. ConfigChange hook で設定変更の適用を止める
