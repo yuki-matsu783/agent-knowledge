@@ -15,7 +15,7 @@ const root = repoRoot();
 const limit = new Date(Date.now() - days * 86400000).toISOString().slice(0, 10);
 
 const rows: [string, string, string][] = [];
-for (const rel of listMarkdown(root, ['knowledge', 'adr'])) {
+for (const rel of listMarkdown(root, ['knowledge'])) {
   const { data } = splitFrontmatter(readFileSync(join(root, rel), 'utf8'));
   if (!data) continue;
   const id = toId(rel);
