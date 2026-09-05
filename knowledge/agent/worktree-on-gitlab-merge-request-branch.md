@@ -1,6 +1,7 @@
 ---
 type: note
-title: GitLab の issue から作ったマージリクエストのブランチで worktree に入る
+nature: opinion
+title: GitLab のマージリクエストのブランチで worktree に入るなら git で自分で追加してパスで入るのがよいと思う (未検証)
 description: >-
   Works through how to combine Claude Code worktrees with the GitLab flow where the branch already
   exists on the remote, created by "Create merge request and branch" from an issue. Neither
@@ -33,7 +34,7 @@ sources:
   - https://code.claude.com/docs/en/worktrees
   - https://code.claude.com/docs/en/tools-reference
   - https://docs.gitlab.com/user/project/merge_requests/creating_merge_requests/
-  - knowledge/parallel-agents-isolated-by-worktree.md
+  - knowledge/agent/parallel-agents-isolated-by-worktree.md
 ---
 
 # GitLab の issue から作ったマージリクエストのブランチで worktree に入る

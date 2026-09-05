@@ -1,6 +1,7 @@
 ---
 type: pitfall
-title: MCP のツール名はサーバが定義するのでパターンで種別を分類しない
+nature: fact
+title: MCP のツール名はサーバが定義するのでパターンによる種別分類は当たらない
 description: >-
   Explains why a Claude Code guard should not classify MCP tools by name patterns such as
   `mcp__github__create_issue` into "issue write" or "PR write": the names are chosen by each server,
@@ -50,6 +51,6 @@ PreToolUse の matcher にツール名の正規表現を使う構成。MCP サ�
 
 ## 関連
 
-- [ガードの設定が読めないときも復旧経路を残す](keep-recovery-path-when-guard-config-breaks.md)。「判定できなければ拒否」の適用範囲
-- [読み取り専用に分類したコマンドはオプションで状態を変えたり任意実行したりする](read-only-command-classes-have-option-holes.md)。コマンド側の `curl` の扱い
+- [ガードの設定が読めないときも復旧経路を残す](../hook/keep-recovery-path-when-guard-config-breaks.md)。「判定できなければ拒否」の適用範囲
+- [読み取り専用に分類したコマンドはオプションで状態を変えたり任意実行したりする](../hook/read-only-command-classes-have-option-holes.md)。コマンド側の `curl` の扱い
 - [失敗メッセージに代替手段を名指しで埋め込む](name-the-alternative-in-failure-message.md)。MCP フォールバックへ誘導する側

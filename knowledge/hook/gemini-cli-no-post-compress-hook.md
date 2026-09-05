@@ -1,5 +1,6 @@
 ---
 type: pitfall
+nature: fact
 title: Gemini CLI には圧縮後に発火する hook が無い
 description: >-
   Explains why a Claude Code SessionStart hook with the `compact` matcher has no
@@ -30,6 +31,7 @@ applies_to: [gemini-cli@0.58, claude-code@2.1]
 sources:
   - https://github.com/google-gemini/gemini-cli/blob/main/docs/hooks/reference.md
   - https://code.claude.com/docs/en/hooks
+stale_after: 2027-03-05
 ---
 
 # Gemini CLI には圧縮後に発火する hook が無い

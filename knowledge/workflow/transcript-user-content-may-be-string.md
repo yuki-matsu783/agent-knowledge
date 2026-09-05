@@ -1,5 +1,6 @@
 ---
 type: pitfall
+nature: fact
 title: transcript の user 行の message.content は配列とは限らない
 description: >-
   Warns that in the Claude Code transcript JSONL a `user` line's `message.content` is a plain string when the

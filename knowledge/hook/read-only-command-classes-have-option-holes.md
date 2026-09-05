@@ -1,5 +1,6 @@
 ---
 type: pitfall
+nature: fact
 title: 読み取り専用に分類したコマンドはオプションで状態を変えたり任意実行したりする
 description: >-
   Lists the reverse holes found in a command-classification guard that lets "read-only" commands through

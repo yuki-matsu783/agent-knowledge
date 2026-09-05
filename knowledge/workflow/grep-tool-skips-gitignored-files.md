@@ -1,5 +1,6 @@
 ---
 type: pitfall
+nature: fact
 title: Grep ツールは .gitignore に載ったファイルを検索しない
 description: >-
   Explains why Claude Code's Grep tool returns zero matches for files that clearly exist:
@@ -15,6 +16,7 @@ verified_at: 2026-09-05
 applies_to: [claude-code@2.1, ripgrep@14.1]
 sources:
   - https://github.com/BurntSushi/ripgrep/blob/master/GUIDE.md
+stale_after: 2027-03-05
 ---
 
 # Grep ツールは .gitignore に載ったファイルを検索しない
@@ -85,4 +87,4 @@ Windows (Git Bash)、claude-code 2.1.235、ripgrep 14.1.1 で確認した。
 
 ## 関連
 
-- [生のコマンド実行を deny してラッパスクリプトへ誘導する](command-wrappers-instead-of-raw-bash.md)
+- [生のコマンド実行を deny してラッパスクリプトへ誘導する](../hook/command-wrappers-instead-of-raw-bash.md)

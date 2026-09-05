@@ -1,6 +1,7 @@
 ---
 type: note
-title: permissions の deny は ANY、allow は ALL で照合される
+nature: finding
+title: permissions の deny は ANY、allow は ALL で照合されると読める (未検証)
 description: >-
   Note on the asymmetric semantics of Claude Code permission rules for compound Bash commands, now stated in
   the official permissions page: `deny` and `ask` apply when any sub-command matches (including subshells,
@@ -18,6 +19,7 @@ sources:
   - https://code.claude.com/docs/en/hooks
   - https://code.claude.com/docs/en/settings
   - https://github.com/yuki-matsu783/MR-driven-workflow/tree/main/.claude/docs/ddr
+stale_after: 2027-03-05
 ---
 
 # permissions の deny は ANY、allow は ALL で照合される
@@ -60,5 +62,5 @@ hooks リファレンスは `if` の照合を「Bash if matching」表として�
 
 ## 関連
 
-- [Bash ツールの description はコンソールに 1 行しか表示されない](tool-description-shows-one-line.md)
+- [Bash ツールの description はコンソールに 1 行しか表示されない](../workflow/tool-description-shows-one-line.md)
 - [権限は permissions.deny ではなく PreToolUse hook で止める](deny-by-hook-not-permissions.md)

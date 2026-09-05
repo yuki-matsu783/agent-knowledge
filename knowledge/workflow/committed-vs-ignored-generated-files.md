@@ -1,6 +1,7 @@
 ---
 type: pattern
-title: 生成物を Git 管理下に置くかは人間が直接読むかで決める
+nature: heuristic
+title: 生成物を Git 管理下に置くかは人間が直接読むかで決めた方がよさそう
 description: >-
   A rule for generated files in an agent-maintained repository: gitignore and regenerate on SessionStart the
   machine-readable intermediates nobody opens (a frontmatter index.jsonl), but commit generated artefacts

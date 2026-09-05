@@ -1,6 +1,7 @@
 ---
 type: pattern
-title: コマンドが約束する保証はコミット済みの版を自分で読んで担保する
+nature: principle
+title: コマンドが約束する保証はコミット済みの版を自分で読んで担保するものであるべき
 description: >-
   A pattern for scripts that promise something to reviewers ("every skipped pre-push check is visible in
   the MR diff"): implement the guarantee inside the command by reading only the committed version of its
@@ -14,6 +15,7 @@ keywords: [保証, コミット済み, git show HEAD, 作業ツリー, 未コミ
 status: stable
 sources:
   - https://git-scm.com/docs/git-show
+intervention: tool
 ---
 
 # コマンドが約束する保証はコミット済みの版を自分で読んで担保する
@@ -49,6 +51,6 @@ push コマンドは push 前チェックの項目を、記録ファイルに理
 
 ## 関連
 
-- [エージェントが書く宣言で権限を広げられない](agent-written-declarations-cannot-widen-permissions.md)。エージェントの書き込みを信頼しない同じ構図
-- [ルールの文言強化ではなく記録とゲートで抜けを塞ぐ](close-gaps-with-mechanism-not-wording.md)。ゲート側の実装の注意
-- [エージェントが呼ぶスクリプトは無言で成功してはならない](agent-scripts-must-not-succeed-silently.md)
+- [エージェントが書く宣言で権限を広げられない](../hook/agent-written-declarations-cannot-widen-permissions.md)。エージェントの書き込みを信頼しない同じ構図
+- [ルールの文言強化ではなく記録とゲートで抜けを塞ぐ](../rule/close-gaps-with-mechanism-not-wording.md)。ゲート側の実装の注意
+- [エージェントが呼ぶスクリプトは無言で成功してはならない](../skill/agent-scripts-must-not-succeed-silently.md)

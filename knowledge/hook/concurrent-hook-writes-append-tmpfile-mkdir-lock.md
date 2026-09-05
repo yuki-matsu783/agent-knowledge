@@ -1,6 +1,7 @@
 ---
 type: pattern
-title: 並行する hook の記録は追記の行長制限と一時ファイルと mkdir ロックで守る
+nature: best-practice
+title: 並行する hook の記録は追記の行長制限と一時ファイルと mkdir ロックで守るべき
 description: >-
   A three-tier rule for files that Claude Code hooks write while running in parallel (all hooks on an
   event start together, and PostToolUse also fires concurrently for parallel tool calls): append-only
@@ -16,6 +17,7 @@ status: stable
 sources:
   - https://code.claude.com/docs/en/hooks
   - https://pubs.opengroup.org/onlinepubs/9699919799/functions/write.html
+intervention: hook
 ---
 
 # 並行する hook の記録は追記の行長制限と一時ファイルと mkdir ロックで守る
@@ -62,10 +64,10 @@ hook が `logs/` に判定記録・セッション状態・使用量の集計を
 - 得る: 行が割れない、書きかけを読まない、加算が消えない、ロックの残置で集計が止まらない
 - 失う: 4 KB 超の記録は切り詰められる。ロックを諦めた回は集計から 1 回抜ける (抜けたことは記録から分かる)
 - 規則を仕様に書いただけでは守られない。「加算をロックで直列化する」と横断仕様に書いても、当該 hook の仕様に「ロック」の語が 1 つも無いまま実装に進んだ。
-  競合する当人の仕様まで降ろす ([横断で決めた規則は個別の仕様まで降ろす](push-cross-cutting-decisions-down-to-individual-specs.md))
+  競合する当人の仕様まで降ろす ([横断で決めた規則は個別の仕様まで降ろす](../rule/push-cross-cutting-decisions-down-to-individual-specs.md))
 
 ## 関連
 
 - [同じイベントの hook は並列に走り settings.json の配列順は実行順ではない](hooks-run-in-parallel-not-in-array-order.md)。競合の出所
 - [タイムアウトした hook はガードにならず素通りする](hook-timeout-fails-open.md)。`trap` が効かない打ち切りの話
-- [生成物を Git 管理下に置くかは人間が直接読むかで決める](committed-vs-ignored-generated-files.md)。一時ファイル + rename の同じ書き方
+- [生成物を Git 管理下に置くかは人間が直接読むかで決める](../workflow/committed-vs-ignored-generated-files.md)。一時ファイル + rename の同じ書き方

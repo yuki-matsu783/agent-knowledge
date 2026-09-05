@@ -1,6 +1,7 @@
 ---
 type: pattern
-title: レビューエージェントは判定せず確度と重大度を付けた findings を返し、閾値と投稿は呼び出し側が持つ
+nature: best-practice
+title: レビューエージェントは判定せず確度と重大度を付けた findings を返し、閾値と投稿は呼び出し側が持つべき
 description: >-
   A pattern for splitting responsibilities between a review agent and its caller: the reviewer returns
   every candidate defect as a fixed-schema finding (file, line, one-sentence claim, concrete failure
@@ -20,7 +21,8 @@ applies_to: [claude-code@2.1]
 sources:
   - https://code.claude.com/docs/en/sub-agents
   - https://github.com/yuki-matsu783/MR-driven-workflow/tree/main/.claude/docs/ddr
-  - knowledge/adversarial-review-in-isolated-subagent.md
+  - knowledge/agent/adversarial-review-in-isolated-subagent.md
+intervention: tool
 ---
 
 # レビューエージェントは判定せず確度と重大度を付けた findings を返し、閾値と投稿は呼び出し側が持つ
@@ -77,6 +79,6 @@ flowchart LR
 ## 関連
 
 - [敵対的レビューは独立コンテキストの読み取り専用サブエージェントに切り出す](adversarial-review-in-isolated-subagent.md)。レビュアー側の隔離と回数上限。この pattern はその出力の受け渡し部分を切り出したもの
-- [エージェントからインラインレビューコメントを投稿するときのプロバイダ制約](inline-review-comment-provider-constraints.md)。呼び出し側が findings を投稿するときの制約と、行を指せない指摘の縮退
-- [rules を固定フォーマットの唯一の正にし、レビューは関心事ごとのサブエージェントが横断的に読む](rules-as-single-source-for-authoring-and-review.md)。レビュアーを関心事ごとに分けると findings の合流が要る
-- [エージェントに任せる操作と人間承認が要る操作の線引きは可逆性で決める](reversibility-decides-who-acts.md)。投稿が取り消せないから呼び出し側に寄せる、という判断の一般形
+- [エージェントからインラインレビューコメントを投稿するときのプロバイダ制約](../workflow/inline-review-comment-provider-constraints.md)。呼び出し側が findings を投稿するときの制約と、行を指せない指摘の縮退
+- [rules を固定フォーマットの唯一の正にし、レビューは関心事ごとのサブエージェントが横断的に読む](../rule/rules-as-single-source-for-authoring-and-review.md)。レビュアーを関心事ごとに分けると findings の合流が要る
+- [エージェントに任せる操作と人間承認が要る操作の線引きは可逆性で決める](../rule/reversibility-decides-who-acts.md)。投稿が取り消せないから呼び出し側に寄せる、という判断の一般形

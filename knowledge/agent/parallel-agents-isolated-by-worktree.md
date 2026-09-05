@@ -1,6 +1,7 @@
 ---
 type: pattern
-title: 並列で走らせるエージェントは git worktree で隔離する
+nature: best-practice
+title: 並列で走らせるエージェントは git worktree で隔離すべき
 description: >-
   A pattern for running Claude Code work in parallel without edit collisions by giving each unit of
   work its own git worktree, entered mid-session by the main agent with `EnterWorktree` once it has
@@ -39,6 +40,7 @@ sources:
   - https://code.claude.com/docs/en/tools-reference
   - https://code.claude.com/docs/en/vs-code
   - https://qiita.com/dai_chi/items/3a58348cc00bedd8436f
+intervention: tool
 ---
 
 # 並列で走らせるエージェントは git worktree で隔離する
@@ -177,7 +179,7 @@ worktree とブランチの両方が消える。`git worktree remove` を自分�
 
 - **環境構築が worktree の数だけ要る。** ディスクも増える
 - **hook のガードの前提が変わる。** スクリプトの解決先と状態ファイルの置き場が worktree で割れる。
-  [worktree に入るとガード hook の前提が変わる](hook-guards-under-worktree-isolation.md)
+  [worktree に入るとガード hook の前提が変わる](../hook/hook-guards-under-worktree-isolation.md)
 - **状態が共有されない。** 並列で得た結果を集める手段を別に用意する
 - **Claude Code に寄る。** [Gemini CLI に移植すると強制が消える](worktree-isolation-not-portable-to-gemini-cli.md)
 - **人間側の切り替えコスト。** 並列度には上限を決めておく。**同時に持つ worktree は 5 個まで**を上限とし、
@@ -186,7 +188,7 @@ worktree とブランチの両方が消える。`git worktree remove` を自分�
 
 ## 関連
 
-- [worktree に入るとガード hook の前提が変わる](hook-guards-under-worktree-isolation.md) — このパターンの副作用
+- [worktree に入るとガード hook の前提が変わる](../hook/hook-guards-under-worktree-isolation.md) — このパターンの副作用
 - [Claude Code の worktree 隔離は Gemini CLI に移植すると強制が消える](worktree-isolation-not-portable-to-gemini-cli.md) — 他の CLI に持っていくときに落ちる層
 - [GitLab の issue から作ったマージリクエストのブランチで worktree に入る](worktree-on-gitlab-merge-request-branch.md) — リモートに既にブランチがある流れへの当てはめ
 - [サブエージェントのモデルは定義で固定せず呼び出し側に決めさせる](subagent-model-selection-by-orchestrator.md) — 判断を定義側ではなく呼び出し側に置く、同じ形の話

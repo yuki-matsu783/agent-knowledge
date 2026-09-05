@@ -1,6 +1,7 @@
 ---
 type: pattern
-title: 共有ライブラリは分類までにし規約との照合は呼び手が行う
+nature: principle
+title: 共有ライブラリの責務は分類までで規約との照合は呼び手のものであるべき
 description: >-
   A responsibility boundary for libraries shared by several hooks: the library performs mechanical
   classification of input (which tool kind, which executable and subcommand, which operation class, which
@@ -14,6 +15,7 @@ tags: [workflow, tool-use]
 keywords: [共有ライブラリ, 分類, 照合, 呼び手, 二重定義, 責務の境界, 状態ファイル, レース, 識別子, tool_class, cmdpos, scope_classify, frontmatter, 位置引数, 意味論, hook-common]
 status: stable
 sources: []
+intervention: hook
 ---
 
 # 共有ライブラリは分類までにし規約との照合は呼び手が行う
@@ -58,4 +60,4 @@ sources: []
 - [同じイベントの hook は並列に走り settings.json の配列順は実行順ではない](hooks-run-in-parallel-not-in-array-order.md)。状態を持つライブラリがレースする理由
 - [source するライブラリの戻り値規約](bash-return-code-conventions-for-sourced-libs.md)。frontmatter 読み取りの 3 状態と、失敗ポリシーを呼び手に委ねる形
 - [ホットパスの hook は秒数ではなく fork の回数で予算を決める](count-forks-not-seconds-for-hot-path-hooks.md)。ライブラリがファイルを開かない理由
-- [意味理解を要する判定はエージェントへ委ねスクリプトには決定的な判定だけを置く](delegate-meaning-to-agent-keep-scripts-decidable.md)。1 段上の同じ線引き
+- [意味理解を要する判定はエージェントへ委ねスクリプトには決定的な判定だけを置く](../skill/delegate-meaning-to-agent-keep-scripts-decidable.md)。1 段上の同じ線引き

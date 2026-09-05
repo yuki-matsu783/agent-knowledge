@@ -1,5 +1,6 @@
 ---
 type: pitfall
+nature: fact
 title: bash のパターン照合に入力由来の長い文字列を置くと二乗で遅くなる
 description: >-
   Explains why a bash hook that redacts secrets before logging took 58 seconds on a 4,000-character

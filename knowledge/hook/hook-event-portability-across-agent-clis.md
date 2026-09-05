@@ -1,5 +1,6 @@
 ---
 type: pitfall
+nature: fact
 title: ConfigChange と FileChanged に頼ったガードは他のエージェント CLI へ移植できない
 description: >-
   Warns that a guard built on the Claude Code hook events ConfigChange and FileChanged has no
@@ -19,6 +20,7 @@ sources:
   - https://github.com/google-gemini/gemini-cli/blob/main/docs/hooks/reference.md
   - https://antigravity.google/docs/hooks/
   - https://antigravity.google/docs/ide/hooks/
+stale_after: 2027-03-05
 ---
 
 # ConfigChange と FileChanged に頼ったガードは他のエージェント CLI へ移植できない

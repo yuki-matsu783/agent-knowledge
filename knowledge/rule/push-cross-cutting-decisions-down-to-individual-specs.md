@@ -1,6 +1,7 @@
 ---
 type: pattern
-title: 横断で決めた規則は個別の仕様まで降ろす
+nature: best-practice
+title: 横断で決めた規則は個別の仕様まで降ろすべき
 description: >-
   A documentation discipline learned from two review rounds where every unresolved finding had the same
   shape, a rule settled in the cross-cutting spec but still contradicted in the per-hook spec, the
@@ -14,6 +15,7 @@ tags: [workflow, meta]
 keywords: [横断仕様, 個別仕様, 要件, 降ろす, 影響の列挙, 再掲, 正は 1 か所, 取りこぼし, 番号は名前ではない, 制御方式, 繰り下げ, grep, 決定記録, 同じ型, 2 巡]
 status: stable
 sources: []
+intervention: prompt
 ---
 
 # 横断で決めた規則は個別の仕様まで降ろす
@@ -57,6 +59,6 @@ hook 本体を書く人が読むのは個別仕様で、そこに無ければ素
 ## 関連
 
 - [設計書の隣に決定ログを置く](decision-log-beside-design-docs.md)。決定記録の「影響」節の位置づけ
-- [並行する hook の記録は追記の行長制限と一時ファイルと mkdir ロックで守る](concurrent-hook-writes-append-tmpfile-mkdir-lock.md)。ロックの語が 0 件だった規則
-- [分類を広げるときは新たに通るものを数える](count-what-newly-passes-when-widening-a-class.md)。同じレビューで見つかったもう 1 つの型
-- [コピーした定型行はバイト一致をテストで固定する](test-byte-equality-of-copied-boilerplate.md)。コードにおける同じ「雛形だけ直して波及を見ない」
+- [並行する hook の記録は追記の行長制限と一時ファイルと mkdir ロックで守る](../hook/concurrent-hook-writes-append-tmpfile-mkdir-lock.md)。ロックの語が 0 件だった規則
+- [分類を広げるときは新たに通るものを数える](../hook/count-what-newly-passes-when-widening-a-class.md)。同じレビューで見つかったもう 1 つの型
+- [コピーした定型行はバイト一致をテストで固定する](../hook/test-byte-equality-of-copied-boilerplate.md)。コードにおける同じ「雛形だけ直して波及を見ない」

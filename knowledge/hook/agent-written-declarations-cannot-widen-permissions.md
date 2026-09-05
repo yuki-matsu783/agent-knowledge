@@ -1,6 +1,7 @@
 ---
 type: pattern
-title: エージェントが書く宣言で権限を広げられない
+nature: best-practice
+title: エージェントが書く宣言で権限を広げられないようにすべき
 description: >-
   A trust-boundary pattern for agent workflows where the agent declares in a ticket what it may write and
   run: the declaration narrows within a ceiling that a human-managed per-type config defines, the guard
@@ -15,6 +16,7 @@ keywords: [宣言, allowed_paths, allow.ops, 上限, type 定義, 信頼境界, 
 status: stable
 sources:
   - https://code.claude.com/docs/en/hooks
+intervention: hook
 ---
 
 # エージェントが書く宣言で権限を広げられない
@@ -52,6 +54,6 @@ sources:
 
 ## 関連
 
-- [コマンドが約束する保証はコミット済みの版を自分で読んで担保する](enforce-guarantee-by-reading-committed-version.md)。エージェントの書き込みを信頼しない同じ構図
+- [コマンドが約束する保証はコミット済みの版を自分で読んで担保する](../workflow/enforce-guarantee-by-reading-committed-version.md)。エージェントの書き込みを信頼しない同じ構図
 - [削除は保護 glob が対象で始まるかで判定し配下を列挙しない](judge-deletes-by-protected-glob-prefix.md)。宣言に明示された対象だけ通す判定の例
-- [エージェントに任せる操作と人間承認が要る操作の線引きは可逆性で決める](reversibility-decides-who-acts.md)。リモート書き込みのうち何を人に残すか
+- [エージェントに任せる操作と人間承認が要る操作の線引きは可逆性で決める](../rule/reversibility-decides-who-acts.md)。リモート書き込みのうち何を人に残すか

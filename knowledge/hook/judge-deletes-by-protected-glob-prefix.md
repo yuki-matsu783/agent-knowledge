@@ -1,6 +1,7 @@
 ---
 type: pattern
-title: 削除は保護 glob が対象で始まるかで判定し配下を列挙しない
+nature: best-practice
+title: 削除は配下を列挙せず保護 glob が対象で始まるかで判定すべき
 description: >-
   An ordered seven-step rule for letting a PreToolUse guard allow some `rm` / `git rm` commands without
   weakening a default-deny stance: refuse when the target cannot be read, when it still contains unexpanded
@@ -14,6 +15,7 @@ keywords: [削除, rm, git rm, PreToolUse, 許可範囲, 保護 glob, 前方一�
 status: stable
 sources:
   - https://code.claude.com/docs/en/hooks
+intervention: hook
 ---
 
 # 削除は保護 glob が対象で始まるかで判定し配下を列挙しない

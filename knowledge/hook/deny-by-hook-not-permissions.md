@@ -1,6 +1,7 @@
 ---
 type: pattern
-title: 権限は permissions.deny ではなく PreToolUse hook で止める
+nature: best-practice
+title: 権限は permissions.deny ではなく PreToolUse hook で止めるべき
 description: >-
   Argues for putting agent permission enforcement in a PreToolUse hook script instead of static
   permissions.deny rules, because a bare denial tells the agent nothing and it reroutes around the
@@ -20,6 +21,7 @@ sources:
   - https://code.claude.com/docs/en/permission-modes
   - https://zenn.dev/kawarimidoll/articles/42f8a9c57e8ea6
   - .claude/hooks/protect-generated.sh
+intervention: hook
 ---
 
 # 権限は permissions.deny ではなく PreToolUse hook で止める
@@ -139,7 +141,7 @@ hook の `deny` は `EndConversation` 以外の全ツール、全 permission mod
 
 - **得る**: 拒否が説明付きになり、言い換えの再試行と回り道が減る。ルールがデータになるので、禁止事項の追加が settings.json の編集より軽い
 - **失う**: 正規化と判定の保守。deny の 1 行に比べれば確実にコードが増える。広く書きすぎると正当な作業まで止まる
-- hook はツール呼び出しのたびに走る。`pnpm exec` や `uv run` を挟むと 1 回で 3 秒級になるので、`sh` か node を直接呼ぶ ([scripting.md](../.claude/rules/scripting.md))
+- hook はツール呼び出しのたびに走る。`pnpm exec` や `uv run` を挟むと 1 回で 3 秒級になるので、`sh` か node を直接呼ぶ ([scripting.md](../../.claude/rules/scripting.md))
 - deny の理由は毎回コンテキストに入る。「代わりにこう叩く」が伝わる最小限に留める
 
 ## 関連
@@ -148,4 +150,4 @@ hook の `deny` は `EndConversation` 以外の全ツール、全 permission mod
 - [ガードの設定と hook スクリプト自身をエージェントから守る](protect-guard-config-from-the-agent.md)。この settings.json と hook スクリプト自体を Claude が書き換えられる。設定は live reload されるので、外した瞬間から効かなくなる
 - [生のコマンド実行を deny してラッパスクリプトへ誘導する](command-wrappers-instead-of-raw-bash.md)。この考え方の具体例。deny の理由文でラッパへ誘導する
 - [Edit/Write を deny してもスクリプト経由でファイルは書き換わる](protected-file-rewritten-via-subprocess.md)。上の「間接的なファイルアクセスは見えない」を掘ったもの。止める層だけでは足りず、検知して戻す層が要る
-- このリポジトリの [protect-generated.sh](../.claude/hooks/protect-generated.sh) は最小版。生成物の編集を exit 2 と stderr で止め、再生成コマンドを理由として返す。exit 2 + stderr でも止まるが、理由と追加コンテキストを分けて渡せるのは JSON 出力だけ
+- このリポジトリの [protect-generated.sh](../../.claude/hooks/protect-generated.sh) は最小版。生成物の編集を exit 2 と stderr で止め、再生成コマンドを理由として返す。exit 2 + stderr でも止まるが、理由と追加コンテキストを分けて渡せるのは JSON 出力だけ

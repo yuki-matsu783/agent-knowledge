@@ -1,5 +1,6 @@
 ---
 type: pitfall
+nature: fact
 title: サブエージェントは既定で background で走り PostToolUse Agent は起動直後に発火する
 description: >-
   Explains that since Claude Code v2.1.198 an `Agent` call without `run_in_background` launches the
@@ -15,6 +16,7 @@ status: stable
 sources:
   - https://code.claude.com/docs/en/hooks
   - https://code.claude.com/docs/en/sub-agents
+stale_after: 2027-03-05
 ---
 
 # サブエージェントは既定で background で走り PostToolUse Agent は起動直後に発火する
@@ -55,5 +57,5 @@ claude-code v2.1.198 以降。実測は VSCode 拡張の対話セッションで
 ## 関連
 
 - [Agent ツール周りの hook 入出力の一覧](agent-tool-hook-fields-reference.md)。`status` / `agentId` / `resolvedModel` の名前と、どのイベントに何が来るか
-- [通知しなかった判定も skip として記録し記録の欠如を縮退と読めるようにする](record-skips-so-absence-means-degraded.md)。起動前の経路が使えないときの補い方
+- [通知しなかった判定も skip として記録し記録の欠如を縮退と読めるようにする](../hook/record-skips-so-absence-means-degraded.md)。起動前の経路が使えないときの補い方
 - [並列で走らせるエージェントは git worktree で隔離する](parallel-agents-isolated-by-worktree.md)

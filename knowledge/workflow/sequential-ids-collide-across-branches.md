@@ -1,5 +1,6 @@
 ---
 type: pitfall
+nature: fact
 title: 連番 ID はブランチ並行で必ず衝突し git はそれを報告しない
 description: >-
   Explains why numbering decision records (or any per-file documents) with a monotonically increasing
@@ -67,5 +68,5 @@ sources:
 ## 関連
 
 - [merge-tree で作業ツリーを汚さずにベースブランチとの衝突を検知する](detect-conflicts-with-merge-tree.md)。番号重複を直接調べる検知の作り方
-- [設計書の隣に決定ログを置く](decision-log-beside-design-docs.md)。決定記録を置く場所の話。こちらはその ID の話
-- [並列で走らせるエージェントは git worktree で隔離する](parallel-agents-isolated-by-worktree.md)。worktree 並列で採番が本流限定になる理由
+- [設計書の隣に決定ログを置く](../rule/decision-log-beside-design-docs.md)。決定記録を置く場所の話。こちらはその ID の話
+- [並列で走らせるエージェントは git worktree で隔離する](../agent/parallel-agents-isolated-by-worktree.md)。worktree 並列で採番が本流限定になる理由

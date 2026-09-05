@@ -1,6 +1,7 @@
 ---
 type: note
-title: marpx で Marp から編集可能な PPTX を作る
+nature: opinion
+title: marpx なら Marp から編集可能な PPTX を作れると思う (未検証)
 description: >-
   Unverified note on marpx, a Python tool that renders Marp HTML in Chromium and rebuilds it as native,
   editable PowerPoint shapes (text, tables with colspan/rowspan, notes, page numbers). Use when a deck

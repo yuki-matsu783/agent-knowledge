@@ -1,5 +1,6 @@
 ---
 type: pitfall
+nature: fact
 title: Claude Code の worktree 隔離は Gemini CLI に移植すると強制が消える
 description: >-
   Warns that a workflow built on Claude Code worktrees does not carry over to Gemini CLI, whose
@@ -35,6 +36,7 @@ sources:
   - https://code.claude.com/docs/en/tools-reference
   - https://geminicli.com/docs/cli/git-worktrees/
   - https://github.com/google-gemini/gemini-cli/blob/main/docs/cli/git-worktrees.md
+stale_after: 2027-03-05
 ---
 
 # Claude Code の worktree 隔離は Gemini CLI に移植すると強制が消える
@@ -77,7 +79,7 @@ Claude Code 側で消えるのは、実際には次の 4 つ。どれもラン�
 ## 回避策
 
 **worktree を「ディレクトリの分離」としてだけ移し、強制は Claude Code 限定の層として扱う。**
-[ConfigChange と FileChanged に頼ったガードは他のエージェント CLI へ移植できない](hook-event-portability-across-agent-clis.md)
+[ConfigChange と FileChanged に頼ったガードは他のエージェント CLI へ移植できない](../hook/hook-event-portability-across-agent-clis.md)
 と同じ形で、共通部分と上乗せを分けて書いておく。
 
 - **共通に置けるのは作成・環境の作り直し・後始末の手順だけ。** 入る手段と強制は CLI ごとに変わる
@@ -105,5 +107,5 @@ Claude Code 側で消えるのは、実際には次の 4 つ。どれもラン�
 ## 関連
 
 - [並列で走らせるエージェントは git worktree で隔離する](parallel-agents-isolated-by-worktree.md) — 移植元の運用
-- [ConfigChange と FileChanged に頼ったガードは他のエージェント CLI へ移植できない](hook-event-portability-across-agent-clis.md) — 同じ「共通部分で組む」判断の別例
-- [worktree に入るとガード hook の前提が変わる](hook-guards-under-worktree-isolation.md) — Claude Code 内でもガードの前提はずれる
+- [ConfigChange と FileChanged に頼ったガードは他のエージェント CLI へ移植できない](../hook/hook-event-portability-across-agent-clis.md) — 同じ「共通部分で組む」判断の別例
+- [worktree に入るとガード hook の前提が変わる](../hook/hook-guards-under-worktree-isolation.md) — Claude Code 内でもガードの前提はずれる

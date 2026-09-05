@@ -1,6 +1,7 @@
 ---
 type: pattern
-title: compact 後は「読んだ」認識を信用せず手順書の読み直しを指示で注入する
+nature: heuristic
+title: compact 後は「読んだ」認識を信用せず手順書の読み直しを指示で注入した方がよさそう
 description: >-
   A Claude Code pattern for long procedure documents (a 1,000-line SKILL.md that defines the whole workflow):
   after compaction the agent still "remembers" having read the file but has lost the details, so a SessionStart
@@ -19,6 +20,7 @@ sources:
   - https://code.claude.com/docs/en/hooks
   - https://code.claude.com/docs/en/context-window
   - https://github.com/yuki-matsu783/MR-driven-workflow/tree/main/.claude/docs/ddr
+intervention: hook
 ---
 
 # compact 後は「読んだ」認識を信用せず手順書の読み直しを指示で注入する

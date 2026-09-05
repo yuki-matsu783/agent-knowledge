@@ -1,6 +1,7 @@
 ---
 type: pitfall
-title: Bash ツールの description はコンソールに 1 行しか表示されない
+nature: finding
+title: Bash ツールの description はコンソールに 1 行しか表示されなかった
 description: >-
   Explains that when Claude Code asks the user to approve a Bash or PowerShell call, the `description`
   argument is shown as a single line and anything after the first newline is invisible, so a multi-line
@@ -15,6 +16,7 @@ keywords: [description, 1 行, 承認プロンプト, コマンド文字列, コ
 status: stable
 sources:
   - https://github.com/yuki-matsu783/MR-driven-workflow/tree/main/.claude/docs/ddr
+stale_after: 2027-03-05
 ---
 
 # Bash ツールの description はコンソールに 1 行しか表示されない
@@ -38,7 +40,7 @@ sources:
 - **1 行コマンドにはコメントを付けない。** description で説明が尽きるうえ、`#` は行末までをコメントにするので、後続を飲んで実行されなくなるリスクだけが残る
 - **複数行コマンドの 1 行目にコメントを置かない。** 公式は改行を部分コマンドの区切りとして扱い、allow は全部分コマンドの一致を要求すると書いているが、
   コメントだけの行が部分コマンドとして数えられるか無視されるかは書いていない。deny 側はこの環境ではすり抜けなかったが、allow 側は未確認
-  ([permissions-deny-any-allow-all-asymmetry.md](permissions-deny-any-allow-all-asymmetry.md))。1 行目を避けるコストはほぼ無く、外れたときの損失は大きい
+  ([permissions-deny-any-allow-all-asymmetry.md](../hook/permissions-deny-any-allow-all-asymmetry.md))。1 行目を避けるコストはほぼ無く、外れたときの損失は大きい
 - コマンドを短く分割して 1 回ずつ承認させる案は、承認回数が増えて 1 回あたりの確認が形骸化するので採らない
 
 ## 再現条件
@@ -47,5 +49,5 @@ Claude Code、2026-08 時点。description の表示行数はターミナル UI 
 
 ## 関連
 
-- [permissions の deny は ANY、allow は ALL で照合される](permissions-deny-any-allow-all-asymmetry.md)
-- [生のコマンド実行を deny してラッパスクリプトへ誘導する](command-wrappers-instead-of-raw-bash.md)
+- [permissions の deny は ANY、allow は ALL で照合される](../hook/permissions-deny-any-allow-all-asymmetry.md)
+- [生のコマンド実行を deny してラッパスクリプトへ誘導する](../hook/command-wrappers-instead-of-raw-bash.md)

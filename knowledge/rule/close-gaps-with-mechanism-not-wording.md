@@ -1,6 +1,7 @@
 ---
 type: pattern
-title: ルールの文言強化ではなく記録とゲートで抜けを塞ぐ
+nature: principle
+title: 抜けを塞ぐのはルールの文言強化ではなく記録とゲートであるべき
 description: >-
   A pattern for process failures that happen even though the rule is already written in bold: split the
   causes into "did not follow" and "could not be followed" (the fact lived only in the conversation, or the
@@ -15,6 +16,7 @@ keywords: [文言強化, 機構, ゲート, 記録の欠落, 記録の粒度, HA
 status: stable
 sources:
   - https://github.com/yuki-matsu783/MR-driven-workflow/tree/main/.claude/docs/ddr
+intervention: hook
 ---
 
 # ルールの文言強化ではなく記録とゲートで抜けを塞ぐ
@@ -51,7 +53,7 @@ sources:
 
 - 効く: 「うっかり飛ばす」型の抜け。既に「ループ範囲の一部だけを完了扱いにできない」のような制約を機械的に強制しているスクリプトがあれば、同じ場所へ同じ形で足せる
 - 効かない: 値を書くのはエージェント自身なので嘘を書けば通る。敵対的な安全境界ではなく、既定動作を確実な方向へ倒す仕組み
-- ツール呼び出しの時点で直接止められる操作なら、そちら ([block-vs-notice-hook-selection.md](block-vs-notice-hook-selection.md)) の方が単純
+- ツール呼び出しの時点で直接止められる操作なら、そちら ([block-vs-notice-hook-selection.md](../hook/block-vs-notice-hook-selection.md)) の方が単純
 
 ## トレードオフ
 
@@ -61,6 +63,6 @@ sources:
 
 ## 関連
 
-- [操作をブロックするか注意喚起で済ませるかは特定可能性と代替経路で決める](block-vs-notice-hook-selection.md)
-- [エージェントが呼ぶスクリプトは無言で成功してはならない](agent-scripts-must-not-succeed-silently.md)。ゲートの拒否も「書き戻さず非 0」の一形態
-- [敵対的レビューは独立コンテキストの読み取り専用サブエージェントに切り出す](adversarial-review-in-isolated-subagent.md)
+- [操作をブロックするか注意喚起で済ませるかは特定可能性と代替経路で決める](../hook/block-vs-notice-hook-selection.md)
+- [エージェントが呼ぶスクリプトは無言で成功してはならない](../skill/agent-scripts-must-not-succeed-silently.md)。ゲートの拒否も「書き戻さず非 0」の一形態
+- [敵対的レビューは独立コンテキストの読み取り専用サブエージェントに切り出す](../agent/adversarial-review-in-isolated-subagent.md)

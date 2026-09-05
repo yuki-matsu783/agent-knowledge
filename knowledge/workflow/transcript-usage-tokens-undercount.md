@@ -1,6 +1,7 @@
 ---
 type: pitfall
-title: transcript の usage トークンは過小に記録されることがある
+nature: finding
+title: transcript の usage トークンが過小に記録されていた
 description: >-
   Explains why token counts summed from the Claude Code transcript JSONL (`message.usage` on assistant lines)
   can be far below what the API actually billed: the line is written at the start of a streaming response with
@@ -15,6 +16,7 @@ status: stable
 sources:
   - https://gille.ai/en/blog/claude-code-jsonl-logs-undercount-tokens/
   - https://github.com/yuki-matsu783/MR-driven-workflow/tree/main/.claude/docs/ddr
+stale_after: 2027-03-05
 ---
 
 # transcript の usage トークンは過小に記録されることがある

@@ -1,6 +1,7 @@
 ---
 type: pattern
-title: .gemini/ を .claude/ からの変換生成物にして Git 管理下に置く
+nature: best-practice
+title: .gemini/ は .claude/ からの変換生成物にして Git 管理下に置くべき
 description: >-
   A pattern for running the same rules, skills, hooks, and subagent definitions under both Claude Code and
   Gemini CLI: keep .claude/ as the only hand-written source, generate .gemini/ from it with a converter that
@@ -16,6 +17,7 @@ status: stable
 sources:
   - https://geminicli.com/docs/hooks/reference/
   - https://github.com/yuki-matsu783/MR-driven-workflow/tree/main/.claude/docs/ddr
+intervention: tool
 ---
 
 # .gemini/ を .claude/ からの変換生成物にして Git 管理下に置く
@@ -56,6 +58,6 @@ Claude Code と Gemini CLI で rules・skills・hooks・agents を二重管理�
 ## 関連
 
 - [NTFS ジャンクションは git にリンクとして扱われず中身が丸ごとコミットされる](ntfs-junction-is-not-a-git-symlink.md)
-- [Gemini CLI には圧縮後に発火する hook が無い](gemini-cli-no-post-compress-hook.md)。変換しても埋まらない機能差
-- [ConfigChange と FileChanged に頼ったガードは他のエージェント CLI へ移植できない](hook-event-portability-across-agent-clis.md)
+- [Gemini CLI には圧縮後に発火する hook が無い](../hook/gemini-cli-no-post-compress-hook.md)。変換しても埋まらない機能差
+- [ConfigChange と FileChanged に頼ったガードは他のエージェント CLI へ移植できない](../hook/hook-event-portability-across-agent-clis.md)
 - [生成物を Git 管理下に置くかは人間が直接読むかで決める](committed-vs-ignored-generated-files.md)

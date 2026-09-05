@@ -1,6 +1,7 @@
 ---
 type: pattern
-title: サブエージェントのモデルは定義で固定せず呼び出し側に決めさせる
+nature: heuristic
+title: サブエージェントのモデルは定義で固定せず呼び出し側に決めさせた方がよさそう
 description: >-
   A pattern for Claude Code custom subagents: omit the `model` frontmatter so the orchestrator picks
   a model per invocation, sizing it to the task and never exceeding the model the orchestrator itself
@@ -33,6 +34,7 @@ applies_to: [claude-code@2.1]
 sources:
   - https://code.claude.com/docs/en/sub-agents
   - https://code.claude.com/docs/en/model-config
+intervention: tool
 ---
 
 # サブエージェントのモデルは定義で固定せず呼び出し側に決めさせる
@@ -130,4 +132,4 @@ flowchart LR
 ## 関連
 
 - [ツール使用回数を閾値にして、文脈を持たない監査サブエージェントを背景で走らせる](context-free-audit-subagent-on-tool-count.md) — 別文脈の点検役を立てる話。その点検役のモデルをどう決めるかがこのパターン
-- [タスクの切れ目で /compact と /clear をユーザに依頼させる](ask-user-to-reset-context-at-task-boundaries.md) — エージェントが自分で決めずユーザに判断を返す形の別例
+- [タスクの切れ目で /compact と /clear をユーザに依頼させる](../rule/ask-user-to-reset-context-at-task-boundaries.md) — エージェントが自分で決めずユーザに判断を返す形の別例

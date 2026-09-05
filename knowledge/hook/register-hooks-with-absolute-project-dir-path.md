@@ -1,5 +1,6 @@
 ---
 type: pitfall
+nature: fact
 title: hook は CLAUDE_PROJECT_DIR 基準の絶対パスで登録しないと cwd 次第で全 deny のロックアウトになる
 description: >-
   Explains why a Claude Code hook registered with a repository-relative command (`bash

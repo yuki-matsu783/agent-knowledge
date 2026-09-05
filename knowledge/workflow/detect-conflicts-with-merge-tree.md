@@ -1,6 +1,7 @@
 ---
 type: how-to
-title: merge-tree で作業ツリーを汚さずにベースブランチとの衝突を検知する
+nature: best-practice
+title: ベースブランチとの衝突は merge-tree で作業ツリーを汚さずに検知すべき
 description: >-
   Steps for a script an agent runs before asking for a merge: fetch the base branch, run `git merge-tree
   --write-tree` (which touches neither the index nor the working tree) to detect textual conflicts, then
@@ -16,6 +17,7 @@ status: stable
 sources:
   - https://git-scm.com/docs/git-merge-tree
   - https://github.com/yuki-matsu783/MR-driven-workflow/tree/main/.claude/docs/ddr
+intervention: tool
 ---
 
 # merge-tree で作業ツリーを汚さずにベースブランチとの衝突を検知する
@@ -68,4 +70,4 @@ git 2.38 以降 (`merge-tree --write-tree` が使える)。作業ブランチは
   merge-base が無いと 3 ドット記法の diff は終了コード 128 で落ちる (`rev-list` は成功してしまう) ので、先に `hasCommonHistory` を判定する
 - push 検知 hook のたびに走らせない。マージ依頼の直前に 1 回で足り、部分一致で誤発火する hook の上に fetch を積むと無駄が増える
 - [連番 ID はブランチ並行で必ず衝突し git はそれを報告しない](sequential-ids-collide-across-branches.md)。手順 3 が要る理由
-- [意味理解を要する判定はエージェントへ委ねスクリプトには決定的な判定だけを置く](delegate-meaning-to-agent-keep-scripts-decidable.md)。番号重複は決定的に判定できるので機構化できた
+- [意味理解を要する判定はエージェントへ委ねスクリプトには決定的な判定だけを置く](../skill/delegate-meaning-to-agent-keep-scripts-decidable.md)。番号重複は決定的に判定できるので機構化できた

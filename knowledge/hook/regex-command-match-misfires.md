@@ -1,5 +1,6 @@
 ---
 type: pitfall
+nature: fact
 title: 生の文字列でコマンドを判定すると引用符とコメントに誤爆する
 description: >-
   Explains why a PreToolUse guard that runs a regex over the raw tool_input.command both blocks
@@ -89,7 +90,7 @@ def tokenize(command: str) -> list[str]:
 - POSIX shell の語彙が前提。PowerShell や cmd を叩く環境では合わない
 
 Node に shlex 相当の標準ライブラリは無い。判定だけ `.venv/Scripts/python.exe` (Linux は `.venv/bin/python`) を直接呼ぶのが速い
-(起動 0.5 秒、[scripting.md](../.claude/rules/scripting.md))。`pnpm exec` や `uv run` を挟むと 1 回で 3 秒級になる。
+(起動 0.5 秒、[scripting.md](../../.claude/rules/scripting.md))。`pnpm exec` や `uv run` を挟むと 1 回で 3 秒級になる。
 
 ## 関連
 

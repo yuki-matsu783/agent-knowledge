@@ -5,7 +5,7 @@
 ## 構成
 
 ```
-knowledge/     知識 (concept / how-to / reference / pattern / pitfall / note)
+knowledge/     知識。主題ディレクトリ (skill / agent / rule / hook / mcp / model / workflow) の直下に置く
 slides/        Marp markdown と生成 HTML
 templates/     各 type の雛形と Marp テーマ
 scripts/       lint・index・slides・audit (TypeScript、tsx で実行)

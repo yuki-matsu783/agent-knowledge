@@ -1,6 +1,7 @@
 ---
 type: note
-title: サブエージェントと全体進捗を VS Code 拡張で可視化しながら実行する
+nature: finding
+title: サブエージェントと全体進捗を VS Code 拡張で可視化しながら実行できた
 description: >-
   Design direction for running Claude Code from a VS Code extension that shows subagent activity and
   overall progress as a live UI, instead of leaving it to terminal scrollback. Compares the two
@@ -21,6 +22,7 @@ sources:
   - https://code.claude.com/docs/en/hooks
   - https://code.claude.com/docs/en/sub-agents
   - https://github.com/anthropics/claude-code/issues/46076
+stale_after: 2027-03-05
 ---
 
 # サブエージェントと全体進捗を VS Code 拡張で可視化しながら実行する
@@ -72,7 +74,7 @@ Park が読み取り専用に振り切っているのは、この性質を取っ
 - **hook 固有のイベントは見えない。** PreToolUse での拒否、Notification、権限の判定結果は落ちる。
   これらが要ると分かったときに初めて hook を検討する
 - **承認 UI は作らない。** 承認をこちらで受けるには結局 hook で待たせることになり、
-  [hook はタイムアウトすると素通りする](hook-timeout-fails-open.md) にぶつかる。
+  [hook はタイムアウトすると素通りする](../hook/hook-timeout-fails-open.md) にぶつかる。
   fail-open するゲートは承認 UI として成立しない。承認はターミナルに残す
 
 ## 設計の当て

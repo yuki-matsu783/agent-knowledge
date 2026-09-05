@@ -1,6 +1,7 @@
 ---
 type: pattern
-title: 生のコマンド実行を deny してラッパスクリプトへ誘導する
+nature: heuristic
+title: 生のコマンド実行は deny してラッパスクリプトへ誘導した方がよさそう
 description: >-
   Routes long-output or option-sensitive shell commands through a repository-owned wrapper script
   instead of letting the agent run them directly, by denying the raw call in a PreToolUse hook and
@@ -19,6 +20,7 @@ sources:
   - https://code.claude.com/docs/en/hooks
   - https://code.claude.com/docs/en/permissions
   - https://code.claude.com/docs/en/settings
+intervention: hook
 ---
 
 # 生のコマンド実行を deny してラッパスクリプトへ誘導する
@@ -108,7 +110,7 @@ process.exit(1)
 
 - **得る**: 1 回の実行で消費するコンテキストがコマンドの規模によらずほぼ一定になる。危ない引数が入口で落ちる。生出力は失われず、必要なときだけ読める
 - **失う**: ラッパの保守。コマンドが増えるたびに入口を足す必要がある。要約を削りすぎると、Claude が結局ログを読みに行って往復が 1 回増える
-- hook は毎回のツール呼び出しで走る。`pnpm exec` や `uv run` を挟まず、`sh` か node を直接呼ぶ ([scripting.md](../.claude/rules/scripting.md))
+- hook は毎回のツール呼び出しで走る。`pnpm exec` や `uv run` を挟まず、`sh` か node を直接呼ぶ ([scripting.md](../../.claude/rules/scripting.md))
 - logs/ は放っておくと増え続ける。世代数か日数で切る処理をラッパに入れる
 
 ## 関連

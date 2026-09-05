@@ -1,5 +1,6 @@
 ---
 type: pitfall
+nature: fact
 title: Windows では hook の "bash" が WSL のスタブに解決されて無言で動かない
 description: >-
   Explains why a Claude Code hook configured as `"command": "bash ..."` silently does nothing on Windows: the

@@ -1,6 +1,7 @@
 ---
 type: note
-title: 設計書の隣に決定ログを置く
+nature: opinion
+title: 設計書の隣に決定ログを置くとよいと思う
 description: >-
   Proposes keeping an append-only decision log in the same directory as the design documents it
   explains, so that an agent editing the design later can see why the current shape was chosen and
@@ -78,7 +79,7 @@ sources:
 エージェントにそれをやらせるのは、決定ログ 1 本を読ませるより高くつく。
 
 このリポジトリの規約が本文に履歴を書かせない
-([knowledge-authoring.md](../.claude/rules/knowledge-authoring.md)「変更の経緯は git が持つ」) のは
+([knowledge-authoring.md](../../.claude/rules/knowledge-authoring.md)「変更の経緯は git が持つ」) のは
 knowledge の話で、そこでは経緯そのものが価値を持たない。設計書は逆で、経緯が次の判断の材料になる。
 
 ## このリポジトリに当てはめると
@@ -95,7 +96,7 @@ spec には「設計判断」の節があるが、そこに書けるのは結論
 エージェントが要件書・仕様書・決定記録 (DDR) を書くリポジトリが 150 件を超える決定記録を運用しており、上の未決事項のいくつかに答えが出ている。
 
 - **粒度は 1 決定 1 ファイル。** ID は issue 番号 + 枝番 (`i0009-58`) で、ディレクトリは設計書と同じ階層の隣 (`00_requirement/` `10_spec/` `20_ddr/`)。
-  連番にしない理由は [連番 ID はブランチ並行で必ず衝突し git はそれを報告しない](sequential-ids-collide-across-branches.md)
+  連番にしない理由は [連番 ID はブランチ並行で必ず衝突し git はそれを報告しない](../workflow/sequential-ids-collide-across-branches.md)
 - **設計書には現在有効な内容だけを書く。** 変更履歴・レビュー記録の表を持たない。前身のプロジェクトは仕様書の「影響範囲」節に issue ごとの
   changelog を積み上げて 4,600 行に達し、Read の上限を超えた。「いつ何が変わったか」は git と MR、「なぜ」は決定記録、と役割を分けた
 - **無効化は本文を書き換えず、frontmatter の `status` と `superseded_by` で表す。** マージ後の本文は不変。決定が部分的に覆ったときも

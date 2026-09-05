@@ -1,5 +1,6 @@
 ---
 type: pitfall
+nature: fact
 title: タイムアウトした hook はガードにならず素通りする
 description: >-
   Explains why a Claude Code hook that hits its timeout is canceled with its output discarded, so it

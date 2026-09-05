@@ -1,6 +1,7 @@
 ---
 type: pattern
-title: コピーした定型行はバイト一致をテストで固定する
+nature: best-practice
+title: コピーした定型行はバイト一致をテストで固定すべき
 description: >-
   A pattern for boilerplate that a convention says to "copy verbatim and change only the arguments"
   (a library load line that resolves the repository root, so it cannot itself be sourced): collect every
@@ -13,6 +14,7 @@ tags: [workflow, evaluation]
 keywords: [定型行, 逐語コピー, ドリフト, バイト一致, テンプレート, 雛形, grep, 一斉置換, 読み込み行, __ss_load, 鶏と卵, 見積もり, 作業項目, 20 本]
 status: stable
 sources: []
+intervention: tool
 ---
 
 # コピーした定型行はバイト一致をテストで固定する
@@ -51,5 +53,5 @@ hook と提供コマンドの全スクリプトが先頭に持つ「読み込み
 ## 関連
 
 - [source するライブラリは読み込み失敗を呼び手に委ね戻り値で 3 状態を返す](bash-return-code-conventions-for-sourced-libs.md)。読み込み行が持つ規約の中身
-- [横断で決めた規則は個別の仕様まで降ろす](push-cross-cutting-decisions-down-to-individual-specs.md)。「雛形だけ直して波及を見ない」の文書版
-- [ルールの文言強化ではなく記録とゲートで抜けを塞ぐ](close-gaps-with-mechanism-not-wording.md)。「コピーせよ」の文言だけでは守られない
+- [横断で決めた規則は個別の仕様まで降ろす](../rule/push-cross-cutting-decisions-down-to-individual-specs.md)。「雛形だけ直して波及を見ない」の文書版
+- [ルールの文言強化ではなく記録とゲートで抜けを塞ぐ](../rule/close-gaps-with-mechanism-not-wording.md)。「コピーせよ」の文言だけでは守られない

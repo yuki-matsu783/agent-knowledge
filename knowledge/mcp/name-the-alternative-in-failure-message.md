@@ -1,6 +1,7 @@
 ---
 type: pattern
-title: 失敗メッセージに代替手段を名指しで埋め込む
+nature: best-practice
+title: 失敗メッセージには代替手段を名指しで埋め込むべき
 description: >-
   A pattern for scripts that depend on a tool the agent's environment may lack (gh/glab CLI missing on
   Claude Code on the web): detect the access mode from `command -v`, and when the CLI is absent make every
@@ -15,6 +16,7 @@ keywords: [gh, glab, CLI 不在, MCP フォールバック, require_vcs_cli, com
 status: stable
 sources:
   - https://github.com/yuki-matsu783/MR-driven-workflow/tree/main/.claude/docs/ddr
+intervention: tool
 ---
 
 # 失敗メッセージに代替手段を名指しで埋め込む
@@ -57,6 +59,6 @@ sources:
 
 ## 関連
 
-- [エージェントが呼ぶスクリプトは無言で成功してはならない](agent-scripts-must-not-succeed-silently.md)
-- [操作をブロックするか注意喚起で済ませるかは特定可能性と代替経路で決める](block-vs-notice-hook-selection.md)。「読まれなければ機能しない」を機構で補う同じ考え方
-- [権限は permissions.deny ではなく PreToolUse hook で止める](deny-by-hook-not-permissions.md)。deny の理由に代替を書くのも同じ発想
+- [エージェントが呼ぶスクリプトは無言で成功してはならない](../skill/agent-scripts-must-not-succeed-silently.md)
+- [操作をブロックするか注意喚起で済ませるかは特定可能性と代替経路で決める](../hook/block-vs-notice-hook-selection.md)。「読まれなければ機能しない」を機構で補う同じ考え方
+- [権限は permissions.deny ではなく PreToolUse hook で止める](../hook/deny-by-hook-not-permissions.md)。deny の理由に代替を書くのも同じ発想

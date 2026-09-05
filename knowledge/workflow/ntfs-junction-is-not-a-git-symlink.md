@@ -1,5 +1,6 @@
 ---
 type: pitfall
+nature: fact
 title: NTFS ジャンクションは git にリンクとして扱われず中身が丸ごとコミットされる
 description: >-
   Explains why sharing one directory between two agent CLIs (for example .gemini/skills pointing at
@@ -54,4 +55,4 @@ Windows 10、Git for Windows、開発者モード無効のセッション。`git
 ## 関連
 
 - [.gemini/ を .claude/ からの変換生成物にして Git 管理下に置く](generate-gemini-assets-from-claude-assets.md)
-- [ConfigChange と FileChanged に頼ったガードは他のエージェント CLI へ移植できない](hook-event-portability-across-agent-clis.md)。CLI 間で資産を共有するときの別の壁
+- [ConfigChange と FileChanged に頼ったガードは他のエージェント CLI へ移植できない](../hook/hook-event-portability-across-agent-clis.md)。CLI 間で資産を共有するときの別の壁

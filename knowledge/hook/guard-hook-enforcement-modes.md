@@ -1,6 +1,7 @@
 ---
 type: pattern
-title: ガード hook は enforce / dry-run / off の 3 モードで運用する
+nature: best-practice
+title: ガード hook は enforce / dry-run / off の 3 モードで運用すべき
 description: >-
   Gives a guard hook three modes selected by one environment variable, so a new rule can ship in
   dry-run where it advises instead of blocking, and every decision, including the ones that passed,
@@ -18,6 +19,7 @@ sources:
   - https://code.claude.com/docs/en/hooks
   - https://code.claude.com/docs/en/settings
   - .claude/hooks/protect-generated.sh
+intervention: hook
 ---
 
 # ガード hook は enforce / dry-run / off の 3 モードで運用する

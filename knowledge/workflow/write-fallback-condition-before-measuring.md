@@ -1,6 +1,7 @@
 ---
 type: pattern
-title: 実測の前に外れたときの縮退を書いておく
+nature: principle
+title: 実測の前に外れたときの縮退が書かれているべき
 description: >-
   A verification discipline for design decisions that rest on an untested assumption: list the assumption
   in the verification plan (an assumption absent from the plan is never verified), and before measuring,
@@ -54,6 +55,6 @@ hook の登録表を 17 行に保つ判断が、「PreToolUse の hook が出す
 
 ## 関連
 
-- [Agent ツール周りの hook 入出力の一覧](agent-tool-hook-fields-reference.md)。この実測で確定した事実
-- [環境変数で切るプローブと負のコントロールで hook 入力を実測する](env-gated-probe-with-negative-control.md)。実測の仕込み方
-- [サブエージェントは既定で background で走り PostToolUse Agent は起動直後に発火する](subagent-runs-in-background-by-default.md)。同じ起動で分かったもう 1 つ
+- [Agent ツール周りの hook 入出力の一覧](../agent/agent-tool-hook-fields-reference.md)。この実測で確定した事実
+- [環境変数で切るプローブと負のコントロールで hook 入力を実測する](../hook/env-gated-probe-with-negative-control.md)。実測の仕込み方
+- [サブエージェントは既定で background で走り PostToolUse Agent は起動直後に発火する](../agent/subagent-runs-in-background-by-default.md)。同じ起動で分かったもう 1 つ

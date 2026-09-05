@@ -1,6 +1,7 @@
 ---
 type: pattern
-title: hook のコマンド判定は正規化とコマンド位置の走査にし読めない入力はブロック側へ倒す
+nature: best-practice
+title: hook のコマンド判定は正規化とコマンド位置の走査にし読めない入力はブロック側へ倒すべき
 description: >-
   A pure-bash design for a PreToolUse guard that decides whether tool_input.command really runs a banned
   subcommand (git commit, git push): normalize the string, scan only tokens in command position (skipping
@@ -16,6 +17,7 @@ status: stable
 sources:
   - https://code.claude.com/docs/en/hooks
   - https://github.com/yuki-matsu783/MR-driven-workflow/tree/main/.claude/docs/ddr
+intervention: hook
 ---
 
 # hook のコマンド判定は正規化とコマンド位置の走査にし読めない入力はブロック側へ倒す

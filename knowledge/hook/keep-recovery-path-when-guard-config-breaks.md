@@ -1,6 +1,7 @@
 ---
 type: pattern
-title: ガードの設定が読めないときも復旧経路を残す
+nature: principle
+title: ガードの設定が読めないときも復旧経路は残っているべき
 description: >-
   A design rule for fail-closed Claude Code guards: "deny when you cannot decide" applies only when the
   operation might touch something the guard protects and the guard genuinely cannot tell, not when a
@@ -15,6 +16,7 @@ keywords: [ガード, hook, 設定破損, 既定値, 復旧経路, ロックア�
 status: stable
 sources:
   - https://code.claude.com/docs/en/hooks
+intervention: hook
 ---
 
 # ガードの設定が読めないときも復旧経路を残す
@@ -58,5 +60,5 @@ sources:
 
 - [hook は CLAUDE_PROJECT_DIR 基準の絶対パスで登録しないと cwd 次第で全 deny のロックアウトになる](register-hooks-with-absolute-project-dir-path.md)。ロックアウト経路の 1 つ目
 - [jq の --slurpfile は副入力が壊れていると呼び出し全体を失敗させ stdin の解析まで失う](jq-slurpfile-fails-whole-call-on-broken-side-input.md)。3 つ目。この分岐に到達できなくする
-- [MCP のツール名はサーバが定義するのでパターンで種別を分類しない](mcp-tool-names-are-server-defined.md)。MCP の分岐の中身
+- [MCP のツール名はサーバが定義するのでパターンで種別を分類しない](../mcp/mcp-tool-names-are-server-defined.md)。MCP の分岐の中身
 - [hook を注入系とガード系に分け、失敗時の既定を逆にする](injecting-vs-guarding-hooks.md)。原則の側

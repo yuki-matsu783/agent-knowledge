@@ -1,5 +1,6 @@
 ---
 type: pitfall
+nature: fact
 title: dir/** の glob はディレクトリ自身と祖先に一致しないので rm -rf dir が守りをすり抜ける
 description: >-
   Explains a hole in path-glob guards: a protection pattern like `wip/tickets/done/**` matches files

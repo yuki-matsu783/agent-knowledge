@@ -1,6 +1,7 @@
 ---
 type: pattern
-title: hook を注入系とガード系に分け、失敗時の既定を逆にする
+nature: principle
+title: hook は注入系とガード系に分かれ失敗時の既定は逆であるべき
 description: >-
   Splits hook scripts into two kinds and gives each the opposite failure default: injection hooks
   that add context or side effects swallow every error and always exit 0, while guard hooks that
@@ -18,6 +19,7 @@ sources:
   - https://zenn.dev/zaico/articles/d6b882c78fe4b3
   - .claude/hooks/protect-generated.sh
   - .claude/hooks/lint-on-edit.sh
+intervention: hook
 ---
 
 # hook を注入系とガード系に分け、失敗時の既定を逆にする

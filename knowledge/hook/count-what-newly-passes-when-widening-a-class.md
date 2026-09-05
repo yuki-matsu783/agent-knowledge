@@ -1,6 +1,7 @@
 ---
 type: pattern
-title: 分類を広げるときは新たに通るものを数える
+nature: best-practice
+title: 分類を広げるときは新たに通るものを数えるべき
 description: >-
   A review discipline for default-deny guards: whenever a previously rejected path is admitted as a new
   class (curl allowed as "web" for declared investigation tickets), enumerate what the old blanket rejection
@@ -13,6 +14,7 @@ tags: [security, workflow]
 keywords: [分類, 白名簿, 緩和, 既定拒否, 新たに通るもの, 副作用として塞がれていた, curl, web, 送信側, リモート書き込み, WebFetch, 記録が残る側, 倒錯, 順序付き判定, 2 巡目で 3 回]
 status: stable
 sources: []
+intervention: human
 ---
 
 # 分類を広げるときは新たに通るものを数える
@@ -51,5 +53,5 @@ sources: []
 ## 関連
 
 - [読み取り専用に分類したコマンドはオプションで状態を変えたり任意実行したりする](read-only-command-classes-have-option-holes.md)。列挙した結果の一覧
-- [横断で決めた規則は個別の仕様まで降ろす](push-cross-cutting-decisions-down-to-individual-specs.md)。同じレビューで見つかったもう 1 つの型
+- [横断で決めた規則は個別の仕様まで降ろす](../rule/push-cross-cutting-decisions-down-to-individual-specs.md)。同じレビューで見つかったもう 1 つの型
 - [hook のコマンド判定は正規化とコマンド位置の走査にし読めない入力はブロック側へ倒す](command-position-match-fails-closed.md)。逆向き (狭める変更) の同じ規律

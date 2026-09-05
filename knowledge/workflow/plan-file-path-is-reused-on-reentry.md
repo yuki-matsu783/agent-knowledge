@@ -1,6 +1,7 @@
 ---
 type: pitfall
-title: Plan モードへ再突入すると同じ plan ファイルパスが提示され続ける
+nature: finding
+title: Plan モードへ再突入したら同じ plan ファイルパスが提示され続けた
 description: >-
   Explains a Claude Code plan-mode constraint: ExitPlanMode takes no plan argument and reads the file at the
   path the harness presents, and within one session every re-entry into plan mode presents the same path as
@@ -14,6 +15,7 @@ keywords: [Plan モード, EnterPlanMode, ExitPlanMode, plan ファイル, ハ�
 status: stable
 sources:
   - https://github.com/yuki-matsu783/MR-driven-workflow/tree/main/.claude/docs/ddr
+stale_after: 2027-03-05
 ---
 
 # Plan モードへ再突入すると同じ plan ファイルパスが提示され続ける
@@ -55,4 +57,4 @@ Claude Code、2026-08 時点。`.claude/settings.json` の `"defaultMode": "plan
 
 ## 関連
 
-- [タスクの切れ目で /compact と /clear をユーザに依頼させる](ask-user-to-reset-context-at-task-boundaries.md)。セッションを切る運用と、issue 単位の計画判定の組み合わせ
+- [タスクの切れ目で /compact と /clear をユーザに依頼させる](../rule/ask-user-to-reset-context-at-task-boundaries.md)。セッションを切る運用と、issue 単位の計画判定の組み合わせ

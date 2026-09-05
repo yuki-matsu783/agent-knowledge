@@ -1,6 +1,7 @@
 ---
 type: pattern
-title: 意味理解を要する判定はエージェントへ委ねスクリプトには決定的な判定だけを置く
+nature: principle
+title: 意味理解を要する判定はエージェントのもので、スクリプトには決定的な判定だけがあるべき
 description: >-
   A boundary rule for agent workflows built on shell scripts: anything that needs understanding of meaning
   (translating a Japanese issue title into an English branch slug, picking search keywords for a duplicate
@@ -15,6 +16,7 @@ keywords: [意味理解, 決定的判定, キーワード抽出, 形態素解析
 status: stable
 sources:
   - https://github.com/yuki-matsu783/MR-driven-workflow/tree/main/.claude/docs/ddr
+intervention: tool
 ---
 
 # 意味理解を要する判定はエージェントへ委ねスクリプトには決定的な判定だけを置く
@@ -40,7 +42,7 @@ sources:
 | 重複チェック | そのissue 固有の語 (機能名・関数名) と汎用語 (「追加」「修正」) を文脈から選ぶ。選ぶ語／選ばない語の指針を明記して再現性を担保 | 与えられた語で検索し、結果を正規化・統合する。GitHub / GitLab の検索は複数語を AND 扱いするので**1 語ずつ検索して OR 統合**し、上限 (5 語) を超えた分は切り捨てを stderr へ通知 |
 | issue 分割 | 「同型の成果物が並列に列挙されているか」を見て提案する。判定は「各項目が単独でマージされてもシステムが壊れないか」の一問に集約。決定は人間 | 無し。意味理解を機構へ委ねると外したときに黙って促す／促さないことになり、誤りに気づく契機が失われる |
 | 影響先 issue | 差分と相手の issue 本文を突き合わせて 3 類型 (前提が変わる／一部が解決される／記述が矛盾する) で判定し、人間の承認を得る | キーワード検索だけ |
-| 決定記録の番号重複 | 無し | **決定的に判定できる**ので機構化する ([detect-conflicts-with-merge-tree.md](detect-conflicts-with-merge-tree.md)) |
+| 決定記録の番号重複 | 無し | **決定的に判定できる**ので機構化する ([detect-conflicts-with-merge-tree.md](../workflow/detect-conflicts-with-merge-tree.md)) |
 
 エージェントが適任なのは、直前に自分でタイトルや本文を組み立てていて文脈を持っているから。同じ処理を bash 層へ持たせるとネットワーク依存や
 API キー管理、変換辞書という新しい前提が増える。
@@ -61,6 +63,6 @@ issue 番号の prefix パターン一致にする。非決定性は、それに
 
 ## 関連
 
-- [エージェントに任せる操作と人間承認が要る操作の線引きは可逆性で決める](reversibility-decides-who-acts.md)
+- [エージェントに任せる操作と人間承認が要る操作の線引きは可逆性で決める](../rule/reversibility-decides-who-acts.md)
 - [エージェントが呼ぶスクリプトは無言で成功してはならない](agent-scripts-must-not-succeed-silently.md)。切り捨てを通知するのも同じ原則
-- [merge-tree で作業ツリーを汚さずにベースブランチとの衝突を検知する](detect-conflicts-with-merge-tree.md)
+- [merge-tree で作業ツリーを汚さずにベースブランチとの衝突を検知する](../workflow/detect-conflicts-with-merge-tree.md)

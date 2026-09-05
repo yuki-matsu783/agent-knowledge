@@ -1,6 +1,7 @@
 ---
 type: reference
-title: Agent ツール周りの hook 入出力の一覧
+nature: fact
+title: Agent ツール周りの hook 入出力はイベントごとにフィールドの有無と命名が異なる
 description: >-
   A field-level reference for hooks that observe Claude Code subagents: which events carry `model`
   (SessionStart only; SubagentStart never), when PreToolUse Agent's `tool_input.model` is present (only
@@ -17,6 +18,7 @@ status: stable
 sources:
   - https://code.claude.com/docs/en/hooks
   - https://code.claude.com/docs/en/sub-agents
+stale_after: 2027-03-05
 ---
 
 # Agent ツール周りの hook 入出力の一覧
@@ -55,5 +57,5 @@ Claude Code 2.1 系 (2026-09 時点) の hooks リファレンスと、サブエ
 ## 関連
 
 - [サブエージェントは既定で background で走り PostToolUse Agent は起動直後に発火する](subagent-runs-in-background-by-default.md)
-- [通知しなかった判定も skip として記録し記録の欠如を縮退と読めるようにする](record-skips-so-absence-means-degraded.md)。`agentId` で記録を引く側
+- [通知しなかった判定も skip として記録し記録の欠如を縮退と読めるようにする](../hook/record-skips-so-absence-means-degraded.md)。`agentId` で記録を引く側
 - [サブエージェントのモデルは定義で固定せず呼び出し側に決めさせる](subagent-model-selection-by-orchestrator.md)

@@ -1,6 +1,7 @@
 ---
 type: pattern
-title: 縮退で拒否したときの理由文は本来の拒否と分けて何が判定を妨げたかを書く
+nature: best-practice
+title: 縮退で拒否したときの理由文は本来の拒否と分けて何が判定を妨げたかを書くべき
 description: >-
   A pattern for fail-closed guards that deliberately over-deny when input cannot be read: write two
   denial messages, the real one ("chmod is banned, run scripts with bash <path>") and the degraded one
@@ -15,6 +16,7 @@ keywords: [拒否理由, 縮退, 過剰拒否, 誤検知, ヒアドキュメン�
 status: stable
 sources:
   - https://code.claude.com/docs/en/hooks
+intervention: hook
 ---
 
 # 縮退で拒否したときの理由文は本来の拒否と分けて何が判定を妨げたかを書く
@@ -56,6 +58,6 @@ sources:
 
 ## 関連
 
-- [失敗メッセージに代替手段を名指しで埋め込む](name-the-alternative-in-failure-message.md)。本来の拒否の文面に代替を書く側
+- [失敗メッセージに代替手段を名指しで埋め込む](../mcp/name-the-alternative-in-failure-message.md)。本来の拒否の文面に代替を書く側
 - [hook のコマンド判定は正規化とコマンド位置の走査にし読めない入力はブロック側へ倒す](command-position-match-fails-closed.md)。縮退の設計
 - [縮退時に判定しなかった分岐も skip を記録する](record-skips-so-absence-means-degraded.md)。判定の内部状態を記録に出す同じ発想

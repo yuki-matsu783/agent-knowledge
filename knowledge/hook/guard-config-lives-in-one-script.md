@@ -1,6 +1,7 @@
 ---
 type: pattern
-title: ガードの判定はスクリプト 1 箇所に集め settings.json には入口だけを置く
+nature: best-practice
+title: ガードの判定はスクリプト 1 箇所に集め settings.json には入口だけを置くべき
 description: >-
   A layout rule for Claude Code guard hooks so that "what is enforced right now" can be read in one place:
   settings.json holds a single PreToolUse entry with a broad matcher (Bash or empty) and no `if` filter, every
@@ -21,7 +22,8 @@ applies_to: [claude-code@2.1]
 sources:
   - https://code.claude.com/docs/en/hooks
   - https://code.claude.com/docs/en/permissions
-  - knowledge/deny-by-hook-not-permissions.md
+  - knowledge/hook/deny-by-hook-not-permissions.md
+intervention: hook
 ---
 
 # ガードの判定はスクリプト 1 箇所に集め settings.json には入口だけを置く

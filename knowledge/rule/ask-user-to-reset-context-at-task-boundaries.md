@@ -1,6 +1,7 @@
 ---
 type: pattern
-title: タスクの切れ目で /compact と /clear をユーザに依頼させる
+nature: heuristic
+title: タスクの切れ目で /compact と /clear をユーザに依頼させた方がよさそう
 description: >-
   A hook pattern that detects a task boundary, such as a pull-request or merge-request review being
   requested, and injects additionalContext telling Claude to ask the user to run /compact or /clear
@@ -34,6 +35,7 @@ sources:
   - https://code.claude.com/docs/en/commands
   - https://code.claude.com/docs/en/hooks
   - https://code.claude.com/docs/en/tools-reference
+intervention: prompt
 ---
 
 # タスクの切れ目で /compact と /clear をユーザに依頼させる
@@ -121,6 +123,6 @@ let s = ""; process.stdin.on("data", d => s += d).on("end", () => {
 
 ## 関連
 
-- [生の文字列でコマンドを判定すると引用符とコメントに誤爆する](regex-command-match-misfires.md)
-- [タイムアウトした hook はガードにならず素通りする](hook-timeout-fails-open.md)
-- [Gemini CLI には圧縮後に発火する hook が無い](gemini-cli-no-post-compress-hook.md)
+- [生の文字列でコマンドを判定すると引用符とコメントに誤爆する](../hook/regex-command-match-misfires.md)
+- [タイムアウトした hook はガードにならず素通りする](../hook/hook-timeout-fails-open.md)
+- [Gemini CLI には圧縮後に発火する hook が無い](../hook/gemini-cli-no-post-compress-hook.md)

@@ -1,5 +1,6 @@
 ---
 type: pitfall
+nature: fact
 title: 同じイベントの hook は並列に走り settings.json の配列順は実行順ではない
 description: >-
   Explains that every Claude Code hook matching an event starts at the same time ("All matching hooks

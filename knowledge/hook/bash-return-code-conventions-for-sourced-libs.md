@@ -1,6 +1,7 @@
 ---
 type: pattern
-title: source するライブラリは読み込み失敗を呼び手に委ね戻り値で 3 状態を返す
+nature: best-practice
+title: source するライブラリは読み込み失敗を呼び手に委ね戻り値で 3 状態を返すべき
 description: >-
   Conventions for pure-bash libraries sourced by hooks and scripts under `set -euo pipefail`: the load line
   takes a failure policy (nop / fatal / deny) chosen by the caller rather than one baked into the library,
@@ -15,6 +16,7 @@ keywords: [bash, source, 読み込み行, 失敗ポリシー, nop, fatal, deny, 
 status: stable
 sources:
   - https://www.gnu.org/software/bash/manual/html_node/Bash-Builtins.html
+intervention: hook
 ---
 
 # source するライブラリは読み込み失敗を呼び手に委ね戻り値で 3 状態を返す

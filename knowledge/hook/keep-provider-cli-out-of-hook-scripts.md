@@ -1,6 +1,7 @@
 ---
 type: pattern
-title: hook から呼ぶスクリプトは gh / glab に依存させず git だけで完結させる
+nature: best-practice
+title: hook から呼ぶスクリプトは gh / glab に依存させず git だけで完結させるべき
 description: >-
   A design rule for agent workflows that must run on GitHub via `gh`, GitLab via `glab`, and GitHub via
   the official MCP server (`mcp__github__*`) alike: scripts launched from hooks (SessionStart, PostToolUse,
@@ -17,6 +18,7 @@ status: stable
 sources:
   - https://github.com/yuki-matsu783/MR-driven-workflow/tree/main/.claude/docs/ddr
   - https://code.claude.com/docs/en/hooks
+intervention: hook
 ---
 
 # hook から呼ぶスクリプトは gh / glab に依存させず git だけで完結させる
@@ -50,12 +52,12 @@ bash から透過的に呼ぶには MCP サーバーへ HTTP / JSON-RPC で直�
 3. **プロバイダ API が要る処理はエージェントへ持ち上げる。** PR / MR の存在、レビュースレッド、issue 本文は
    git のデータモデルに無く API 必須。これは hook の中でやらず、hook は `additionalContext` や stdout で
    「ブランチ X の PR を確認して Y をせよ」と**指示だけ注入**し、エージェントがその環境で使える経路
-   (`gh` / `glab` / MCP) で実行する。判断は [意味理解を要する判定はエージェントへ委ねる](delegate-meaning-to-agent-keep-scripts-decidable.md)
+   (`gh` / `glab` / MCP) で実行する。判断は [意味理解を要する判定はエージェントへ委ねる](../skill/delegate-meaning-to-agent-keep-scripts-decidable.md)
    と同じ向き
 4. **それでもスクリプトが CLI を呼ぶなら、不在時は名指しで委ねる。** `command -v gh` / `command -v glab` で
    経路を判定し、CLI が無ければ「gh / glab が使えないので、`mcp__github__<tool>` で owner/repo を指定して X をしてほしい」を
    stderr と注入文の両方に出して非 0 で終える。空を返して成功しない。書き方は
-   [失敗メッセージに代替手段を名指しで埋め込む](name-the-alternative-in-failure-message.md)
+   [失敗メッセージに代替手段を名指しで埋め込む](../mcp/name-the-alternative-in-failure-message.md)
 
 ```mermaid
 flowchart LR
@@ -85,7 +87,7 @@ flowchart LR
 
 ## 関連
 
-- [失敗メッセージに代替手段を名指しで埋め込む](name-the-alternative-in-failure-message.md)。手順 4 の具体的な書き方
-- [エージェントが呼ぶスクリプトは無言で成功してはならない](agent-scripts-must-not-succeed-silently.md)。「PR: なし」の誤注入はこれの実例
-- [意味理解を要する判定はエージェントへ委ねスクリプトには決定的な判定だけを置く](delegate-meaning-to-agent-keep-scripts-decidable.md)
+- [失敗メッセージに代替手段を名指しで埋め込む](../mcp/name-the-alternative-in-failure-message.md)。手順 4 の具体的な書き方
+- [エージェントが呼ぶスクリプトは無言で成功してはならない](../skill/agent-scripts-must-not-succeed-silently.md)。「PR: なし」の誤注入はこれの実例
+- [意味理解を要する判定はエージェントへ委ねスクリプトには決定的な判定だけを置く](../skill/delegate-meaning-to-agent-keep-scripts-decidable.md)
 - [worktree に入るとガード hook の前提が変わる](hook-guards-under-worktree-isolation.md)。hook の前提が環境で変わる別の例

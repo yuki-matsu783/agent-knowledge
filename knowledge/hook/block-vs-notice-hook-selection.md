@@ -1,6 +1,7 @@
 ---
 type: pattern
-title: 操作をブロックするか注意喚起で済ませるかは特定可能性と代替経路で決める
+nature: heuristic
+title: 操作をブロックするか注意喚起で済ませるかは特定可能性と代替経路で決めた方がよさそう
 description: >-
   A decision rule for Claude Code hooks: enforce with a blocking PreToolUse hook (exit 2) only when the
   forbidden operation can be identified uniquely from the tool call string and a sanctioned alternative path
@@ -16,6 +17,7 @@ status: stable
 sources:
   - https://code.claude.com/docs/en/hooks
   - https://github.com/yuki-matsu783/MR-driven-workflow/tree/main/.claude/docs/ddr
+intervention: hook
 ---
 
 # 操作をブロックするか注意喚起で済ませるかは特定可能性と代替経路で決める
@@ -62,4 +64,4 @@ sources:
 - [権限は permissions.deny ではなく PreToolUse hook で止める](deny-by-hook-not-permissions.md)。ブロック側の作り方
 - [生のコマンド実行を deny してラッパスクリプトへ誘導する](command-wrappers-instead-of-raw-bash.md)。「正規の代替経路」の作り方
 - [hook を注入系とガード系に分け、失敗時の既定を逆にする](injecting-vs-guarding-hooks.md)。注意喚起は注入系なので fail-open でよい
-- [ルールの文言強化ではなく記録とゲートで抜けを塞ぐ](close-gaps-with-mechanism-not-wording.md)。ブロックも注意喚起も効かない「記録の欠落」型の抜け
+- [ルールの文言強化ではなく記録とゲートで抜けを塞ぐ](../rule/close-gaps-with-mechanism-not-wording.md)。ブロックも注意喚起も効かない「記録の欠落」型の抜け

@@ -1,6 +1,7 @@
 ---
 type: how-to
-title: 環境変数で切るプローブと負のコントロールで hook 入力を実測する
+nature: best-practice
+title: hook 入力は環境変数で切るプローブと負のコントロールで実測すべき
 description: >-
   How to measure what a registered Claude Code hook actually receives without changing the production
   log format or faking business state: put the probe in a separate file enabled only by an environment
@@ -14,6 +15,7 @@ keywords: [プローブ, 実測, 環境変数, 負のコントロール, hook �
 status: stable
 sources:
   - https://code.claude.com/docs/en/hooks
+intervention: hook
 ---
 
 # 環境変数で切るプローブと負のコントロールで hook 入力を実測する
@@ -49,5 +51,5 @@ sources:
 - 本番の記録にキーを足す案は、実測のために機械が読む契約を変え、戻し忘れが記録の形として残る。`note` 欄に JSON を詰める案は自由文の性質を失い、切り詰めで先に落ちる
 - 業務条件を満たす状況を作って測る案 (エージェント定義を実装し、チケットの記載を書き換える) は、測定のために正史のアセットを増やし状態を偽装することになる
 - 一時的な逸脱 (値を記録する、記録の表に無いパスを増やす) は、期限と検査手段 (grep 0 件) が最初から決まっていれば受け入れられる
-- [実測の前に外れたときの縮退を書いておく](write-fallback-condition-before-measuring.md)。プローブを仕込む前にやること
-- [Agent ツール周りの hook 入出力の一覧](agent-tool-hook-fields-reference.md)。この方法で確定した事実の一覧
+- [実測の前に外れたときの縮退を書いておく](../workflow/write-fallback-condition-before-measuring.md)。プローブを仕込む前にやること
+- [Agent ツール周りの hook 入出力の一覧](../agent/agent-tool-hook-fields-reference.md)。この方法で確定した事実の一覧

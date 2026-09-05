@@ -1,6 +1,7 @@
 ---
 type: pattern
-title: エージェントに任せる操作と人間承認が要る操作の線引きは可逆性で決める
+nature: principle
+title: エージェントに任せる操作と人間承認が要る操作の線引きは可逆性で決めるべき
 description: >-
   A decision rule for autonomous git-hosting workflows: let the agent create draft PRs, update descriptions,
   reply to threads, and undraft, because each can be undone without touching main, but require an explicit
@@ -14,6 +15,7 @@ keywords: [可逆性, 取り消せるか, Draft PR, マージ, 明示指示, mai
 status: stable
 sources:
   - https://github.com/yuki-matsu783/MR-driven-workflow/tree/main/.claude/docs/ddr
+intervention: human
 ---
 
 # エージェントに任せる操作と人間承認が要る操作の線引きは可逆性で決める
@@ -79,5 +81,5 @@ PR の作成はレビューを始めるための場を用意する操作にす�
 
 ## 関連
 
-- [操作をブロックするか注意喚起で済ませるかは特定可能性と代替経路で決める](block-vs-notice-hook-selection.md)。方針を機構にするときの判断
-- [意味理解を要する判定はエージェントへ委ねスクリプトには決定的な判定だけを置く](delegate-meaning-to-agent-keep-scripts-decidable.md)。「影響がある issue か」の判定はエージェントの解釈で、だから人間が 1 回見る
+- [操作をブロックするか注意喚起で済ませるかは特定可能性と代替経路で決める](../hook/block-vs-notice-hook-selection.md)。方針を機構にするときの判断
+- [意味理解を要する判定はエージェントへ委ねスクリプトには決定的な判定だけを置く](../skill/delegate-meaning-to-agent-keep-scripts-decidable.md)。「影響がある issue か」の判定はエージェントの解釈で、だから人間が 1 回見る

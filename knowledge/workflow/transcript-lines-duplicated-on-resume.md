@@ -1,6 +1,7 @@
 ---
 type: pitfall
-title: resume すると transcript の行が別ブランチ名で再書き出しされる
+nature: finding
+title: resume したら transcript の行が別ブランチ名で再書き出しされた
 description: >-
   Explains why a usage report that re-parses the whole Claude Code transcript and subtracts the previous
   snapshot suddenly counts a session's entire history against a new branch: resuming a session on another
@@ -14,6 +15,7 @@ keywords: [resume, transcript, uuid, parentUuid, 重複行, gitBranch, 二重計
 status: stable
 sources:
   - https://github.com/yuki-matsu783/MR-driven-workflow/tree/main/.claude/docs/ddr
+stale_after: 2027-03-05
 ---
 
 # resume すると transcript の行が別ブランチ名で再書き出しされる

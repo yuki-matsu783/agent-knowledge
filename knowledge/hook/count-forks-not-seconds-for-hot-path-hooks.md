@@ -1,6 +1,7 @@
 ---
 type: pattern
-title: ホットパスの hook は秒数ではなく fork の回数で予算を決める
+nature: heuristic
+title: ホットパスの hook は秒数ではなく fork の回数で予算を決めた方がよさそう
 description: >-
   A pattern for keeping PreToolUse guards that run on every tool call fast enough that they never hit
   the fail-open timeout: replace the untestable target "under one second" with a countable budget of
@@ -15,6 +16,7 @@ keywords: [ホットパス, hook, fork, 外部プロセス, jq, 2 回, git rev-p
 status: stable
 sources:
   - https://code.claude.com/docs/en/hooks
+intervention: hook
 ---
 
 # ホットパスの hook は秒数ではなく fork の回数で予算を決める

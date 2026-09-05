@@ -1,6 +1,7 @@
 ---
 type: pattern
-title: エージェントが呼ぶスクリプトは無言で成功してはならない
+nature: principle
+title: エージェントが呼ぶスクリプトは無言で成功しないものであるべき
 description: >-
   A design rule for scripts that an AI agent invokes as part of a workflow: if the thing the caller asked to
   change cannot be found, write nothing back and exit non-zero; if a fallback returns an empty result, say
@@ -14,6 +15,7 @@ keywords: [無言の失敗, 無言の成功, silent failure, 終了コード, ex
 status: stable
 sources:
   - https://github.com/yuki-matsu783/MR-driven-workflow/tree/main/.claude/docs/ddr
+intervention: tool
 ---
 
 # エージェントが呼ぶスクリプトは無言で成功してはならない
@@ -40,7 +42,7 @@ sources:
   ただし「失敗させる」とセットでないと既存ファイルで無言の失敗が続いて悪化する
 - **見つからない行を自動挿入しない。** 誤記の行と正しい行が並び、どちらが現在の値か読めなくなる。「後から増える項目」として設計した行だけ例外
 - **縮退したら縮退したと言う。** CLI が無いなら「CLI 不在」と言い、空を返して「無い」に見せない
-  ([name-the-alternative-in-failure-message.md](name-the-alternative-in-failure-message.md))
+  ([name-the-alternative-in-failure-message.md](../mcp/name-the-alternative-in-failure-message.md))
 - **スキップは正しい結果として扱いつつ件数を必ず出す。** `skipped <N> deleted file(s)` のように stderr とサマリへ載せる。無言でスキップすると
   「消えるはずのないファイルが消えた」異常を隠す
 - **判定は引数の形ではなく書き換え後のファイルの状態で行う。** 「ループ範囲を網羅する引数か」ではなく「書き換えた結果、範囲の記号が揃っているか」を検査する。
@@ -58,6 +60,6 @@ sources:
 
 ## 関連
 
-- [ルールの文言強化ではなく記録とゲートで抜けを塞ぐ](close-gaps-with-mechanism-not-wording.md)
-- [失敗メッセージに代替手段を名指しで埋め込む](name-the-alternative-in-failure-message.md)
-- [hook を注入系とガード系に分け、失敗時の既定を逆にする](injecting-vs-guarding-hooks.md)。注入系は fail-open でよいが、注入する**内容**が誤情報になってはならない
+- [ルールの文言強化ではなく記録とゲートで抜けを塞ぐ](../rule/close-gaps-with-mechanism-not-wording.md)
+- [失敗メッセージに代替手段を名指しで埋め込む](../mcp/name-the-alternative-in-failure-message.md)
+- [hook を注入系とガード系に分け、失敗時の既定を逆にする](../hook/injecting-vs-guarding-hooks.md)。注入系は fail-open でよいが、注入する**内容**が誤情報になってはならない

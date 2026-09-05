@@ -1,6 +1,7 @@
 ---
 type: pattern
-title: ガードの設定と hook スクリプト自身をエージェントから守る
+nature: best-practice
+title: ガードの設定と hook スクリプト自身はエージェントから守るべき
 description: >-
   Explains that a PreToolUse guard is only as strong as the files it lives in, because
   .claude/settings.json and the hook scripts are ordinary files in the working tree that the agent
@@ -21,6 +22,7 @@ sources:
   - https://code.claude.com/docs/en/managed-settings
   - https://code.claude.com/docs/en/permission-modes
   - https://code.claude.com/docs/en/permissions
+intervention: hook
 ---
 
 # ガードの設定と hook スクリプト自身をエージェントから守る

@@ -1,5 +1,6 @@
 ---
 type: pitfall
+nature: fact
 title: jq の --slurpfile は副入力が壊れていると呼び出し全体を失敗させ stdin の解析まで失う
 description: >-
   Explains why passing a config file to `jq --slurpfile` inside a hook turns one corrupt or missing JSON
@@ -64,7 +65,7 @@ exit=0
   `$(cat file)` で読んで `--arg` に渡す案は `cat` が fork で、`$(< file)` でも設定が育つと引数長の制限に当たる
 
 `jq` の `//` 演算子は `false` も右辺に倒すことにも注意する。`.draft // empty` は「draft でない」を「判定できない」に化けさせる。値の有無と値そのものは分けて読む
-([判定できないときは「進んだことにする」でなく「もう一度やる」側に倒す](undeterminable-means-redo-not-assume-done.md))。
+([判定できないときは「進んだことにする」でなく「もう一度やる」側に倒す](../skill/undeterminable-means-redo-not-assume-done.md))。
 
 ## 再現条件
 

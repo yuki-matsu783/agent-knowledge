@@ -1,6 +1,7 @@
 ---
 type: how-to
-title: エージェントの gh / glab / git 認証を範囲限定トークン 1 本に寄せる
+nature: best-practice
+title: エージェントの gh / glab / git 認証は範囲限定トークン 1 本に寄せるべき
 description: >-
   How to give a coding agent just enough Git-forge credentials: issue a token scoped to one repository
   or group (GitLab project/group access token, GitHub fine-grained PAT) instead of an account-wide
@@ -21,6 +22,7 @@ sources:
   - https://docs.gitlab.com/user/project/settings/project_access_tokens/
   - https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens
   - https://git-scm.com/docs/gitcredentials
+intervention: hook
 ---
 
 # エージェントの gh / glab / git 認証を範囲限定トークン 1 本に寄せる
@@ -107,6 +109,6 @@ sources:
 - **project / group access token は bot ユーザーとして動く**。コミットの author、MR の承認、メンションの扱いが
   人のアカウントと違う。承認まわりの運用に当てる前に確かめる
 - hook から呼ぶスクリプトはこの認証に頼らせない。
-  [hook から呼ぶスクリプトは gh / glab に依存させず git だけで完結させる](keep-provider-cli-out-of-hook-scripts.md)
+  [hook から呼ぶスクリプトは gh / glab に依存させず git だけで完結させる](../hook/keep-provider-cli-out-of-hook-scripts.md)
 - 範囲外を踏んだときのメッセージは、そのままだと何をすればよいか分からない。
-  [失敗メッセージに代替手段を名指しで埋め込む](name-the-alternative-in-failure-message.md)
+  [失敗メッセージに代替手段を名指しで埋め込む](../mcp/name-the-alternative-in-failure-message.md)
