@@ -11,7 +11,7 @@ tags: [workflow, meta]
 keywords: [Excel, xlsx, CSV, markdown, exceljs, SheetJS, openpyxl, pandas, uv, skills, 書き出し, 表]
 status: outdated
 verified_at: 2026-09-05
-superseded_by: knowledge/xlsx-from-markdown-tables-with-uv
+superseded_by: .claude/docs/10_spec/xlsx-export
 sources:
   - https://github.com/exceljs/exceljs
   - https://github.com/SheetJS/sheetjs
@@ -21,7 +21,7 @@ sources:
 
 # markdown / CSV から Excel (xlsx) を書き出す手段
 
-> この知識は superseded_by の知識 ([knowledge/xlsx-from-markdown-tables-with-uv.md](../knowledge/xlsx-from-markdown-tables-with-uv.md)) により無効。uv + openpyxl で実際に生成できることを確認した。
+> この知識は superseded_by のドキュメント ([.claude/docs/10_spec/xlsx-export.md](../.claude/docs/10_spec/xlsx-export.md)) により無効。要件は [.claude/docs/00_requirement/xlsx-export.md](../.claude/docs/00_requirement/xlsx-export.md)。uv + openpyxl で実際に生成できることを確認した。
 
 ## 背景
 

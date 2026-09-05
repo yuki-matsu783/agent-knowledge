@@ -12,14 +12,14 @@ tags: [workflow, meta, claude-code]
 keywords: [archify, 構成図, アーキテクチャ図, シーケンス図, データフロー, 検証ゲート, JSON IR, mermaid, d2, diagram-design, skills, ローカルインストール, pnpm dlx]
 status: outdated
 verified_at: 2026-09-05
-superseded_by: knowledge/archify-diagrams-from-templates
+superseded_by: .claude/docs/10_spec/archify-diagrams
 sources:
   - https://github.com/tt-a1i/archify
 ---
 
 # archify で検証付きの構成図を生成する
 
-> この知識は superseded_by の知識 ([knowledge/archify-diagrams-from-templates.md](../knowledge/archify-diagrams-from-templates.md)) により無効。検証済みテンプレート 7 本と手順は knowledge 側にある。
+> この知識は superseded_by のドキュメント ([.claude/docs/10_spec/archify-diagrams.md](../.claude/docs/10_spec/archify-diagrams.md)) により無効。要件は [.claude/docs/00_requirement/archify-diagrams.md](../.claude/docs/00_requirement/archify-diagrams.md)、検証済みテンプレート 7 本と手順は spec 側にある。
 
 ## 位置づけ
 

@@ -12,7 +12,7 @@ tags: [workflow, meta]
 keywords: [Marp, marp-cli, スライド, HTML, テーマ, ワークフロー]
 status: verified
 verified_at: 2026-09-05
-derived_from: knowledge/marp-html-slides-from-markdown
+derived_from: .claude/docs/10_spec/marp-slides
 sources:
   - https://github.com/marp-team/marp-cli
   - https://marpit.marp.app/directives
@@ -75,7 +75,7 @@ pnpm slides slides/foo.md
 
 ## まとめ
 
-- 手順の詳細は `knowledge/marp-html-slides-from-markdown.md`
+- 手順の詳細は `.claude/docs/10_spec/marp-slides.md`、要件は `.claude/docs/00_requirement/marp-slides.md`
 - スライド作成の手順は `.claude/skills/slide-make/SKILL.md`
 
 ---

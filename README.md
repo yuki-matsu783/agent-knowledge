@@ -13,6 +13,7 @@ templates/     各 type の雛形と Marp テーマ
 scripts/       lint・index・slides・audit (TypeScript、tsx で実行)
 taxonomy.yml   type と tags の統制語彙
 INDEX.md       自動生成の一覧
+.claude/docs/  このリポジトリの道具の要件 (00_requirement) と仕様 (10_spec)
 ```
 
 規約は [.claude/rules/](.claude/rules/) を参照。
