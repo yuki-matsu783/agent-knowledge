@@ -6,8 +6,8 @@
 // 内容が同じなら書き換えない、失敗があれば非ゼロ終了。
 // bash 版の mtime キャッシュは持たない (Node では数百ファイルの解析が 1 秒未満で済むため)。
 // 使い方: pnpm index [--quiet]
-import { existsSync, readFileSync, renameSync, statSync, unlinkSync, writeFileSync } from 'node:fs';
-import { dirname, join } from 'node:path';
+import { existsSync, readFileSync, readdirSync, renameSync, statSync, unlinkSync, writeFileSync } from 'node:fs';
+import { dirname, join, relative } from 'node:path';
 import { type Frontmatter, isStringList, splitFrontmatter, str } from './lib/frontmatter.ts';
 import { SCOPE_DIRS, listMarkdown, repoRoot, toId } from './lib/repo.ts';
 
@@ -64,6 +64,24 @@ for (const [dir, list] of byDir) {
   const content = list.map((e) => JSON.stringify(e)).join('\n') + '\n';
   const rel = `${dir}/index.jsonl`;
   log(`${writeAtomic(join(root, rel), content) ? 'wrote' : 'unchanged'}: ${rel}`);
+}
+// markdown が 1 件も残っていないディレクトリの index.jsonl は消す。
+// 残すと search が消えた知識を拾い続ける (ファイルを別ディレクトリへ移した直後に起きる)。
+for (const scope of SCOPE_DIRS) {
+  const base = join(root, scope);
+  if (!existsSync(base)) continue;
+  const stack = [base];
+  while (stack.length) {
+    const dir = stack.pop() as string;
+    for (const ent of readdirSync(dir, { withFileTypes: true })) {
+      if (ent.isDirectory()) stack.push(join(dir, ent.name));
+    }
+    const rel = relative(root, join(dir, 'index.jsonl')).replaceAll('\\', '/');
+    if (existsSync(join(root, rel)) && !byDir.has(relative(root, dir).replaceAll('\\', '/'))) {
+      unlinkSync(join(root, rel));
+      log(`removed: ${rel}`);
+    }
+  }
 }
 
 // INDEX.md (人間向け)。日付を含めず、内容が変わらない限り差分が出ないようにする
