@@ -15,6 +15,7 @@ keywords: [index, 一覧, frontmatter, 自動生成]
 | ID | title | type | status | tags | verified_at |
 |---|---|---|---|---|---|
 | [knowledge/archify-diagrams-from-templates](knowledge/archify-diagrams-from-templates.md) | archify のテンプレートから検証付き構成図を作る | how-to | verified | workflow, meta, claude-code | 2026-09-05 |
+| [knowledge/command-wrappers-instead-of-raw-bash](knowledge/command-wrappers-instead-of-raw-bash.md) | 生のコマンド実行を deny してラッパスクリプトへ誘導する | pattern | verified | claude-code, context-management, security, observability | 2026-09-05 |
 | [knowledge/hook-timeout-fails-open](knowledge/hook-timeout-fails-open.md) | タイムアウトした hook はガードにならず素通りする | pitfall | verified | claude-code, security, workflow | 2026-09-05 |
 | [knowledge/marp-html-slides-from-markdown](knowledge/marp-html-slides-from-markdown.md) | Marp CLI で markdown から HTML スライドを生成する | how-to | verified | workflow, meta | 2026-09-05 |
 | [knowledge/ticket-scoped-deny-hook](knowledge/ticket-scoped-deny-hook.md) | チケットの frontmatter を根拠に範囲外の操作を deny する | pattern | verified | claude-code, context-management, security | 2026-09-05 |
@@ -42,10 +43,11 @@ keywords: [index, 一覧, frontmatter, 自動生成]
 
 ## タグ別
 
-- **claude-code**: [inbox/archify-verified-architecture-diagrams](inbox/archify-verified-architecture-diagrams.md), [knowledge/archify-diagrams-from-templates](knowledge/archify-diagrams-from-templates.md), [knowledge/hook-timeout-fails-open](knowledge/hook-timeout-fails-open.md), [knowledge/ticket-scoped-deny-hook](knowledge/ticket-scoped-deny-hook.md)
-- **context-management**: [knowledge/ticket-scoped-deny-hook](knowledge/ticket-scoped-deny-hook.md)
+- **claude-code**: [inbox/archify-verified-architecture-diagrams](inbox/archify-verified-architecture-diagrams.md), [knowledge/archify-diagrams-from-templates](knowledge/archify-diagrams-from-templates.md), [knowledge/command-wrappers-instead-of-raw-bash](knowledge/command-wrappers-instead-of-raw-bash.md), [knowledge/hook-timeout-fails-open](knowledge/hook-timeout-fails-open.md), [knowledge/ticket-scoped-deny-hook](knowledge/ticket-scoped-deny-hook.md)
+- **context-management**: [knowledge/command-wrappers-instead-of-raw-bash](knowledge/command-wrappers-instead-of-raw-bash.md), [knowledge/ticket-scoped-deny-hook](knowledge/ticket-scoped-deny-hook.md)
 - **meta**: [adr/0001-repository-conventions](adr/0001-repository-conventions.md), [inbox/archify-verified-architecture-diagrams](inbox/archify-verified-architecture-diagrams.md), [inbox/excel-export-from-markdown-csv](inbox/excel-export-from-markdown-csv.md), [inbox/marpx-editable-pptx-from-marp](inbox/marpx-editable-pptx-from-marp.md), [knowledge/archify-diagrams-from-templates](knowledge/archify-diagrams-from-templates.md), [knowledge/marp-html-slides-from-markdown](knowledge/marp-html-slides-from-markdown.md), [knowledge/xlsx-from-markdown-tables-with-uv](knowledge/xlsx-from-markdown-tables-with-uv.md), [slides/marp-html-slides-from-markdown](slides/marp-html-slides-from-markdown.md)
-- **security**: [knowledge/hook-timeout-fails-open](knowledge/hook-timeout-fails-open.md), [knowledge/ticket-scoped-deny-hook](knowledge/ticket-scoped-deny-hook.md)
+- **observability**: [knowledge/command-wrappers-instead-of-raw-bash](knowledge/command-wrappers-instead-of-raw-bash.md)
+- **security**: [knowledge/command-wrappers-instead-of-raw-bash](knowledge/command-wrappers-instead-of-raw-bash.md), [knowledge/hook-timeout-fails-open](knowledge/hook-timeout-fails-open.md), [knowledge/ticket-scoped-deny-hook](knowledge/ticket-scoped-deny-hook.md)
 - **workflow**: [adr/0001-repository-conventions](adr/0001-repository-conventions.md), [inbox/archify-verified-architecture-diagrams](inbox/archify-verified-architecture-diagrams.md), [inbox/excel-export-from-markdown-csv](inbox/excel-export-from-markdown-csv.md), [inbox/marpx-editable-pptx-from-marp](inbox/marpx-editable-pptx-from-marp.md), [knowledge/archify-diagrams-from-templates](knowledge/archify-diagrams-from-templates.md), [knowledge/hook-timeout-fails-open](knowledge/hook-timeout-fails-open.md), [knowledge/marp-html-slides-from-markdown](knowledge/marp-html-slides-from-markdown.md), [knowledge/xlsx-from-markdown-tables-with-uv](knowledge/xlsx-from-markdown-tables-with-uv.md), [slides/marp-html-slides-from-markdown](slides/marp-html-slides-from-markdown.md)
 
 ## 無効化された知識
