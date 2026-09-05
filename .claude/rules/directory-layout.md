@@ -12,8 +12,22 @@ scripts/       # lint・index・slides・audit (TypeScript、tsx で実行、pnp
 taxonomy.yml   # type と tags の統制語彙
 INDEX.md       # 自動生成の一覧。手で編集しない
 .claude/rules  # 規約 (常時読み込み)
-.claude/skills # 作業手順 (knowledge-add / slide-make / knowledge-audit)
+.claude/skills # 作業手順 (knowledge-add / slide-make / knowledge-audit / commit)
+.claude/docs   # このリポジトリの道具の説明。00_requirement (要件) と 10_spec (仕様)
 ```
+
+## knowledge/ と .claude/docs/ の振り分け
+
+| 書くもの | 置き場所 |
+|---|---|
+| 他のリポジトリでも通用するエージェント開発の知見 | knowledge/ |
+| このリポジトリの道具 (skill・スクリプト・pnpm コマンド) の要件と仕様 | .claude/docs/ |
+
+道具の説明は knowledge に混ぜない。knowledge は「学んだこと」、.claude/docs は「この repo がどう動くか」。
+
+- `00_requirement/<slug>.md` — **外から観測できることだけ**を EARS 形式で書き、ハッピーパスを mermaid で描く
+- `10_spec/<slug>.md` — 外部インタフェースに加えて内部の挙動と設計判断を書く
+- 書き方の規約は [repo-docs.md](repo-docs.md)。requirement に内部の記述を混ぜないこと
 
 主題分類は tags が担う。ディレクトリを主題で切るのは knowledge/ が 20 件を超えてからにする。
 切ったときはディレクトリ名も ID の一部になるので、リンクと superseded_by と derived_from を合わせて更新する。
@@ -28,6 +42,7 @@ INDEX.md       # 自動生成の一覧。手で編集しない
 ## ID
 
 ID = リポジトリルートからの相対パスから `.md` を除いたもの。`superseded_by` と `derived_from` はこの ID で参照する。
+参照先は scope 内 (knowledge / inbox / adr / slides) でも `.claude/docs/` でもよい。lint はファイルの実在を見る。
 ファイルを移動・改名すると ID が変わるので、参照元を必ず更新する (lint が検出する)。
 
 ## リンク

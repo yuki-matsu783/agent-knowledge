@@ -28,8 +28,8 @@ OKF (Open Knowledge Format、<https://okf.md/spec/>) のフィールド定義に
 | `verified_at` | 条件付き必須 (拡張) | 最後に内容を検証した日 (YYYY-MM-DD)。status が draft 以外なら必須 |
 | `applies_to` | 推奨 (拡張) | 検証した製品とバージョン。`name@version` 形式のリスト (例 `claude-code@2.1`) |
 | `sources` | 条件付き必須 (拡張) | 出典 URL またはリポジトリ内パスのリスト。knowledge/ 配下で verified にするには 1 件以上必要 |
-| `superseded_by` | 条件付き必須 (拡張) | status が outdated のとき、無効化した側の knowledge の ID |
-| `derived_from` | slide のみ必須 (拡張) | スライドの元になった knowledge の ID |
+| `superseded_by` | 条件付き必須 (拡張) | status が outdated のとき、無効化した側の ID (knowledge か `.claude/docs/`) |
+| `derived_from` | slide のみ必須 (拡張) | スライドの元になった knowledge か `.claude/docs/` のドキュメントの ID |
 
 ID はリポジトリルートからの相対パスから `.md` を除いたもの (例 `knowledge/tool-definition-design`)。
 
