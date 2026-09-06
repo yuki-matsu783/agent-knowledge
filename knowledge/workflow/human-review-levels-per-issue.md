@@ -10,9 +10,10 @@ description: >-
   before work starts. Use when an agent runs plan-then-work-then-MR autonomously and human review
   time is the bottleneck, or when the stopping point varies from session to session. Not for deciding
   which operations need human approval at all (that is the reversibility rule), and not verified here:
-  nothing has been run this way.
-tags: [workflow, security]
-keywords: [レビューレベル, quick, standard, strict, 人間レビュー, レビュー段数, 承認ゲート, issue-MR, 計画レビュー, 作業レビュー, MR レビュー, 手戻り, 起票時に決める, レビュー予算, 待ち時間, 段数を先に決める]
+  nothing has been run this way. Also warns that quick removes the very points where the user would
+  clear or compact the context, so a hard issue runs as one long session and drifts.
+tags: [workflow, security, context-management]
+keywords: [レビューレベル, quick, standard, strict, 人間レビュー, レビュー段数, 承認ゲート, issue-MR, 計画レビュー, 作業レビュー, MR レビュー, 手戻り, 起票時に決める, 待ち時間, コンテキスト希薄化, 自動圧縮, clear, compact, 暴走, セッションが長くなる]
 status: stable
 sources: []
 intervention: human
@@ -67,6 +68,29 @@ flowchart LR
 
 レベルの選択は結局、**手戻りの期待コストと人間の待ち時間の交換**を issue 単位でやる話になる。
 
+## `quick` を難しい issue に当てると暴走しやすい
+
+`quick` の危うさはレビューが 1 回しか無いことだけではない。
+**人間が止まる地点は、ユーザが文脈を切る地点でもある**というところにある。
+
+`/compact` と `/clear` は built-in command で、エージェント自身は打てない
+([タスクの切れ目で /compact と /clear をユーザに依頼させた方がよさそう](../hooks/22-PostToolUse/ask-user-to-reset-context-at-task-boundaries.md))。
+文脈を切る操作は必ず人の手を経るので、**人間がレビューで止まらない限り、ユーザが明示的にクリアする機会そのものが来ない。**
+
+難しい issue を `quick` で渡すと、計画から MR まで 1 つのセッションが途切れずに伸びる。すると、
+
+- 自動圧縮が「閾値に達した時点」で走る。その時点はたいてい作業の最中で、進行中の細部が要約から落ちる
+- 圧縮を挟むほど、最初に決めた方針と issue の制約が薄まる
+- 薄まったまま作業が続くので、方針から外れたことに誰も気付かないまま MR まで到達する
+
+`quick` はレビュー段数を削るだけでなく、**文脈をリセットする機会も同時に削っている。**
+しかも難しい issue ほどセッションが長くなるので、段数を削る効果と希薄化の起きやすさが同じ方向に効く。
+`standard` 以上を選ぶ理由は、レビューそのものより「セッションを 1 回切れること」の方が大きいかもしれない。
+
+裏返すと、レベルを選ぶ材料に**そのセッションがどれだけ長くなりそうか**が入る。
+影響範囲が広い、調査が要る、前例が無い、といった条件は手戻りの期待コストを上げると同時にセッション長も伸ばすので、
+同じ材料が両方の理由から `quick` を外す方向に働く。
+
 ## 誰がいつ決めるか
 
 起票時に**エージェントが提案し、人間が承認する**。レベルは変更の性質から見積もれるが、
@@ -99,6 +123,8 @@ flowchart LR
 - **宣言だけで守られるか分からない。** issue に `standard` と書いても、エージェントが読み落として MR まで走る可能性がある。
   [抜けを塞ぐのはルールの文言強化ではなく記録とゲートであるべき](../rules/close-gaps-with-mechanism-not-wording.md) に従うなら
   Stop hook などの機構でゲートにする形になるが、その形が要るかは回してみないと分からない
+- **レビューと文脈リセットを分けられるか分からない。** 「人間は読まないがセッションだけ切る」段を置けば `quick` の希薄化だけ潰せるかもしれないが、
+  読む理由の無い区切りをユーザが律儀に打つとは思えない
 - **`quick` と `standard` の差が実際に出るか分からない。** 作業完了と MR 作成が同じ地点に潰れるフローだと、
   2 つのレビューが 1 回のレビューの深さの違いに吸収されてしまう
 
