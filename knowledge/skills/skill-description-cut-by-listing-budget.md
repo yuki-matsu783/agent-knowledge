@@ -87,3 +87,4 @@ description の末尾に置きがちな「Not for ...」は 1,536 字の切り�
 - [context に入るものと入るタイミング](../diagrams/what-enters-context-when.dataflow.html)。skill の一覧と本文が context に入る経路を示した archify のデータフロー図 (ブラウザで開く)
 - [compact 後は「読んだ」認識を信用せず手順書の読み直しを指示で注入する](../hooks/00-SessionStart/reread-instruction-not-content-after-compact.md)。こちらは compact 後の再注入の 5,000 トークン上限で、別の上限
 - [ツール定義の description は 1 行しか見えない](../workflow/tool-description-shows-one-line.md)。ツール側の同じ形の制約
+- [skill が増えたら一覧の切り詰めではなく MCP と同じ検索ツールに寄せられるはず (未検証)](skill-search-tool-instead-of-listing-truncation.md)。切り詰めの代わりに検索を入れる設計案
