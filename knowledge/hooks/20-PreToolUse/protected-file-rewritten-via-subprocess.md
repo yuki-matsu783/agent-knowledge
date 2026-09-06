@@ -6,15 +6,16 @@ description: >-
   Explains why denying the Edit and Write tools does not actually protect a file in Claude Code:
   path rules written for Write, NotebookEdit or MultiEdit are accepted but never consulted, deny
   rules do not reach files that a Node or Python subprocess opens itself, and a PreToolUse hook
-  with a Write|Edit matcher never fires on Bash. Use when a file you meant to freeze keeps changing,
+  matched on the file tools never fires on Bash, so a heredoc write walks straight past it. Use
+  when a file you meant to freeze keeps changing,
   when hardening generated artifacts or config, or when deciding between permission rules, the
   sandbox, and detection hooks. Not for blocking file reads or secret exfiltration, and not for
   choosing what to deny in the first place.
 tags: [claude-code, security, observability]
-keywords: [permissions.deny, Edit, Write, NotebookEdit, MultiEdit, PostToolUse, Stop hook, matcher, リダイレクト, サブプロセス, sandbox, filesystem.denyWrite, 保護, 書き換え, 生成物, git status, サブエージェント, 監視]
+keywords: [permissions.deny, Edit, Write, NotebookEdit, MultiEdit, PostToolUse, Stop hook, matcher, ヒアドキュメント, heredoc, tee, リダイレクト, サブプロセス, sandbox, filesystem.denyWrite, 保護, 書き換え, 生成物, git status, 対照実験]
 status: stable
-verified_at: 2026-09-05
-stale_after: 2027-03-05
+verified_at: 2026-09-07
+stale_after: 2027-03-07
 applies_to: [claude-code@2.1]
 sources:
   - https://code.claude.com/docs/en/permissions
@@ -31,7 +32,15 @@ sources:
 
 - **`Write(path)` は誰も見ていない**。ファイルパスの検査に使われるのは `Edit(path)` と `Read(path)` だけ。`Write` `NotebookEdit` `MultiEdit` にパスを付けたルールは受理されるが一度も参照されず、起動時に warning が出て終わる。`Edit(docs/**)` と書く
 - **スクリプトが開いたファイルは素通りする**。`Read` と `Edit` の deny が効くのは組み込みのファイルツールと、Claude Code が認識する Bash のファイルコマンド (`cat` `head` `tail` `sed`) まで。`node fix.js` や `python -c` が自分で open して書くぶんには何も起きない
-- **hook の matcher を `Write|Edit` に絞ると Bash が抜ける**。このリポジトリの [protect-generated.sh](../../../.claude/hooks/protect-generated.sh) がその形で、`.tool_input.file_path` しか見ていない。同じパスへ Bash から書けば hook 自体が起動しない (matcher `Write|Edit` の PreToolUse を入れた状態で、Bash の `echo x > .../INDEX.md` が素通りすることを確認した)
+- **hook の matcher をファイルツールに絞ると Bash が抜ける**。matcher はツール名で絞るので、`.tool_input.file_path` を見る hook を `Write` と `Edit` に登録しても、同じパスへ Bash から書けば hook 自体が起動しない。同一パス・同一セッションで対照した結果は次のとおり
+
+  | 書き方 | ファイルツールに絞った PreToolUse |
+  |---|---|
+  | Write ツール | 発火して拒否 |
+  | Bash の `cat > f <<'EOF'` (ヒアドキュメント) | 発火しない |
+  | Bash の `echo x > f` | 発火しない |
+
+  エージェントが複数行のファイルを作るときの既定の書き方はヒアドキュメントなので、この経路は事故のときだけでなく普段から通る。「ヒアドキュメントを塞ぐ」と読み替えないこと。穴はシェルの構文ではなく**ツールの境界**にあり、`tee` でも `sed -i` でも `python -c` でも同じように抜ける
 
 一方で**リダイレクトは穴ではない**。`>` `>>` `2>` の書き込み先は Edit ルール・protected paths・working directories と照合される。検査されないのは `/dev/null` と、`~` 始まりや glob を含む書き込み先 (これは承認が要る) だけ。
 
@@ -89,7 +98,9 @@ Stop と SubagentStop は exit 2 で停止をブロックし、Claude に応答�
 
 ## 再現条件
 
-claude-code@2.1、Windows (Git Bash)。matcher `Write|Edit` の PreToolUse hook を入れた状態で、Bash からの書き込みが hook を起動しないことを 2026-09-05 に確認した。permissions と hook の各挙動は公式ドキュメントの記載による。sandbox は native Windows で動かないため未検証。
+claude-code@2.1、Windows (Git Bash)、VS Code 拡張。`Write` と `Edit` に絞った PreToolUse hook を入れた状態で、Bash からの書き込みが hook を起動しないことを 2026-09-05 に確認した。
+2026-09-07 に、同じ hook が守るパスへ (1) Write ツール (2) Bash のヒアドキュメントの 2 通りで書く対照を取り、Write は拒否され、ヒアドキュメントは終了コード 0 で書き込めることを確認した。
+permissions と sandbox の挙動は公式ドキュメントの記載による。permission ルールの側がヒアドキュメントの書き込み先を照合するかは、deny ルールを試せなかったため未確認。sandbox は native Windows で動かないため未検証。
 
 ## 関連
 
