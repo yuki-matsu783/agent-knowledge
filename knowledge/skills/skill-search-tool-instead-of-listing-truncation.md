@@ -107,3 +107,6 @@ description の「Use when the user wants to record something learned about agen
 - [MCP のツール名はサーバが定義するのでパターンによる種別分類は当たらない](../mcp/mcp-tool-names-are-server-defined.md)。名前だけを索引にするときに効いてくる制約
 - [ツール定義の description は 1 行しか見えない](../workflow/tool-description-shows-one-line.md)。ツール側の同じ形の制約
 - [context に入るものと入るタイミング](../diagrams/what-enters-context-when.dataflow.html)。skill の一覧と本体が context に入る経路 (ブラウザで開く)
+- [skill を足すコストは既存の skill が払うので総数を絞るべき](adding-a-skill-is-paid-by-the-other-skills.md)。検索の仕組みが無い今、予算を空ける側の対処
+- [他の skill からしか呼ばれない手順は skill にせず references のファイルに置くべき](caller-only-procedures-belong-in-skill-references.md)。同上
+- [context が伸びるほど指示が効かなくなるのは注意が全トークンに配られるから](../model/attention-dilutes-as-context-grows.md)。一覧予算を含む常駐トークンの話がなぜ効くかの根

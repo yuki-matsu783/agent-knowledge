@@ -88,3 +88,6 @@ description の末尾に置きがちな「Not for ...」は 1,536 字の切り�
 - [compact 後は「読んだ」認識を信用せず手順書の読み直しを指示で注入する](../hooks/00-SessionStart/reread-instruction-not-content-after-compact.md)。こちらは compact 後の再注入の 5,000 トークン上限で、別の上限
 - [ツール定義の description は 1 行しか見えない](../workflow/tool-description-shows-one-line.md)。ツール側の同じ形の制約
 - [skill が増えたら一覧の切り詰めではなく MCP と同じ検索ツールに寄せられるはず (未検証)](skill-search-tool-instead-of-listing-truncation.md)。切り詰めの代わりに検索を入れる設計案
+- [skill を足すコストは既存の skill が払うので総数を絞るべき](adding-a-skill-is-paid-by-the-other-skills.md)。同じ予算を総数の側から見たもの
+- [他の skill からしか呼ばれない手順は skill にせず references のファイルに置くべき](caller-only-procedures-belong-in-skill-references.md)。本数を増やさずに分割する置き方
+- [context が伸びるほど指示が効かなくなるのは注意が全トークンに配られるから](../model/attention-dilutes-as-context-grows.md)。一覧予算を含む常駐トークンの話がなぜ効くかの根
