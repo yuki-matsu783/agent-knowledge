@@ -147,6 +147,7 @@ hook の `deny` は `EndConversation` 以外の全ツール、全 permission mod
 
 ## 関連
 
+- [PreToolUse hook は permission の評価より前に走るので deny は全 mode で効く](hook-deny-runs-before-permission-modes.md)。上の優先順位表の根拠になる評価順と、hook 自体が走らなくなる 4 経路
 - [ガード hook の 1 回の判定](../../diagrams/guard-hook-evaluation.lifecycle.html)。入力の正規化から deny / 通す / 素通りまでの状態遷移を描いた archify の図 (ブラウザで開く)
 - [タイムアウトした hook はガードにならず素通りする](../common/hook-timeout-fails-open.md)。hook をガードにする以上は必ず併読する。判定はローカルの文字列一致とファイル読みに留め、外部通信や LLM 呼び出しを混ぜない
 - [ガードの設定と hook スクリプト自身をエージェントから守る](protect-guard-config-from-the-agent.md)。この settings.json と hook スクリプト自体を Claude が書き換えられる。設定は live reload されるので、外した瞬間から効かなくなる
