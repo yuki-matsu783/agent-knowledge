@@ -47,5 +47,7 @@ Claude Code のバージョンは記録されていない。JSONL は非公開�
 
 ## 関連
 
+- [transcript の usage は API 応答 1 回分の値が全行に複製されたものである](transcript-usage-is-per-request-and-duplicated.md)。
+  値が小さすぎるときは、まずキャッシュの 2 つを足し忘れていないかを見る。逆に大きすぎるときは行ごとの二重計上を疑う
 - [Claude Code の transcript JSONL は /compact を挟んでも追記専用である](transcript-jsonl-is-append-only-across-compact.md)
 - [Claude Code の実行を観測する層を後付けで入れる](observability-layer-for-claude-code.md)

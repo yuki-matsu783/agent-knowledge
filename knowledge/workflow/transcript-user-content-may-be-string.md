@@ -56,3 +56,4 @@ def content_blocks: if (.message.content | type) == "array" then .message.conten
 
 - [Claude Code の transcript JSONL は /compact を挟んでも追記専用である](transcript-jsonl-is-append-only-across-compact.md)
 - [resume すると transcript の行が別ブランチ名で再書き出しされる](transcript-lines-duplicated-on-resume.md)
+- [transcript を --argjson で jq に渡したら引数長の上限で無言で止まった](../hooks/scripts/pass-transcript-by-path-not-argv-to-jq.md)。同じ調査で見つかった argv 長の問題を独立して書いたもの

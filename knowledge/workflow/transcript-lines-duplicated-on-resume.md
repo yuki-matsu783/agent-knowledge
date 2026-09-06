@@ -56,3 +56,4 @@ stale_after: 2027-03-05
 
 - [Claude Code の transcript JSONL は /compact を挟んでも追記専用である](transcript-jsonl-is-append-only-across-compact.md)。行カーソル方式が成り立つ根拠
 - [transcript の usage トークンは過小に記録されることがある](transcript-usage-tokens-undercount.md)
+- [追記ログの差分集計は行カーソルか id 畳み込みかを再送の有無で選ぶ](append-log-diff-by-cursor-or-fold.md)。この回避策を方式の選択として一般化したもの

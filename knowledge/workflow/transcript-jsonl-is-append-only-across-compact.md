@@ -80,5 +80,6 @@ hook のペイロード (`Stop` / `PostToolUse` 等) にトークン数やコス
 - [transcript の usage トークンは過小に記録されることがある](transcript-usage-tokens-undercount.md)
 - [resume すると transcript の行が別ブランチ名で再書き出しされる](transcript-lines-duplicated-on-resume.md)
 - [user 行の message.content は配列とは限らない](transcript-user-content-may-be-string.md)
+- [追記ログの差分集計は行カーソルか id 畳み込みかを再送の有無で選ぶ](append-log-diff-by-cursor-or-fold.md)。この追記専用という性質が行カーソル方式の前提になる
 - [Claude Code の実行を観測する層を後付けで入れる](observability-layer-for-claude-code.md)。4 つの観測源のうち JSONL の詳細がこの知識
 - [compact 後に SessionStart hook で作業コンテキストを再注入する](../hooks/00-SessionStart/reinject-work-context-after-compact.md)。compact が消すのはモデルへ送る側で、ファイル側ではない
