@@ -53,7 +53,8 @@ hook で組んだガードの足元が動く。ガードは「どのファイル
 ### 1. hook スクリプトの解決先が 2 つある
 
 Claude が worktree に入っても `${CLAUDE_PROJECT_DIR}` は**セッションを起動したプロジェクトルートに留まる**。
-一方 hook の入力 JSON の `cwd` は Claude に追従して worktree ルートになる。
+一方 hook の入力 JSON の `cwd` は Claude に追従して worktree ルートになる (実測で確認、claude-code@2.1)。
+`cwd` は Windows ではバックスラッシュ形式 (`C:\...`)、`${CLAUDE_PROJECT_DIR}` は `/` 形式で来るので、正規化せずに比較しない。
 
 つまり `${CLAUDE_PROJECT_DIR}/.claude/hooks/guard.sh` と登録したガードは、Claude が worktree で作業していても
 main checkout 側のスクリプトが走る。編集対象は worktree の中にあるのに、スクリプトが基準にする場所は
@@ -76,9 +77,12 @@ worktree は新しいチェックアウトで、既定の分岐元はリポジ�
 `.claude/hooks/` も `.claude/settings.json` もそのブランチの内容が入る。手元でガードを強化しても、
 コミットして push するまで worktree には届かない。
 
-`EnterWorktree` で `.claude/worktrees/` の外のパスに移るときに Claude Code が確認を求めるのは、この移動が
-「作業ディレクトリと書き込み権と `CLAUDE.md`・settings といったプロジェクト設定」ごと移すため。
-設定の出所が変わるという事実が、確認を挟む理由そのものになっている。
+ただし**「worktree の中身が入る」ことと「それが使われる」ことは別**だった。後に実測したところ、`EnterWorktree` で移った
+セッションでは `.claude/settings.json` と `CLAUDE.md` は起動ディレクトリのものが効き続け、worktree 側のコピーには
+切り替わらない。worktree の版が使われるのは、相対パスで登録した hook スクリプトの**中身**だけ。
+つまり「登録は本体から、スクリプトの中身は worktree から」という割れ方をする
+([EnterWorktree で worktree に入ってもプロジェクト設定は起動ディレクトリのものが効き続ける](../../agents/enter-worktree-keeps-launch-directory-settings.md))。
+worktree で `claude` を直接起動した場合だけ、settings も `CLAUDE.md` もその worktree のものになる。
 
 ### 3. 状態ファイルが worktree ごとにリセットされる
 
@@ -135,11 +139,8 @@ Claude Code 自身が止める。最後のチェックは無効化できない�
 
 ## 確かめていないこと
 
-- **相対パスで登録した hook コマンド** (`sh .claude/hooks/guard.sh` のような形) は、公式が「ハンドラは現在のディレクトリで走る」
-  「絶対パスを使え」と書いているので、cwd がルート以外なら解決できず exit 127 になる。fail-closed のラッパで包んでいると
-  全 deny のロックアウトになる。別プロジェクトはこれを理由に絶対パス登録へ変えたが、worktree の中で相対パスがどこへ解決するかは
-  当リポジトリでは試していない
 - `isolation: worktree` のサブエージェントが発火させる PostToolUse hook が、どの `cwd` を受け取るか
+  (メインセッションが `EnterWorktree` で移った場合は worktree だった)
 - worktree ごとのカウンタを 1 本にまとめる実装。案は書いたが動かしていない
 - `CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR` を設定したとき、hook の入力 JSON の `cwd` も毎回ルートに戻るのか、worktree に入った後の「ルート」がどちらを指すのか
 - 上の「丸ごと無効化」「`cd` によるバイパス」「状態の 4 点同時破損」は別プロジェクトの実測で、当リポジトリでは再現していない。
