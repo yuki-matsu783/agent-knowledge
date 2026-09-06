@@ -5,7 +5,8 @@ title: レビューエージェントは判定せず確度と重大度を付け�
 description: >-
   A pattern for splitting responsibilities between a review agent and its caller: the reviewer returns
   every candidate defect as a fixed-schema finding (file, line, one-sentence claim, concrete failure
-  scenario, category, severity, confidence) and never discards a doubtful one or posts anything itself;
+  scenario that may describe either a runtime break or a future reader misreading the code, category,
+  severity, confidence) and never discards a doubtful one or posts anything itself;
   the caller applies a threshold on confidence and severity, caps the count, and decides whether to
   post, report, or drop. Optionally a second verifier agent turns each finding into a CONFIRMED /
   PLAUSIBLE verdict before the threshold. Use when designing an automated review step whose output
@@ -14,7 +15,7 @@ description: >-
   tool restrictions (see adversarial-review-in-isolated-subagent) or for provider-specific posting
   limits (see inline-review-comment-provider-constraints).
 tags: [multi-agent, evaluation, workflow]
-keywords: [レビューエージェント, findings, 確度, confidence, 重大度, severity, 閾値, 呼び出し側で判断, 棄却しない, 構造化出力, 失敗シナリオ, failure scenario, CONFIRMED, PLAUSIBLE, 2 段パイプライン, 検証エージェント, effort level, 誤検知, 投稿上限, ReportFindings]
+keywords: [レビューエージェント, findings, 確度, confidence, 重大度, severity, 閾値, 呼び出し側で判断, 棄却しない, 誤読シナリオ, 失敗シナリオ, failure scenario, CONFIRMED, PLAUSIBLE, 2 段パイプライン, 検証エージェント, effort level, 誤検知, 投稿上限, ReportFindings]
 status: stable
 verified_at: 2026-09-05
 stale_after: 2027-03-05
@@ -23,6 +24,7 @@ sources:
   - https://code.claude.com/docs/en/sub-agents
   - https://github.com/yuki-matsu783/MR-driven-workflow/tree/main/.claude/docs/ddr
   - knowledge/agents/adversarial-review-in-isolated-subagent.md
+  - https://qiita.com/ktdatascience/items/02b6b45e2ca7d34ad146
 intervention: tool
 ---
 
@@ -52,7 +54,11 @@ flowchart LR
 1. **レビュアーは固定スキーマの findings を返す。** 1 件ごとに次を持たせる。
    - `file` と `line` (行を指せない指摘は `line` なしで返す。捨てない)
    - `summary`: 欠陥の主張を 1 文で。根拠や影響は混ぜない
-   - `failure_scenario`: この入力・状態でこう壊れる、という具体的なシナリオ。**必須**にする。シナリオが書けない指摘は「感想」なので、それ自体が確度の低さを表す
+   - `failure_scenario`: こう壊れる、という具体的なシナリオ。**必須**にする。シナリオが書けない指摘は「感想」なので、それ自体が確度の低さを表す。
+     ただし**壊れる主体をプログラムに限定しない**。「この入力・状態でこう落ちる」という実行時の失敗と、
+     「次にこのファイルを触る人は X だと思って Y を足す、実際は Z なので壊れる」という**誤読シナリオ**を同格で認める。
+     実行時の失敗に限ると、まだ壊れていない箇所への指摘 (規約からの逸脱、対になる実装との非対称、無用に凝った書き方) が
+     全部落ちる。人間の PR レビューの分類では、指摘の約 3 分の 1 がこの型だった
    - `category`: correctness / security / convention など短い分類
    - `severity` と `confidence`: 段階値。レビュアーはここに迷いを表現し、**自分では捨てない**
 2. **レビュアーは投稿しない。** findings をファイル (JSON) に書いて返すだけにする。承認の所在を呼び出し側の 1 箇所に集める
@@ -75,7 +81,9 @@ flowchart LR
 - 得る: 棄却の判断が記録に残り、閾値を後から動かせる。後工程 (投稿・上限・重複排除・検証) が全部 findings 単位で書ける。
   誤検知の抑制を「レビュアーの自制」から「呼び出し側の振り分け」に移せる
 - 失う: findings の件数が増え、呼び出し側に振り分けのコードが要る。検証段を足すとトークンと時間がおよそ 2 倍になる。
-  `failure_scenario` を必須にすると、シナリオを無理に作文する指摘が混ざる。確度の低さで拾えるが、ゼロにはならない
+  `failure_scenario` を必須にすると、シナリオを無理に作文する指摘が混ざる。確度の低さで拾えるが、ゼロにはならない。
+  誤読シナリオを認めるとこの作文がさらに書きやすくなる。実行時の失敗と違って再現で棄却できないので、
+  検証段を挟んでも CONFIRMED / PLAUSIBLE の判定が甘くなる方向に働く
 
 ## 関連
 
@@ -84,3 +92,4 @@ flowchart LR
 - [エージェントからインラインレビューコメントを投稿するときのプロバイダ制約](../workflow/inline-review-comment-provider-constraints.md)。呼び出し側が findings を投稿するときの制約と、行を指せない指摘の縮退
 - [rules を固定フォーマットの唯一の正にし、レビューは関心事ごとのサブエージェントが横断的に読む](../rules/rules-as-single-source-for-authoring-and-review.md)。レビュアーを関心事ごとに分けると findings の合流が要る
 - [エージェントに任せる操作と人間承認が要る操作の線引きは可逆性で決める](../workflow/reversibility-decides-who-acts.md)。投稿が取り消せないから呼び出し側に寄せる、という判断の一般形
+- [レビューエージェントに渡すのはカテゴリの観点表ではなく差分の外を参照する動作にするとよいはず](review-checklist-of-actions-not-categories.md)。`failure_scenario` に誤読シナリオを認めた理由の元になった数字と、レビュアーに何を渡すかの案
