@@ -66,3 +66,4 @@ intervention: tool
 - [ガード hook にするか誘導 hook にするかは特定可能性と代替経路で決める](../hooks/20-PreToolUse/block-vs-notice-hook-selection.md)
 - [エージェントが呼ぶスクリプトは無言で成功してはならない](../skills/scripts/agent-scripts-must-not-succeed-silently.md)。ゲートの拒否も「書き戻さず非 0」の一形態
 - [敵対的レビューは独立コンテキストの読み取り専用サブエージェントに切り出す](../agents/adversarial-review-in-isolated-subagent.md)
+- [規範は指示側の誘導と出力側の検査を対で置くべき](../workflow/pair-steering-with-output-check.md)。文言を捨てるのではなく、記録とゲートを文言と対で置く一般形

@@ -126,3 +126,4 @@ hook は 3 つのどれにもなり得るし、tool (スクリプト) もゲー�
 - [状態を持たない LLM への環境情報は変わる頻度で hook イベントを分けて注入した方がよさそう](split-state-injection-by-staleness.md)。誘導 hook の届くタイミング
 - [失敗メッセージには代替手段を名指しで埋め込むべき](../../mcp/name-the-alternative-in-failure-message.md)。hook 以外の誘導
 - [抜けを塞ぐのはルールの文言強化ではなく記録とゲートであるべき](../../rules/close-gaps-with-mechanism-not-wording.md)。hook 以外のガード (スクリプトのゲート)
+- [規範は指示側の誘導と出力側の検査を対で置くべき](../../workflow/pair-steering-with-output-check.md)。誘導とガードを 1 つの規範に対で置く置き方

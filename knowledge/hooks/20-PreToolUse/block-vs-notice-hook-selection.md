@@ -66,3 +66,4 @@ intervention: hook
 - [エージェントへの介入はガード・誘導・自動化の 3 機構で切る](../common/guard-steer-automate-mechanisms.md)。ガード hook と誘導 hook の定義
 - [hook を注入系とガード系に分け、失敗時の既定を逆にする](../common/injecting-vs-guarding-hooks.md)。誘導 hook は注入系なので fail-open でよい
 - [ルールの文言強化ではなく記録とゲートで抜けを塞ぐ](../../rules/close-gaps-with-mechanism-not-wording.md)。ブロックも注意喚起も効かない「記録の欠落」型の抜け
+- [規範は指示側の誘導と出力側の検査を対で置くべき](../../workflow/pair-steering-with-output-check.md)。ブロックと注意喚起のどちらを選んでも、指示側の誘導と対にする
