@@ -1,0 +1,20 @@
+{
+  "name": "slidev-pptx-deck",
+  "private": true,
+  "type": "module",
+  "description": "Slidev のスライドを編集可能な PPTX に移すための検証済みテンプレート",
+  "scripts": {
+    "dev": "slidev slides.md",
+    "build": "slidev build slides.md",
+    "extract": "node scripts/extract-shapes.ts",
+    "deck": "pnpm build && pnpm extract",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@slidev/cli": "^52.19.0",
+    "@slidev/theme-default": "^0.25.0",
+    "@types/node": "^22.20.1",
+    "playwright": "^1.56.0",
+    "typescript": "^5.9.3"
+  }
+}
