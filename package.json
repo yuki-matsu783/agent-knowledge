@@ -14,6 +14,7 @@
     "search": "tsx scripts/search.ts",
     "diagrams": "tsx scripts/build-diagrams.ts",
     "xlsx": "uv run python scripts/xlsx/tables_to_xlsx.py",
+    "pptx": "uv run python scripts/pptx/shapes_to_pptx.py",
     "lint:py": "uv run ruff check scripts && uv run ruff format --check scripts"
   },
   "devDependencies": {
