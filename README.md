@@ -36,11 +36,21 @@ git config core.hooksPath .githooks   # pre-commit で lint と INDEX.md 生成 
 | `pnpm run search` | frontmatter を横断検索 (`--type` `--tag` `--text` `--format` など) |
 | `pnpm diagrams` | archify の図を検証して HTML 生成 (`--check` で検証のみ) |
 | `pnpm xlsx <in.md|in.csv> -o out.xlsx` | markdown の表や CSV から xlsx を生成 (Python) |
+| `pnpm pptx <shapes.json> -o out.pptx` | 図形の指示書から編集可能な PPTX を生成 (Python) |
 | `pnpm typecheck` / `pnpm lint:py` | TypeScript の型検査 / Python の ruff |
 
 ## 図
 
 単純な図は mermaid、複雑な構成図はプロジェクトローカルの archify skill ([.claude/skills/archify/](.claude/skills/archify/)) で生成する。
+
+## スライド
+
+Marp の markdown から HTML を作るのが既定 (`pnpm slides`)。編集可能な PowerPoint で渡す必要があるときは 2 通り。
+
+| 元 | 方法 |
+|---|---|
+| Marp のデッキ | [marpx の手順](knowledge/workflow/marpx-editable-pptx-from-marp.md) |
+| これから書くデッキ | [templates/slidev-pptx/](templates/slidev-pptx/README.md) — PPTX の図形を Vue コンポーネントで書き、Slidev で組み、`pnpm pptx` で置き直す |
 
 ## 書き方の流れ
 
