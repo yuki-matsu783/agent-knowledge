@@ -121,7 +121,7 @@ hook は 3 つのどれにもなり得るし、tool (スクリプト) もゲー�
 
 - [hook は注入系とガード系に分かれ失敗時の既定は逆であるべき](injecting-vs-guarding-hooks.md)。失敗時の既定。注入系 = 誘導 + 自動化
 - [ガード hook にするか誘導 hook にするかは特定可能性と代替経路で決める](../20-PreToolUse/block-vs-notice-hook-selection.md)。ガードにできる条件
-- [ガード hook は enforce / dry-run / off の 3 モードで運用する](guard-hook-enforcement-modes.md)。ガード hook の運用
+- [ガード hook は enable / dry-run / disable の 3 モードで運用する](guard-hook-enforcement-modes.md)。ガード hook の運用
 - [権限は permissions.deny ではなく PreToolUse hook で止める](../20-PreToolUse/deny-by-hook-not-permissions.md)。ガード機構の中での手段の選び方
 - [状態を持たない LLM への環境情報は変わる頻度で hook イベントを分けて注入した方がよさそう](split-state-injection-by-staleness.md)。誘導 hook の届くタイミング
 - [失敗メッセージには代替手段を名指しで埋め込むべき](../../mcp/name-the-alternative-in-failure-message.md)。hook 以外の誘導

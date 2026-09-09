@@ -104,7 +104,7 @@ flowchart LR
 
 - 正当な API 呼び出しまで止まる。とくに `curl` で外部 API を叩く開発では手数が増える。代替コマンドを用意しないと、エージェントが別の書き方を探して抜け道が増える
 - 網羅はできない。上の 3 種類は「よく使われる形」であって完全な一覧ではない。取りこぼす前提で、送信を止める層と読み取りを絞る層を重ねる
-- いきなり enforce にすると通っていた作業が止まる。dry-run で何が新たに落ちるかを数えてから切り替える
+- いきなり enable にすると通っていた作業が止まる。dry-run で何が新たに落ちるかを数えてから切り替える
 
 ## 関連
 
@@ -112,5 +112,5 @@ flowchart LR
 - [権限は permissions.deny ではなく PreToolUse hook で止めるべき](deny-by-hook-not-permissions.md)
 - [生のコマンド実行は deny してラッパスクリプトへ誘導した方がよさそう](command-wrappers-instead-of-raw-bash.md)。正当な送信を通す口
 - [ガードの設定と hook スクリプト自身はエージェントから守るべき](protect-guard-config-from-the-agent.md)。判定を注入の射程外に置く
-- [ガード hook は enforce / dry-run / off の 3 モードで運用すべき](../common/guard-hook-enforcement-modes.md)
+- [ガード hook は enable / dry-run / disable の 3 モードで運用すべき](../common/guard-hook-enforcement-modes.md)
 - [分類を広げるときは新たに通るものを数えるべき](count-what-newly-passes-when-widening-a-class.md)

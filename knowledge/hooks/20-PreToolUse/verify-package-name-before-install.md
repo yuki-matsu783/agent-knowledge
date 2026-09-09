@@ -155,7 +155,7 @@ awk のループ内でトークンを飛ばすのは `next` ではなく `contin
 ## 適用条件
 
 - エージェントが Bash でパッケージマネージャを直接叩ける環境。`pnpm` の script 経由 (`pnpm run setup` が中で `add` する) は 1 段しか見ないので拾えない
-- 依存追加の頻度が低いプロジェクト向き。毎日新しい依存を足す段階では allowlist の更新が作業を止める。dry-run で当たる回数を数えてから enforce にする ([ガード hook は enforce / dry-run / off の 3 モードで運用すべき](../common/guard-hook-enforcement-modes.md))
+- 依存追加の頻度が低いプロジェクト向き。毎日新しい依存を足す段階では allowlist の更新が作業を止める。dry-run で当たる回数を数えてから enforce にする ([ガード hook は enable / dry-run / disable の 3 モードで運用すべき](../common/guard-hook-enforcement-modes.md))
 - 社内ミラーだけを向いたレジストリ設定なら、未登録の名前はそもそも解決に失敗するのでこの hook は要らない。サンドボックスで egress を閉じられるならそちらが上で、この hook は入口を絞るだけ
 
 ## トレードオフ
@@ -172,4 +172,4 @@ awk のループ内でトークンを飛ばすのは `next` ではなく `contin
 - [ガードの設定と hook スクリプト自身はエージェントから守るべき](protect-guard-config-from-the-agent.md) — allowlist を守る側
 - [生の文字列でコマンドを判定すると引用符とコメントに誤爆する](regex-command-match-misfires.md) — 複合コマンドを deny に倒している理由
 - [hook の前置フィルタは精密判定の超集合であるべき](hook-prefilter-must-stay-superset.md)
-- [ガード hook は enforce / dry-run / off の 3 モードで運用すべき](../common/guard-hook-enforcement-modes.md)
+- [ガード hook は enable / dry-run / disable の 3 モードで運用すべき](../common/guard-hook-enforcement-modes.md)

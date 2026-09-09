@@ -74,7 +74,7 @@ Claude Code 公式でできるより細かい制御を、簡単に設定でき�
 [権限は permissions.deny ではなく PreToolUse hook で止める](../hooks/20-PreToolUse/deny-by-hook-not-permissions.md)。
 計画時にチケットで権限を決め、それをもとに動かす (動的権限設定)。ただし
 [エージェントが書く宣言で権限を広げられないようにする](../hooks/20-PreToolUse/agent-written-declarations-cannot-widen-permissions.md)。
-細かくした分だけ壊れるので、[enforce / dry-run / off の 3 モードで運用し](../hooks/common/guard-hook-enforcement-modes.md)、
+細かくした分だけ壊れるので、[enable / dry-run / disable の 3 モードで運用し](../hooks/common/guard-hook-enforcement-modes.md)、
 [設定が壊れても復旧経路を残す](../hooks/common/keep-recovery-path-when-guard-config-breaks.md)。
 
 **4. 並列の作業台を用意する。**

@@ -108,7 +108,7 @@ let s = ""; process.stdin.on("data", d => s += d).on("end", () => {
 
 止め方は `deny` にしない。正当に長い作業 (大きなリファクタ、広い調査) は普通にあるので、
 硬く落とすと使えなくなる。`ask` にして人に渡すか、`additionalContext` で区切りを促すのが妥当だと思う。
-段階を分けて入れる話は [ガード hook は enforce / dry-run / off の 3 モードで運用すべき](guard-hook-enforcement-modes.md) と同じで、
+段階を分けて入れる話は [ガード hook は enable / dry-run / disable の 3 モードで運用すべき](guard-hook-enforcement-modes.md) と同じで、
 まず dry-run で「実際に何回で止まるのか」を記録してから閾値を決めた方がよい。
 
 ## 確かめていないこと
@@ -134,4 +134,4 @@ let s = ""; process.stdin.on("data", d => s += d).on("end", () => {
 - [タスクの切れ目で /compact と /clear をユーザに依頼させた方がよさそう](../22-PostToolUse/ask-user-to-reset-context-at-task-boundaries.md) — セッション全体の圧縮の話。こちらは 1 ターン内の話で、対象が違う
 - [同じイベントの hook は並列に走り settings.json の配列順は実行順ではない](hooks-run-in-parallel-not-in-array-order.md)
 - [タイムアウトした hook はガードにならず素通りする](hook-timeout-fails-open.md)
-- [ガード hook は enforce / dry-run / off の 3 モードで運用すべき](guard-hook-enforcement-modes.md)
+- [ガード hook は enable / dry-run / disable の 3 モードで運用すべき](guard-hook-enforcement-modes.md)

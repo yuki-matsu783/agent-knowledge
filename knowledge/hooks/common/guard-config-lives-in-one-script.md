@@ -88,4 +88,4 @@ intervention: hook
 - [権限は permissions.deny ではなく PreToolUse hook で止める](../20-PreToolUse/deny-by-hook-not-permissions.md)。「入口を 1 本にする」の具体化
 - [hook のコマンド判定は正規化とコマンド位置の走査にし読めない入力はブロック側へ倒す](../20-PreToolUse/command-position-match-fails-closed.md)。スクリプト側の判定の中身
 - [タイムアウトした hook はガードにならず素通りする](hook-timeout-fails-open.md)、[hook を注入系とガード系に分け、失敗時の既定を逆にする](injecting-vs-guarding-hooks.md)、[ガードの設定と hook スクリプト自身をエージェントから守る](../20-PreToolUse/protect-guard-config-from-the-agent.md)。判定が出ない 3 つの原因と対策
-- [ガード hook は enforce / dry-run / off の 3 モードで運用する](guard-hook-enforcement-modes.md)。モード切り替えも環境変数で持ち、settings.json に置かない
+- [ガード hook は enable / dry-run / disable の 3 モードで運用する](guard-hook-enforcement-modes.md)。モード切り替えも環境変数で持ち、settings.json に置かない

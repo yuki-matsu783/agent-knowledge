@@ -102,4 +102,4 @@ permission ルールだけで引いた線は mode で消えるが、hook の線�
 - [Bash ツールから入れ子で起動した claude -p は親セッションのガードを引き継がない](../common/nested-claude-p-does-not-inherit-parent-guards.md)。上の表の 5 番目と 6 番目。実測した挙動はそちら
 - [タイムアウトした hook はガードにならず素通りする](../common/hook-timeout-fails-open.md)。上の表の 3 番目
 - [permissions の deny は ANY、allow は ALL で照合される](../21-PermissionRequest/permissions-deny-any-allow-all-asymmetry.md)。permission ルール側の非対称
-- [ガード hook は enforce / dry-run / off の 3 モードで運用する](../common/guard-hook-enforcement-modes.md)。hook を意図的に外す経路を運用として持つ話
+- [ガード hook は enable / dry-run / disable の 3 モードで運用する](../common/guard-hook-enforcement-modes.md)。hook を意図的に外す経路を運用として持つ話

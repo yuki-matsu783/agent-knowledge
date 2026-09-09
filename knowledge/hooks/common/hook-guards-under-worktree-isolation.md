@@ -128,7 +128,7 @@ Claude Code 自身が止める。最後のチェックは無効化できない�
 - hook のコマンドはパスを `${CLAUDE_PROJECT_DIR}` で絶対指定し、**判定の基準は入力 JSON の `cwd` にする**。
   「スクリプトの在り処」と「作業中のツリー」を別物として扱う
 - ガードの強化はコミットしてからでないと worktree に効かない前提で運用する。
-  [ガード hook は enforce / dry-run / off の 3 モードで運用する](guard-hook-enforcement-modes.md) のモード切り替えを
+  [ガード hook は enable / dry-run / disable の 3 モードで運用する](guard-hook-enforcement-modes.md) のモード切り替えを
   未コミットのファイルで持たない
 - セッション横断で数えたい状態は `${CLAUDE_PROJECT_DIR}` 配下の 1 か所に集約し、書き込み時に worktree 名で
   レコードを分ける。`.worktreeinclude` でのコピーは初期値の配布にだけ使う
