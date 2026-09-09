@@ -126,6 +126,7 @@ p を上げる手は[先に受入テストを書く](acceptance-test-before-agen
 
 ## 関連
 
+- [エージェントの使い方は 1 回で正解が出る前提ではなく、必ず外す前提で組むべき](one-shot-correctness-is-the-wrong-premise.md)。反復を考える前提にあたる、1 回で正解が出ないことの側
 - [完了条件は達成型・収束型・判定型に分けて達成型だけを Stop hook に置いた方がよさそう](three-types-of-completion-conditions.md)。ラチェットの爪に置けるのが達成型だけ、という部分の元
 - [エージェントに実装させる前に外から観測できる受入テストを書くとよいはず](acceptance-test-before-agent-implementation.md)。合否判定を先に作る側の手順
 - [本当に守らせたい内容は指示側の誘導と出力側の検査を対で置かないといけない](pair-steering-with-output-check.md)。ゴールハックを塞ぐ形
