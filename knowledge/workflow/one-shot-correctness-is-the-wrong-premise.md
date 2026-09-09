@@ -8,7 +8,9 @@ description: >-
   distribution, it never collapses it to a point, so effort spent on the last increment of one-shot
   accuracy buys less than effort spent on catching and undoing a wrong run. Replaces the design goal
   with three: judge every run mechanically, make a retry cheap, and cap the blast radius of a wrong
-  run by reversibility. Notes that human development is not one-shot either, and that the scaffolding
+  run by reversibility. Contrasts this with a deterministic system, where a design fixes the behaviour
+  and one passing run stands for all later ones, and notes that human development is not one-shot
+  either, so that the scaffolding
   a human developer uses without noticing — running the code, reading the error, throwing a version
   away, remembering the last mine, stopping before something irreversible — has to be handed to the
   agent explicitly. Use when a workflow assumes the agent's first answer is usable, when a rule
@@ -30,7 +32,7 @@ keywords:
   - プロンプトエンジニアリング
   - 指示を磨く
   - 間違える前提
-  - 失敗前提
+  - 決定的
   - やり直し
   - 人間の開発
   - 検査
@@ -54,6 +56,7 @@ sources:
 指示を磨く行為は出力の**分布を寄せる**ことであって、1 点に潰すことではない。
 だから設計の目標を「1 回で正解を出させる」に置くと伸びない部分に労力が向く。
 置くべき目標は「**外した回が安く見つかって安く戻せる**」で、正解率を上げる努力はその上に載せる。
+完璧に設計すれば 1 回で完璧な出力が出る、という決定的なシステムの読み方はここでは成り立たない。
 人間の開発も試行錯誤で成果物に着いているので、やることは人間が暗黙に使っている足場をエージェントにも渡すこと。
 
 ## 仕組み
@@ -72,6 +75,29 @@ sources:
 **確率を 1 と仮定した設計だけが壊れる。** 成功率 p が 0.9 でも、検査が無ければ 10 回に 1 回は誤りがそのまま下流に流れる。
 壊れるのは p が低いからではなく、p を 1 として組んだ場所があるから。
 「1 回で正解」を前提にすると、その仮定が設計のあちこちに暗黙に入り込む。
+
+### 従来のシステムと完成の仕方が違う
+
+決定的なソフトウェアの開発は「設計する → 設計した通りに実装する → 目的の挙動をしたら完了」で進む。
+プログラムは同じ入力に同じ出力を返すので、**1 回動いたことを確かめれば以後も動く**。
+ここでは設計の精度がそのまま出力の正しさになり、外れたら原因を特定して直せば再発しない。
+
+この形をそのまま持ち込むと「**完璧に設計すればエージェントも 1 回で完璧な出力を出すはずだ**」という読みになる。
+これが一番よくある思い込みで、成り立たない。エージェントに渡した設計は実行を一意に決める仕様ではなく、
+出力の分布を寄せる入力の 1 つでしかない。設計を詰めれば外れる回は減るが、0 にはならない。
+
+| | 従来のシステム | エージェント |
+|---|---|---|
+| 設計の効き方 | 実装と挙動を一意に決める | 出力の分布を寄せるだけ |
+| 同じ入力への出力 | 常に同じ | 回ごとに違いうる |
+| 動作確認の意味 | 1 回動けば以後も動く | その回が動いたことしか言えない |
+| 不具合の直し方 | 原因を直せば再発しない | 確率を下げるだけ。検査は残し続ける |
+| 完了の位置 | 設計を満たした実装ができたとき | 設計を満たす回を選び取れる形になったとき |
+
+**設計を軽くしてよい話ではない。** ツール、権限、上限値、エスカレーションの発火条件は決定的に書けるので、
+そこは従来通り設計で決め切る ([決定的な部分を先に書き切る](requirements-for-agent-as-the-target.md))。
+変わるのは最後の 1 歩の意味だけで、「動いたので完了」が「今回は動いた」に落ちる。
+その差を埋めるのが判定・やり直し・被害限定の 3 つになる。
 
 ### 人間の開発も 1 回では書けていない
 
