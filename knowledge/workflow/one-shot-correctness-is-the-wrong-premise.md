@@ -8,7 +8,10 @@ description: >-
   distribution, it never collapses it to a point, so effort spent on the last increment of one-shot
   accuracy buys less than effort spent on catching and undoing a wrong run. Replaces the design goal
   with three: judge every run mechanically, make a retry cheap, and cap the blast radius of a wrong
-  run by reversibility. Use when a workflow assumes the agent's first answer is usable, when a rule
+  run by reversibility. Notes that human development is not one-shot either, and that the scaffolding
+  a human developer uses without noticing — running the code, reading the error, throwing a version
+  away, remembering the last mine, stopping before something irreversible — has to be handed to the
+  agent explicitly. Use when a workflow assumes the agent's first answer is usable, when a rule
   keeps being reworded because it was skipped once, or when deciding where to spend effort between
   prompt quality and checks. Not a claim that prompt quality is worthless, not a measured success
   rate, and not the ratchet mechanics of repeated runs.
@@ -16,10 +19,10 @@ tags: [claude-code, prompting, workflow, evaluation]
 keywords:
   - 1 回で正解
   - ワンショット
-  - 一発
+  - 試行錯誤
   - 確率的
   - 非決定
-  - ばらつき
+  - 足場
   - 再現しない
   - サンプリング
   - 分布
@@ -29,7 +32,7 @@ keywords:
   - 間違える前提
   - 失敗前提
   - やり直し
-  - リトライ
+  - 人間の開発
   - 検査
   - 被害限定
   - 可逆性
@@ -51,6 +54,7 @@ sources:
 指示を磨く行為は出力の**分布を寄せる**ことであって、1 点に潰すことではない。
 だから設計の目標を「1 回で正解を出させる」に置くと伸びない部分に労力が向く。
 置くべき目標は「**外した回が安く見つかって安く戻せる**」で、正解率を上げる努力はその上に載せる。
+人間の開発も試行錯誤で成果物に着いているので、やることは人間が暗黙に使っている足場をエージェントにも渡すこと。
 
 ## 仕組み
 
@@ -68,6 +72,30 @@ sources:
 **確率を 1 と仮定した設計だけが壊れる。** 成功率 p が 0.9 でも、検査が無ければ 10 回に 1 回は誤りがそのまま下流に流れる。
 壊れるのは p が低いからではなく、p を 1 として組んだ場所があるから。
 「1 回で正解」を前提にすると、その仮定が設計のあちこちに暗黙に入り込む。
+
+### 人間の開発も 1 回では書けていない
+
+人間の開発者も、頭の中で完成品を組み立ててから 1 回で正解を打ち込んでいるわけではない。
+書いて、動かして、エラーを読んで直す。設計も途中で変わる。
+**1 回で正解が出ないのはモデル固有の欠陥ではなく、開発という作業の性質**で、
+人間の側では試行錯誤の足場が環境に最初から揃っているので意識に上らないだけ。
+
+足場は、手元で動かせること、エラーが読めること、壊した版を捨てられること、
+前に踏んだ地雷を覚えていること、危ないところで手が止まること、の 5 つに分けられる。
+エージェントはこれらを暗黙には持たない。渡されるのは指示とツールだけなので、
+**人間が無意識に使っている足場を、明示的に渡す形に置き直す**のが枠組みを作るということになる。
+
+| 人間が暗黙に持っているもの | エージェントに渡す形 |
+|---|---|
+| 手元で動かして確かめる | テストと lint を 1 コマンドで走る形にし、合否を終了コードで返す |
+| エラーを読んで直す | 失敗の出力をそのままエージェントに戻す。[無言で成功しないスクリプトにする](../skills/scripts/agent-scripts-must-not-succeed-silently.md) |
+| 壊した版を捨てて戻る | 作業を worktree とブランチで隔離し、commit の単位を小さく切る |
+| 前に踏んだ地雷を覚えている | 記憶が context にしか無く消えるので、[外したやり方をチケットに残して次の context に渡す](keep-do-not-repeat-list-outside-context.md) |
+| 危ないところで手が止まる | [可逆性で権限を分ける](reversibility-decides-who-acts.md)。戻せない操作は人に渡す |
+
+**違うのは記憶の持続だけ。** 人間は失敗の経験が次の日まで残るが、エージェントの学習は context が消えると消える。
+だから人間の開発では暗黙でよかった「覚えている」の部分だけは、ファイルやチケットとして外に置く必要がある。
+残りの 4 つは、人間向けの開発環境が既に持っているものをエージェントからも使える形にする作業に近い。
 
 ### 目標の置き換え
 
