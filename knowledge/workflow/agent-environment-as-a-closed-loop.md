@@ -7,17 +7,20 @@ description: >-
   abstracting work into agents backed by searchable references, a search tool and doc conventions,
   guard-and-steer hooks with per-ticket permissions, an isolated parallel workbench, a machine-owned
   output check, session state parked in the ticket, and a feedback loop that grows the references.
+  Once the loop is closed, the only surfaces a user keeps editing are rules, references, and the hook
+  policy, because everything else is a permanently loaded surface fixed at setup time.
   Use when deciding what to build first for agent-assisted development, or when explaining why
   individual prompt tweaks keep failing to stick. Not a how-to for any single piece; each pillar
   links to the knowledge that actually covers it.
 tags: [claude-code, workflow, multi-agent, context-management]
-keywords: [枠組み, 7 本柱, ループ, 環境整備, エージェント開発, コンテキスト汚染, ガード, 動的権限, フィードバックループ, reference, チケット, worktree, 完了条件, 出口の検査]
+keywords: [枠組み, 7 本柱, ループ, 環境整備, エージェント開発, コンテキスト汚染, ガード, 動的権限, フィードバックループ, reference, チケット, worktree, 完了条件, 出口の検査, 触る面, 常時載る, description]
 status: stable
 applies_to: [claude-code@2.1]
 sources:
   - knowledge/workflow/one-shot-correctness-is-the-wrong-premise.md
   - knowledge/agents/subagent-value-is-a-fresh-context.md
   - knowledge/model/attention-dilutes-as-context-grows.md
+  - knowledge/rules/path-scoped-rules-load-on-read-not-on-write.md
 ---
 
 # エージェントに用意する環境は、与える・縛る・走らせる・検査する・引き継ぐ・育てるの一周として組むべき
@@ -26,7 +29,8 @@ sources:
 
 エージェントに任せるために整えるものは、思いついた順の個別対策ではなく 7 つの枠組みに落ちる。
 7 つは独立した施策ではなく、与える → 縛る → 走らせる → 検査する → 引き継ぐ → 育てる、で一周するループになっていて、
-最後の「育てる」の出力が最初の「与える」の入力に戻る。どれか 1 つを欠くと、そこで輪が切れて残りが効かなくなる。
+最後の「育てる」の出力が最初の「与える」の入力に戻る。どれか 1 つを欠くとそこで輪が切れて残りが効かなくなり、
+逆に一周が閉じていれば、以後に利用者が育てるのは rules と reference と hook の設定の 3 つだけになる。
 
 ## 仕組み
 
@@ -106,6 +110,21 @@ compact でコンテキストは必ず失われるので、[SessionStart hook �
 7 の出力が 2 の索引に戻り、次の周では 1 の agent がそれを検索して使う。ここが繋がっていないと、
 知見は溜まるが使われないドキュメントになり、エージェントの挙動は周回しても改善しない。
 6 から 4 へ戻る破線は、context を捨てて同じ作業台で再開する経路で、周回のたびにコンテキストを新品にするために要る。
+
+### 利用者が育てるのは 3 つになる
+
+一周が閉じた後に触り続ける面は、context に載る経路が 2 種類しかないことから決まる。
+常時載るもの (CLAUDE.md、paths を書かない rules、skill とサブエージェントの description 一覧、ツール定義) は、
+触るかどうかに関わらず、存在するだけで毎リクエストのコストになる。
+契機で載るもの (paths 付き rules、skill の本体、サブエージェントの本体、reference、hook の出力) は呼ばれたときだけ入る。
+育ててよいのは後者だけで、この線引きがそのまま担当の線引きになる。
+
+| 面 | 触る人 | 仕組み上の理由 |
+|---|---|---|
+| reference | 利用者 (と 7 のループ) | 呼ばれたときだけ載るので、増やしても常時のコストが増えない |
+| rules | 利用者 (hook と対で) | paths 付きのみ。paths なしのものはreferenceに記載する。また、rulesも長くなりすぎないように詳細はreferenceに分離する |
+| hook のポリシー | 利用者 (rules と対で) | settings.json は context に載らない。止めて導く手段なので rules と対になる |
+
 
 ## 使いどころ
 
